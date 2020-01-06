@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -23,6 +24,7 @@ import javafx.stage.Stage;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import privatemoviecollection.be.Category;
+import privatemoviecollection.gui.AppModel;
 
 /**
  * FXML Controller class
@@ -31,7 +33,7 @@ import privatemoviecollection.be.Category;
  */
 public class AddEditMovieController implements Initializable
 {
-
+private final AppModel appModel = new AppModel();
     @FXML
     private TextField titleString;
     @FXML
@@ -55,7 +57,8 @@ public class AddEditMovieController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO
+        categoryList.setItems(appModel.getCategoryList());
+        categoryList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
     @FXML

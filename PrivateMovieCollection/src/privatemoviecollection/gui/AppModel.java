@@ -7,7 +7,9 @@ package privatemoviecollection.gui;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.bll.CategoryManager;
 import privatemoviecollection.bll.MovieManager;
 
 /**
@@ -18,12 +20,16 @@ public class AppModel
 {
 
     private ObservableList<Movie> movies = FXCollections.observableArrayList();
+    private ObservableList<Category> categories = FXCollections.observableArrayList();
     private final MovieManager movieManager;
+    private final CategoryManager categoryManager;
 
     public AppModel()
     {
         movieManager = new MovieManager();
+        categoryManager = new CategoryManager();
         fetchMovies();
+        fetchCategories();
     }
 
     public void fetchMovies()
@@ -32,10 +38,22 @@ public class AppModel
         movies.addAll(movieManager.getAllMovies());
 
     }
+    
+    public void fetchCategories()
+    {
+        categories.clear();
+        categories.addAll(categoryManager.getAllCategories());
+
+    }
 
     public ObservableList<Movie> getMovieList()
     {
         return movies;
+    }
+    
+    public ObservableList<Category> getCategoryList()
+    {
+        return categories;
     }
 
 }

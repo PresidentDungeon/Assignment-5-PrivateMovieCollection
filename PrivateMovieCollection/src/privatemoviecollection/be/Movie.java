@@ -17,6 +17,7 @@ public class Movie
 
     private int id;
     private String title;
+    private String director;
     private int length;
     private int year;
     private String filePath;
@@ -24,9 +25,10 @@ public class Movie
     private Rating rating;
     private ArrayList<Category> categories;
 
-    public Movie(String title, int length, int year, String filePath, Rating rating, ArrayList<Category> categories)
+    public Movie(String title, String director, int length, int year, String filePath, Rating rating, ArrayList<Category> categories)
     {
         this.title = title;
+        this.director = director;
         this.length = length;
         this.year = year;
         this.filePath = filePath;
@@ -54,6 +56,16 @@ public class Movie
         this.title = title;
     }
 
+    public String getDirector()
+    {
+        return director;
+    }
+
+    public void setDirector(String director)
+    {
+        this.director = director;
+    }
+    
     public int getLength()
     {
         return length;

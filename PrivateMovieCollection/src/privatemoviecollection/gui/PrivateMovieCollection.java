@@ -31,7 +31,7 @@ public class PrivateMovieCollection extends Application
         
         stage.setScene(scene);
         stage.show();
-        stage.getIcons().add(new Image(PrivateMovieCollection.class.getResourceAsStream("image/play-button.png")));
+        stage.getIcons().add(new Image(PrivateMovieCollection.class.getResourceAsStream("views/image/play-button.png")));
         stage.setTitle("EMG Film");
     }
 

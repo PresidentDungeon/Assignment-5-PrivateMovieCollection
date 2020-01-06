@@ -31,7 +31,7 @@ public class MockMovieManager implements MovieDalFacade
         batmanCategory.add(action);
         batmanCategory.add(drama);
 
-        Movie m1 = new Movie("Batman the dark knight", 200, 1999, "test", rating, batmanCategory);
+        Movie m1 = new Movie("Batman the dark knight", "Some guy", 200, 1999, "test", rating, batmanCategory);
 
         movies.add(m1);
 
@@ -43,6 +43,7 @@ public class MockMovieManager implements MovieDalFacade
      * @param movie the movie that you want to add to the list
      * @return boolean to test if the movie was succesfully added
      */
+    @Override
     public boolean createMovie(Movie movie)
     {
         if (movie != null)
@@ -57,6 +58,7 @@ public class MockMovieManager implements MovieDalFacade
      * returns the movies list
      *
      */
+    @Override
     public List<Movie> readAllMovies()
     {
         return movies;
@@ -68,6 +70,7 @@ public class MockMovieManager implements MovieDalFacade
      *
      * @return true if a movie was updated, else false
      */
+    @Override
     public boolean updateMovie(Movie movie)
     {
         for (Movie m : movies)
@@ -93,8 +96,30 @@ public class MockMovieManager implements MovieDalFacade
      *
      * @return true if the movie was removed, else false
      */
+    @Override
     public boolean deleteMovie(Movie movie)
     {
         return movies.remove(movie);
     }
+
+    /**
+     * Returns a list of movies with title or fully or partially matching search term.
+     *
+     * @param searchTerm
+     * @return list of matching songs
+     */
+    @Override
+    public List<Movie> getSearchResult(String searchTerm)
+    {
+        List<Movie> searchMatches = new ArrayList<>();
+        for (Movie movie : movies)
+        {
+            if (movie.getTitle().contains(searchTerm) || movie.getDirector().contains(searchTerm))
+            {
+                searchMatches.add(movie);
+            }
+        }
+        return searchMatches;
+    }
+
 }

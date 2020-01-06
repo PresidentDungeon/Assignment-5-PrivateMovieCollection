@@ -8,13 +8,13 @@ package privatemoviecollection.dal.dbmanagers.mockmanagers;
 import java.util.ArrayList;
 import java.util.List;
 import privatemoviecollection.be.Category;
-import privatemoviecollection.be.Movie;
+import privatemoviecollection.dal.dbmanagers.facades.CategoryDalFacade;
 
 /**
  *
  * @author Bruger
  */
-public class MockCategoryManager
+public class MockCategoryManager implements CategoryDalFacade
 {
 
     ArrayList<Category> categories = new ArrayList<>();
@@ -38,6 +38,7 @@ public class MockCategoryManager
      * @param category the category that you want to add to the list
      * @return boolean to test if the category Was succesfully added
      */
+    @Override
     public boolean createCategory(Category category)
     {
         if (category != null)
@@ -52,6 +53,7 @@ public class MockCategoryManager
      * returns the categories list
      *
      */
+    @Override
     public List<Category> readAllCategories()
     {
         return categories;
@@ -63,6 +65,7 @@ public class MockCategoryManager
      *
      * @return true if a category was updated, else false
      */
+    @Override
     public boolean updateCategory(Category category)
     {
         for (Category c : categories)
@@ -83,6 +86,7 @@ public class MockCategoryManager
      *
      * @return true if the category was removed, else false
      */
+    @Override
     public boolean deleteCategory(Category category)
     {
         return categories.remove(category);

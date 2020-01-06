@@ -14,6 +14,7 @@ import privatemoviecollection.be.Movie;
  */
 public interface MovieDalFacade
 {
+
     /**
      * creates a new movie and adds it to the database
      *
@@ -30,7 +31,7 @@ public interface MovieDalFacade
     public List<Movie> readAllMovies();
 
     /**
-     * updates a movies variables
+     * updates a movie variable
      *
      * @param movie the movie to be updated
      * @return true if the movie was updated
@@ -44,4 +45,12 @@ public interface MovieDalFacade
      * @return true if the movie was deleted
      */
     public boolean deleteMovie(Movie movie);
+
+    /**
+     * Returns a list of movies with title or fully or partially matching search term.
+     *
+     * @param searchTerm
+     * @return list of matching songs
+     */
+    public List<Movie> getSearchResult(String searchTerm);
 }
