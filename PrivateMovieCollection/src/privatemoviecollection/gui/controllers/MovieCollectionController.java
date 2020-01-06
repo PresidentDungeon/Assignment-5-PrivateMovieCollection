@@ -5,18 +5,23 @@
  */
 package privatemoviecollection.gui.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
@@ -69,5 +74,60 @@ public class MovieCollectionController implements Initializable
         
         tableMovies.setItems(appModel.getMovieList());
     }
+
+    @FXML
+    private void addMovie(ActionEvent event) throws IOException
+    {
+        openWindow(null, "views/AddEditMovieView.fxml", "New Movie");
+
+    }
+    
+        @FXML
+    private void editMovie(ActionEvent event)
+    {
+        if (tableMovies.getSelectionModel().getSelectedItem() != null)
+        {
+             openWindow(tableMovies.getSelectionModel().getSelectedItem(), "views/AddEditMovieView.fxml", "New/Edit Movie");
+        }
+        
+        
+    }
+    
+    /**
+     * Loads a new FXML view as a window from a primary stage
+     *
+     * @param movie the movie object selected on the tableColumn
+     * @param viewFXML the FXML file that should be viewed as a window
+     * @param windowMessage the title of the window
+     */
+    public void openWindow(Movie movie, String viewFXML, String windowMessage)
+    {
+
+        try
+        {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(AppModel.class.getResource(viewFXML));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+
+            if (movie != null)
+            {
+//                AddEditMovieController controller = fxmlLoader.getController();
+//                controller.setText(movie);
+            }
+
+            stage.setTitle(windowMessage);
+            stage.setScene(scene);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(tableMovies.getScene().getWindow());
+            stage.show();
+
+        } catch (IOException ex)
+        {
+
+        }
+    }
+
+
 
 }
