@@ -112,8 +112,8 @@ public class MovieCollectionController implements Initializable
 
             if (movie != null)
             {
-//                AddEditMovieController controller = fxmlLoader.getController();
-//                controller.setText(movie);
+                AddEditMovieController controller = fxmlLoader.getController();
+                controller.setText(movie);
             }
 
             stage.setTitle(windowMessage);

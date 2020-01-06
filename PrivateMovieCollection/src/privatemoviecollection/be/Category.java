@@ -46,5 +46,19 @@ public class Category
         return name;
     }
 
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (obj == null)
+        {
+            return false;
+        }
+        Category cat = (Category) obj;
+        
+        return this.getName().matches(cat.getName());
+    }
+    
+    
+
     
 }

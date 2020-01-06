@@ -65,7 +65,7 @@ public class Movie
     {
         this.director = director;
     }
-    
+
     public int getLength()
     {
         return length;
@@ -124,6 +124,28 @@ public class Movie
     public void setCategories(ArrayList<Category> categories)
     {
         this.categories = categories;
+    }
+
+    @Override
+    public String toString()
+    {
+        ArrayList<Category> movieCategories = this.getCategories();
+        String allCategories = "";
+        int loopPosition = 1;
+
+        for (Category category : movieCategories)
+        {
+            allCategories += category.getName();
+
+            if (loopPosition != movieCategories.size())
+            {
+                allCategories += ", ";
+            }
+
+            loopPosition++;
+
+        }
+        return title + ", Id: " + id + "- " + allCategories;
     }
 
 }
