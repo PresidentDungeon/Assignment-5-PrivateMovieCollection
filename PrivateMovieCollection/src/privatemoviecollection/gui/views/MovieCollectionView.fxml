@@ -20,8 +20,8 @@
             <TableColumn fx:id="columnMovieGenre" prefWidth="125.99998982747394" text="Genre" />
         </columns>
       </TableView>
-      <Button layoutX="102.0" layoutY="615.0" mnemonicParsing="false" text="Add" />
-      <Button layoutX="242.0" layoutY="615.0" mnemonicParsing="false" text="Remove" />
+      <Button layoutX="102.0" layoutY="615.0" mnemonicParsing="false" onAction="#addMovie" text="Add" />
+      <Button layoutX="242.0" layoutY="615.0" mnemonicParsing="false" onAction="#editMovie" text="Edit" />
       <Button layoutX="383.0" layoutY="615.0" mnemonicParsing="false" text="Delete" />
       <Button layoutX="556.0" layoutY="286.0" mnemonicParsing="false" text="Button" />
       <Hyperlink layoutX="638.0" layoutY="287.0" text="Hyperlink" />
