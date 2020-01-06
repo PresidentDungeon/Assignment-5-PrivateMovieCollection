@@ -15,26 +15,26 @@
 
 <AnchorPane id="AnchorPane" prefHeight="652.0" prefWidth="941.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controllers.MovieCollectionController">
    <children>
-      <TableView fx:id="tableMovies" layoutX="73.0" layoutY="133.0" prefHeight="469.0" prefWidth="403.0" stylesheets="@style/tableview.css">
+      <TableView fx:id="tableMovies" layoutX="73.0" layoutY="133.0" prefHeight="469.0" prefWidth="403.0">
         <columns>
           <TableColumn fx:id="columnMovieTitle" prefWidth="189.99999237060547" text="Title" />
           <TableColumn fx:id="columnMovieReleaseYear" prefWidth="86.0" text="Release year" />
             <TableColumn fx:id="columnMovieGenre" prefWidth="125.99998982747394" text="Genre" />
         </columns>
       </TableView>
-      <Button layoutX="70.0" layoutY="615.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Add" textFill="WHITE">
+      <Button layoutX="70.0" layoutY="615.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" stylesheets="@../style/buttonCss.css" text="Add" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button layoutX="245.0" layoutY="615.0" mnemonicParsing="false" stylesheets="@style/buttonCss.css" text="Remove" textFill="WHITE">
+      <Button layoutX="245.0" layoutY="615.0" mnemonicParsing="false" stylesheets="@../style/buttonCss.css" text="Remove" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button layoutX="417.0" layoutY="615.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Delete" textFill="WHITE">
+      <Button layoutX="417.0" layoutY="615.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" stylesheets="@../style/buttonCss.css" text="Delete" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button layoutX="530.0" layoutY="286.0" mnemonicParsing="false" stylesheets="@style/buttonCss.css" text="Button" textFill="WHITE">
+      <Button layoutX="530.0" layoutY="286.0" mnemonicParsing="false" stylesheets="@../style/buttonCss.css" text="Button" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
@@ -49,7 +49,7 @@
       <TextField layoutX="73.0" layoutY="35.0" prefHeight="25.0" prefWidth="403.0" promptText="Search" />
       <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="454.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@image/magnifying-glass%20(6).png" />
+            <Image url="@../image/magnifying-glass%20(6).png" />
          </image>
       </ImageView>
    </children>
