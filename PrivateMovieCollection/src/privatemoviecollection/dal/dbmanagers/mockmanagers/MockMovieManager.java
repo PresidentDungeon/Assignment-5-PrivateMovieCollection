@@ -80,7 +80,7 @@ public class MockMovieManager implements MovieDalFacade
             {
                 m.setId(movie.getId());
                 m.setTitle(movie.getTitle());
-                m.setLength(movie.getLength());
+                m.setSeconds(movie.getSeconds());
                 m.setYear(movie.getYear());
                 m.setFilePath(movie.getFilePath());
                 m.setRating(movie.getRating());

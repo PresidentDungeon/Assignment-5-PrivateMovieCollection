@@ -25,6 +25,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.util.Duration;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import privatemoviecollection.be.Category;
@@ -39,8 +40,10 @@ import privatemoviecollection.gui.AppModel;
  */
 public class AddEditMovieController implements Initializable
 {
-private final AppModel appModel = new AppModel();
-private int currentId;
+
+    private final AppModel appModel = new AppModel();
+    private int currentId;
+    private int currentTimeInSeconds;
     @FXML
     private TextField titleString;
     @FXML
@@ -76,34 +79,40 @@ private int currentId;
     }
 
     @FXML
-    private void save(ActionEvent event)
+    private void save(ActionEvent event) throws NumberFormatException
     {
-        String title = titleString.getText();
-        String director = directorString.getText();
-        int seconds = Integer.parseInt(timeInt.getText());
-        int releaseYear = Integer.parseInt(releaseInt.getText());
-        String filePath = fileString.getText();
-        
-        ObservableList<Category> selectedCategories = categoryList.getSelectionModel().getSelectedItems();
-        ArrayList<Category> categories = new ArrayList<>();
-        categories.addAll(selectedCategories);
-        
-        
-        //We somehow need to get the IMDB rating here, right now, it is just set to 0.
-        Rating rating = new Rating(0);
-        
-        Movie movie = new Movie(title, director, seconds, releaseYear, filePath, rating, categories);
-        movie.setId(currentId);
-        
-        if (movie.getTitle().isEmpty() || movie.getDirector().isEmpty() || movie.getFilePath().isEmpty()) {
-            Alert errAlert = new Alert(Alert.AlertType.ERROR);
-            errAlert.setTitle("Error Dialog");
-            errAlert.setHeaderText("ERROR");
-            errAlert.setContentText(String.format("%s%n%s", "The movie failed to save or update.", "Please check that all information is entered correctly."));
-            errAlert.showAndWait();
-        
-    }
-        System.out.println(movie);
+        try
+        {
+
+            String title = titleString.getText();
+            String director = directorString.getText();
+            int seconds = currentTimeInSeconds;
+            int releaseYear = Integer.parseInt(releaseInt.getText());
+            String filePath = fileString.getText();
+
+            ObservableList<Category> selectedCategories = categoryList.getSelectionModel().getSelectedItems();
+            ArrayList<Category> categories = new ArrayList<>();
+            categories.addAll(selectedCategories);
+
+            if (title.equals("") || director.equals("") || filePath.equals("") || categories.size() == 0)
+            {
+                openErrorBox();
+
+            } else
+            {
+
+                //We somehow need to get the IMDB rating here, right now, it is just set to 0.
+                Rating rating = new Rating(0);
+
+                Movie movie = new Movie(title, director, seconds, releaseYear, filePath, rating, categories);
+                movie.setId(currentId);
+
+                System.out.println(movie);
+            }
+        } catch (NumberFormatException ex)
+        {
+            openErrorBox();
+        }
     }
 
     @FXML
@@ -134,9 +143,10 @@ private int currentId;
                 String title = (String) media.getMetadata().get("title");
                 String directors = (String) media.getMetadata().get("directors");
 
-                timeInt.setText(time + "");
-                titleString.setText(title);
-                directorString.setText(directors);
+                currentTimeInSeconds = time;
+                timeInt.setText(formatSeconds(time));
+//                titleString.setText(title);
+//                directorString.setText(directors);
             });
 
         }
@@ -153,29 +163,55 @@ private int currentId;
     }
 
     /**
-     * This methods runs if a movie is selected when the AddEditMovieView FXML is
-     * opened by the "edit movie" button. It takes the selected movie and fills
-     * the textfields and category listview in the AddEditMovieView with the information
-     * that has already been given to the movie.
+     * This methods runs if a movie is selected when the AddEditMovieView FXML is opened
+     * by the "edit movie" button. It takes the selected movie and fills the textfields
+     * and category listview in the AddEditMovieView with the information that has already
+     * been given to the movie.
      *
      * @param movie
      */
-    public void setText(Movie movie) {
-        
+    public void setText(Movie movie)
+    {
+
         titleString.setText(movie.getTitle());
         directorString.setText(movie.getDirector());
         releaseInt.setText(movie.getYear() + "");
-        timeInt.setText(movie.getLength() + "");
+        timeInt.setText(movie.formatSeconds());
+        currentTimeInSeconds = movie.getSeconds();
         fileString.setText(movie.getFilePath());
-        
+
         //Right now the category matches if the name of two categories are identical. Maybe
         //this should be changed, so that it matches for ID instead?
         for (Category category : movie.getCategories())
         {
             categoryList.getSelectionModel().select(category);
         }
-       
-        currentId = movie.getId();
 
+        currentId = movie.getId();
+    }
+
+    public void openErrorBox()
+    {
+        Alert errAlert = new Alert(Alert.AlertType.ERROR);
+        errAlert.setTitle("Error Dialog");
+        errAlert.setHeaderText("ERROR");
+        errAlert.setContentText(String.format("%s%n%s", "The movie failed to save or update.", "Please check that all information is entered correctly."));
+        errAlert.showAndWait();
+    }
+
+    /**
+     * Transforms the seconds int variable into a String.Example: 130 becomes "02:10"
+     *
+     * @param seconds the amount of seconds to be formated.
+     * @return String with minutes/seconds in format ##.##
+     */
+    public String formatSeconds(int seconds)
+    {
+        Duration duration = Duration.seconds(seconds);
+        String durationString = String.format("%02d:%02d:%02d",
+                (int) duration.toHours() % 60,
+                (int) duration.toMinutes() % 60,
+                (int) duration.toSeconds() % 60);
+        return durationString;
     }
 }

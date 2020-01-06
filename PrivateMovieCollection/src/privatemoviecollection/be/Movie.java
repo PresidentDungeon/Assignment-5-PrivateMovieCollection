@@ -7,6 +7,8 @@ package privatemoviecollection.be;
 
 import java.util.ArrayList;
 import java.util.Date;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.util.Duration;
 
 /**
  *
@@ -18,18 +20,18 @@ public class Movie
     private int id;
     private String title;
     private String director;
-    private int length;
+    private int seconds;
     private int year;
     private String filePath;
     private Date lastView;
     private Rating rating;
     private ArrayList<Category> categories;
 
-    public Movie(String title, String director, int length, int year, String filePath, Rating rating, ArrayList<Category> categories)
+    public Movie(String title, String director, int seconds, int year, String filePath, Rating rating, ArrayList<Category> categories)
     {
         this.title = title;
         this.director = director;
-        this.length = length;
+        this.seconds = seconds;
         this.year = year;
         this.filePath = filePath;
         this.rating = rating;
@@ -66,14 +68,29 @@ public class Movie
         this.director = director;
     }
 
-    public int getLength()
+    public int getSeconds()
     {
-        return length;
+        return seconds;
     }
 
-    public void setLength(int length)
+    public void setSeconds(int seconds)
     {
-        this.length = length;
+        this.seconds = seconds;
+    }
+    
+        /**
+     * Transforms the seconds int variable into a String.
+     * Example: 130 becomes "02:10"
+     * @return String with minutes/seconds in format ##.##
+     */
+    public String formatSeconds()
+    {
+        Duration duration = Duration.seconds(getSeconds());
+            String durationString = String.format("%02d:%02d:%02d",
+                    (int) duration.toHours() % 60,
+                    (int) duration.toMinutes() % 60,
+                    (int) duration.toSeconds() % 60);
+            return durationString;
     }
 
     public int getYear()
