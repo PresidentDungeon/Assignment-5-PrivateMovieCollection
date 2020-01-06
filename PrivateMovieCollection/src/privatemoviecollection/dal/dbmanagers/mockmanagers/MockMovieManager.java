@@ -41,7 +41,7 @@ public class MockMovieManager implements MovieDalFacade
      * adds a movie to a list of movies
      *
      * @param movie the movie that you want to add to the list
-     * @return boolean to test if the movie is succesfully added
+     * @return boolean to test if the movie was succesfully added
      */
     public boolean createMovie(Movie movie)
     {
