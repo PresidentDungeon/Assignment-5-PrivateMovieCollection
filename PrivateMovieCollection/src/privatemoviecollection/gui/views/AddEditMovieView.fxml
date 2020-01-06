@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="414.0" prefWidth="581.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controllers.AddEditMovieController">
+   <children>
+      <Label layoutX="58.0" layoutY="35.0" text="Title:" />
+      <Label layoutX="38.0" layoutY="72.0" text="Director:" />
+      <Label layoutX="13.0" layoutY="333.0" text="Category:" />
+      <Label layoutX="56.0" layoutY="145.0" text="Time:" />
+      <Label layoutX="60.0" layoutY="183.0" text="File:" />
+      <TextField fx:id="titleString" layoutX="102.0" layoutY="31.0" prefHeight="25.0" prefWidth="220.0" />
+      <TextField fx:id="artistString" layoutX="102.0" layoutY="68.0" prefHeight="25.0" prefWidth="220.0" />
+      <TextField fx:id="timeInt" editable="false" focusTraversable="false" layoutX="102.0" layoutY="141.0" prefHeight="25.0" prefWidth="109.0" style="-fx-background-color: lightgrey;" />
+      <TextField fx:id="fileString" editable="false" focusTraversable="false" layoutX="101.0" layoutY="179.0" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: lightgrey;" />
+      <Button fx:id="cancelButton" layoutX="274.0" layoutY="342.0" mnemonicParsing="false" onAction="#cancel" text="Cancel" />
+      <Button layoutX="349.0" layoutY="342.0" mnemonicParsing="false" onAction="#save" text="Save" />
+      <Button layoutX="337.0" layoutY="179.0" mnemonicParsing="false" onAction="#chooseFile" text="Choose..." />
+      <ComboBox fx:id="category" layoutX="82.0" layoutY="329.0" prefHeight="25.0" prefWidth="109.0" />
+      <Label layoutX="14.0" layoutY="275.0" text="IMDB Link:" />
+      <TextField fx:id="fileString1" editable="false" focusTraversable="false" layoutX="87.0" layoutY="271.0" prefHeight="25.0" prefWidth="220.0" style="-fx-background-color: lightgrey;" />
+      <Label layoutX="14.0" layoutY="109.0" text="Release year:" />
+      <TextField fx:id="artistString1" layoutX="102.0" layoutY="105.0" prefHeight="25.0" prefWidth="220.0" />
+   </children>
+</AnchorPane>
