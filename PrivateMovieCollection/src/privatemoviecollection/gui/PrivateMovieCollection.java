@@ -11,7 +11,9 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
+
 
 /**
  *
@@ -29,6 +31,8 @@ public class PrivateMovieCollection extends Application
         
         stage.setScene(scene);
         stage.show();
+        stage.getIcons().add(new Image(PrivateMovieCollection.class.getResourceAsStream("image/play-button.png")));
+        stage.setTitle("EMG Film");
     }
 
     /**
