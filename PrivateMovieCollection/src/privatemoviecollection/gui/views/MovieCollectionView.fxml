@@ -22,11 +22,11 @@
             <TableColumn fx:id="columnMovieGenre" prefWidth="125.99998982747394" text="Genre" />
         </columns>
       </TableView>
-      <Button layoutX="70.0" layoutY="615.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" stylesheets="@../style/buttonCss.css" text="Add" textFill="WHITE">
+      <Button layoutX="70.0" layoutY="615.0" mnemonicParsing="false" onAction="#addMovie" prefHeight="25.0" prefWidth="59.0" stylesheets="@../style/buttonCss.css" text="Add" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button layoutX="245.0" layoutY="615.0" mnemonicParsing="false" stylesheets="@../style/buttonCss.css" text="Remove" textFill="WHITE">
+      <Button layoutX="245.0" layoutY="615.0" mnemonicParsing="false" onAction="#editMovie" stylesheets="@../style/buttonCss.css" text="Edit" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
