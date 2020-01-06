@@ -45,7 +45,7 @@
       <TextArea layoutX="530.0" layoutY="335.0" prefHeight="268.0" prefWidth="366.0" />
       <Text layoutX="530.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year" />
       <Text layoutX="530.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Runtime" />
-      <ComboBox layoutX="73.0" layoutY="87.0" prefHeight="25.0" prefWidth="160.0" promptText="Category" />
+      <ComboBox fx:id="categoryComboBox" layoutX="73.0" layoutY="87.0" prefHeight="25.0" prefWidth="160.0" promptText="Category" />
       <TextField layoutX="73.0" layoutY="35.0" prefHeight="25.0" prefWidth="403.0" promptText="Search" />
       <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="454.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
          <image>

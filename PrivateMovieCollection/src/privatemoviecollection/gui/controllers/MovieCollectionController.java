@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -33,6 +34,7 @@ import privatemoviecollection.gui.AppModel;
  */
 public class MovieCollectionController implements Initializable
 {
+
     private final AppModel appModel = new AppModel();
     private Label label;
     @FXML
@@ -43,6 +45,8 @@ public class MovieCollectionController implements Initializable
     private TableColumn<Movie, Integer> columnMovieReleaseYear;
     @FXML
     private TableColumn<Movie, String> columnMovieGenre;
+    @FXML
+    private ComboBox<Category> categoryComboBox;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -64,15 +68,17 @@ public class MovieCollectionController implements Initializable
                 {
                     allCategories += ", ";
                 }
-                
+
                 loopPosition++;
             }
 
             return new SimpleStringProperty(allCategories);
 
         });
-        
+
         tableMovies.setItems(appModel.getMovieList());
+        updateCategoryBox();
+
     }
 
     @FXML
@@ -81,18 +87,17 @@ public class MovieCollectionController implements Initializable
         openWindow(null, "views/AddEditMovieView.fxml", "New Movie");
 
     }
-    
-        @FXML
+
+    @FXML
     private void editMovie(ActionEvent event)
     {
         if (tableMovies.getSelectionModel().getSelectedItem() != null)
         {
-             openWindow(tableMovies.getSelectionModel().getSelectedItem(), "views/AddEditMovieView.fxml", "New/Edit Movie");
+            openWindow(tableMovies.getSelectionModel().getSelectedItem(), "views/AddEditMovieView.fxml", "New/Edit Movie");
         }
-        
-        
+
     }
-    
+
     /**
      * Loads a new FXML view as a window from a primary stage
      *
@@ -128,6 +133,16 @@ public class MovieCollectionController implements Initializable
         }
     }
 
+    public void updateCategoryBox()
+    {
+        Category allCategory = new Category("All");
+        categoryComboBox.getItems().add(allCategory);
 
+        for (Category cat : appModel.getCategoryList())
+        {
+            categoryComboBox.getItems().add(cat);
+        }
+
+    }
 
 }
