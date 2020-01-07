@@ -21,6 +21,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseDragEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -133,16 +135,12 @@ public class MovieCollectionController implements Initializable
         }
     }
 
-    public void updateCategoryBox()
+    private void updateCategoryBox()
     {
-        Category allCategory = new Category("All");
-        categoryComboBox.getItems().add(allCategory);
-
-        for (Category cat : appModel.getCategoryList())
-        {
-            categoryComboBox.getItems().add(cat);
-        }
+        categoryComboBox.getItems().clear();
+//        Category allCategory = new Category("All");
+        categoryComboBox.setItems(appModel.getCategoryList());
+//        categoryComboBox.getItems().add(allCategory);
 
     }
-
 }

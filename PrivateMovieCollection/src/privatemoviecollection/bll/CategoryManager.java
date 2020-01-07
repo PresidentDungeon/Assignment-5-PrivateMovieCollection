@@ -22,7 +22,7 @@ public class CategoryManager
 
     public CategoryManager()
     {
-        categoryManager = new MockCategoryManager();
+        categoryManager = new CategoryDBDAO();
     }
 
     public List<Category> getAllCategories()

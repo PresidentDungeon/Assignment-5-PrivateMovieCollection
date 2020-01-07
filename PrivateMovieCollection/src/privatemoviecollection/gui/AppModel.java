@@ -94,7 +94,8 @@ public class AppModel
                 {
                 Category cat = new Category(categoryName.get());
                 categoryManager.saveCategory(cat);
-                fetchCategories();
+                categories.add(cat);
+//                fetchCategories();
                 }
                 else
                 {
