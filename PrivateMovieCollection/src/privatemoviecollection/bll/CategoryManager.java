@@ -7,6 +7,7 @@ package privatemoviecollection.bll;
 
 import java.util.List;
 import privatemoviecollection.be.Category;
+import privatemoviecollection.dal.dbmanagers.dbdao.CategoryDBDAO;
 import privatemoviecollection.dal.dbmanagers.facades.CategoryDalFacade;
 import privatemoviecollection.dal.dbmanagers.mockmanagers.MockCategoryManager;
 
@@ -16,9 +17,10 @@ import privatemoviecollection.dal.dbmanagers.mockmanagers.MockCategoryManager;
  */
 public class CategoryManager
 {
+
     private final CategoryDalFacade categoryManager;
-    
-        public CategoryManager()
+
+    public CategoryManager()
     {
         categoryManager = new MockCategoryManager();
     }
@@ -26,5 +28,21 @@ public class CategoryManager
     public List<Category> getAllCategories()
     {
         return categoryManager.readAllCategories();
+    }
+
+    public boolean saveCategory(Category category)
+    {
+        if (category.getId() == 0)
+        {
+            return categoryManager.createCategory(category);
+        } else
+        {
+            return categoryManager.updateCategory(category);
+        }
+    }
+
+    public boolean deleteCategory(Category category)
+    {
+        return categoryManager.deleteCategory(category);
     }
 }

@@ -11,6 +11,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,13 +19,16 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -79,7 +83,7 @@ public class AddEditMovieController implements Initializable
     }
 
     @FXML
-    private void save(ActionEvent event) throws NumberFormatException
+    private void saveSong(ActionEvent event) throws NumberFormatException
     {
         try
         {
@@ -96,7 +100,8 @@ public class AddEditMovieController implements Initializable
 
             if (title.equals("") || director.equals("") || filePath.equals("") || categories.size() == 0)
             {
-                openErrorBox();
+                openErrorBox(String.format("%s%n%s", "The movie failed to save or update.",
+                        "Please check that all information is entered correctly."));
 
             } else
             {
@@ -111,7 +116,8 @@ public class AddEditMovieController implements Initializable
             }
         } catch (NumberFormatException ex)
         {
-            openErrorBox();
+            openErrorBox(String.format("%s%n%s", "The movie failed to save or update.",
+                    "Please check that all information is entered correctly."));
         }
     }
 
@@ -155,11 +161,30 @@ public class AddEditMovieController implements Initializable
     @FXML
     private void addCategory(ActionEvent event)
     {
+        appModel.saveCategory(null);
+
+    }
+
+    @FXML
+    private void updateCategory(ActionEvent event)
+    {
+        if (categoryList.getSelectionModel().getSelectedItems().size() > 1)
+        {
+            openErrorBox("Please only select one category when updating");
+        }
+        else
+        {
+                appModel.saveCategory(categoryList.getSelectionModel().getSelectedItem());
+        }
+        
+
     }
 
     @FXML
     private void removeCategory(ActionEvent event)
     {
+        appModel.deleteCategory(categoryList.getSelectionModel().getSelectedItems());
+
     }
 
     /**
@@ -190,12 +215,12 @@ public class AddEditMovieController implements Initializable
         currentId = movie.getId();
     }
 
-    public void openErrorBox()
+    public void openErrorBox(String contentText)
     {
         Alert errAlert = new Alert(Alert.AlertType.ERROR);
         errAlert.setTitle("Error Dialog");
         errAlert.setHeaderText("ERROR");
-        errAlert.setContentText(String.format("%s%n%s", "The movie failed to save or update.", "Please check that all information is entered correctly."));
+        errAlert.setContentText(contentText);
         errAlert.showAndWait();
     }
 

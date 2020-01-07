@@ -30,6 +30,11 @@ public class MockCategoryManager implements CategoryDalFacade
         categories.add(cat2);
         categories.add(cat3);
         categories.add(cat4);
+        
+        cat1.setId(1);
+        cat2.setId(2);
+        cat3.setId(3);
+        cat4.setId(4);
     }
 
     /**
