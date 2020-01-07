@@ -136,8 +136,16 @@ public class AddEditMovieController implements Initializable
         if (returnValue == JFileChooser.APPROVE_OPTION)
         {
             File selectedFile = jfc.getSelectedFile();
-
-            fileString.setText(selectedFile.getAbsolutePath());
+            
+            if (selectedFile.getAbsolutePath().contains("PrivateMovieCollection\\Movie")) {
+                Path absolutePath = Paths.get(selectedFile.getAbsolutePath());
+                Path pathToProject = Paths.get(System.getProperty("user.dir"));
+                Path relativePath = pathToProject.relativize(absolutePath);
+                fileString.setText(relativePath.toString());
+            } else {
+                fileString.setText(selectedFile.getAbsolutePath());
+            }
+            
 
             Media media = new Media(selectedFile.toURI().toString());
 

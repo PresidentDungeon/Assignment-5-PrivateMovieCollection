@@ -170,7 +170,7 @@ public class Movie
     
     public static void main(String[] args) throws IOException {
         
-        File file = new File("C:\\Users\\ander\\OneDrive\\Skrivebord\\y2mate.com - nature_short_clip_video_07m_bT5_OrU_1080p.mp4");
+        File file = new File("Movie\\y2mate.com - nature_short_clip_video_07m_bT5_OrU_1080p.mp4");
         Desktop.getDesktop().open(file);
     }
 
