@@ -5,6 +5,9 @@
  */
 package privatemoviecollection.be;
 
+import java.awt.Desktop;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import javafx.beans.property.SimpleStringProperty;
@@ -163,6 +166,12 @@ public class Movie
 
         }
         return title + ", Id: " + id + "- " + allCategories;
+    }
+    
+    public static void main(String[] args) throws IOException {
+        
+        File file = new File("C:\\Users\\ander\\OneDrive\\Skrivebord\\y2mate.com - nature_short_clip_video_07m_bT5_OrU_1080p.mp4");
+        Desktop.getDesktop().open(file);
     }
 
 }
