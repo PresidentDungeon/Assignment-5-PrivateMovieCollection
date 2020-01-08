@@ -175,3 +175,84 @@ public class Movie
     }
 
 }
+
+              //Getting rating with /10
+              
+//              
+//                     String url = "https://www.imdb.com/title/tt8111088/";
+//
+//              Document document = Jsoup.connect(url).get();
+//              
+//              for (Element element : document.select("div.ratingValue"))
+//              {
+//                            System.out.println(element.select(".ratingValue").text());
+//                  
+////                            System.out.println(element.text());
+//              }
+
+
+
+              
+                //Getting rating without /10
+                
+//                       String url = "https://www.imdb.com/title/tt5180504/";
+//
+//              Document document = Jsoup.connect(url).get();
+//              
+//              for (Element element : document.select("span[itemprop=ratingValue]"))
+//              {
+//                            System.out.println(element.text());
+//
+//              }
+
+                //Getting the summary text
+                
+//              String url = "https://www.imdb.com/title/tt5180504/";
+//
+//              Document document = Jsoup.connect(url).get();
+//              
+//              for (Element element : document.select("div.summary_text"))
+//              {
+//                            System.out.println(element.text());
+//
+//              }
+       
+                //Getting the title
+                
+//              String url = "https://www.imdb.com/title/tt5180504/";
+//
+//              Document document = Jsoup.connect(url).get();
+//              
+//              for (Element element : document.select("h1"))
+//              {
+//                            System.out.println(element.text());
+//
+//              }
+
+                //Getting director(s)
+                
+//              String url = "https://www.imdb.com/title/tt0944947/";
+
+//              Document document = Jsoup.connect(url).get();
+//              
+//              Element creators = document.getElementsByClass("credit_summary_item").first();
+//              Elements creatorName = creators.getElementsByTag("a");
+//              
+//              for (Element ele : creatorName)
+//              {
+//                  System.out.println(ele.text());
+//              }
+
+            //Save image link
+            
+//              String url = "https://www.imdb.com/title/tt5180504/";
+//
+//              Document document = Jsoup.connect(url).get();
+//              
+//              Elements divs = document.getElementsByClass("poster");
+//              Element poster = divs.first();
+//              Elements img = poster.getElementsByTag("img");
+//              String imageLink = img.attr("src");
+//              
+//              System.out.println(imageLink);
+   
