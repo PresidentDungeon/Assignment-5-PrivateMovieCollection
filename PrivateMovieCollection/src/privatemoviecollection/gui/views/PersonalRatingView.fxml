@@ -7,7 +7,7 @@
 <AnchorPane id="AnchorPane" prefHeight="196.0" prefWidth="376.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.views.PersonalRatingViewController">
    <children>
       <Text layoutX="53.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What will you rate 'this movie'?" />
-      <Button fx:id="oneStar" layoutX="78.0" layoutY="103.0" mnemonicParsing="false" text="1" />
+      <Button fx:id="oneStar" layoutX="78.0" layoutY="103.0" mnemonicParsing="false" onAction="#oneStarRating" text="1" />
       <Button fx:id="twoStar" layoutX="101.0" layoutY="103.0" mnemonicParsing="false" onAction="#twoStarRating" text="2" />
       <Button fx:id="threeStar" layoutX="124.0" layoutY="103.0" mnemonicParsing="false" onAction="#threeStarRating" text="3" />
       <Button fx:id="fourStar" layoutX="147.0" layoutY="103.0" mnemonicParsing="false" onAction="#fourStarRating" text="4" />

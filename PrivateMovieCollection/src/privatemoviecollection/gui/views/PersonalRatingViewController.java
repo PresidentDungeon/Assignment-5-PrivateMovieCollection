@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package privatemoviecollection.gui.controllers;
+package privatemoviecollection.gui.views;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -49,6 +49,11 @@ public class PersonalRatingViewController implements Initializable
     {
         // TODO
     }    
+
+    @FXML
+    private void oneStarRating(ActionEvent event)
+    {
+    }
 
     @FXML
     private void twoStarRating(ActionEvent event)
