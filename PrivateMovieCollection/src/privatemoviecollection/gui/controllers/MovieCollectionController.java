@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
@@ -48,6 +49,7 @@ public class MovieCollectionController implements Initializable
     private ComboBox<Category> categoryComboBox;
     @FXML
     private Button rateMeButton;
+
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -148,22 +150,22 @@ public class MovieCollectionController implements Initializable
 
             if (movie == null)
             {
-            TextInputDialog td = new TextInputDialog();
-            td.setTitle("Confirmation");
-            td.setHeaderText(null);
-            td.setContentText("Do you want to enter the IMDb link to store information?");
-            Optional<String> IMDBLink = td.showAndWait();
-            if (IMDBLink.isPresent())
-            {
-                if (IMDBLink.get().equalsIgnoreCase(""))
+                TextInputDialog td = new TextInputDialog();
+                td.setTitle("Confirmation");
+                td.setHeaderText(null);
+                td.setContentText("Do you want to enter the IMDb link to store information?");
+                Optional<String> IMDBLink = td.showAndWait();
+                if (IMDBLink.isPresent())
                 {
-                    appModel.openErrorBox("Category name is empty");
-                } else
-                {
-                    AddEditMovieController controller = fxmlLoader.getController();
-                    controller.setText(null, IMDBLink.get());
+                    if (IMDBLink.get().equalsIgnoreCase(""))
+                    {
+                        appModel.openErrorBox("Category name is empty");
+                    } else
+                    {
+                        AddEditMovieController controller = fxmlLoader.getController();
+                        controller.setText(null, IMDBLink.get());
+                    }
                 }
-            }
             }
         } catch (Exception ex)
         {
@@ -179,15 +181,9 @@ public class MovieCollectionController implements Initializable
 
     }
 
-
-    
-    
-    
     @FXML
     private void giveARating(ActionEvent event)
     {
         openWindow(null, "views/PersonalRatingView.fxml", "Give a personal rating");
     }
 }
-
-
