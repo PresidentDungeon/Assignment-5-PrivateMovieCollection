@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane id="AnchorPane" prefHeight="196.0" prefWidth="376.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.views.PersonalRatingViewController">
+   <children>
+      <Text layoutX="53.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What will you rate 'this movie'?" />
+      <Button fx:id="oneStar" layoutX="78.0" layoutY="103.0" mnemonicParsing="false" onAction="#oneStarRating" text="1" />
+      <Button fx:id="twoStar" layoutX="101.0" layoutY="103.0" mnemonicParsing="false" onAction="#twoStarRating" text="2" />
+      <Button fx:id="threeStar" layoutX="124.0" layoutY="103.0" mnemonicParsing="false" onAction="#threeStarRating" text="3" />
+      <Button fx:id="fourStar" layoutX="147.0" layoutY="103.0" mnemonicParsing="false" onAction="#fourStarRating" text="4" />
+      <Button fx:id="fiveStar" layoutX="170.0" layoutY="103.0" mnemonicParsing="false" onAction="#fiveStarRating" text="5" />
+      <Button fx:id="sixStar" layoutX="193.0" layoutY="103.0" mnemonicParsing="false" onAction="#sixStarRating" text="6" />
+      <Button fx:id="sevenStar" layoutX="216.0" layoutY="103.0" mnemonicParsing="false" onAction="#sevenStarRating" text="7" />
+      <Button fx:id="eightStar" layoutX="239.0" layoutY="103.0" mnemonicParsing="false" onAction="#eightStarRating" text="8" />
+      <Button fx:id="nineStar" layoutX="262.0" layoutY="103.0" mnemonicParsing="false" onAction="#nineStarRating" text="9" />
+      <Button fx:id="tenStar" layoutX="285.0" layoutY="103.0" mnemonicParsing="false" onAction="#tenStarRating" text="10" />
+   </children>
+</AnchorPane>

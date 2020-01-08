@@ -46,6 +46,8 @@ public class MovieCollectionController implements Initializable
     private TableColumn<Movie, String> columnMovieGenre;
     @FXML
     private ComboBox<Category> categoryComboBox;
+    @FXML
+    private Button rateMeButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -176,4 +178,16 @@ public class MovieCollectionController implements Initializable
 //        categoryComboBox.getItems().add(allCategory);
 
     }
+
+
+    
+    
+    
+    @FXML
+    private void giveARating(ActionEvent event)
+    {
+        openWindow(null, "views/PersonalRatingView.fxml", "Give a personal rating");
+    }
 }
+
+
