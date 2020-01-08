@@ -37,9 +37,9 @@
          </cursor></Button>
       <Hyperlink layoutX="615.0" layoutY="276.0" text="Hyperlink" />
       <ImageView fitHeight="268.0" fitWidth="200.0" layoutX="709.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
-      <Text layoutX="533.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personal Rating" />
-      <Text layoutX="530.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDb rating" />
-      <TextArea layoutX="530.0" layoutY="335.0" prefHeight="268.0" prefWidth="366.0" stylesheets="@style/textarea.css" />
+      <Text layoutX="527.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personal Rating:" wrappingWidth="94.494140625" />
+      <Text layoutX="530.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDb rating:" />
+      <TextArea editable="false" layoutX="530.0" layoutY="335.0" prefHeight="268.0" prefWidth="366.0" stylesheets="@style/textarea.css" />
       <Text layoutX="530.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" />
       <Text layoutX="530.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Runtime: " />
       <ComboBox fx:id="categoryComboBox" layoutX="73.0" layoutY="87.0" prefHeight="25.0" prefWidth="160.0" promptText="Category" stylesheets="@style/Combobox.css" />
@@ -49,7 +49,10 @@
             <Image url="@image/search%20(1).png" />
          </image>
       </ImageView>
-      <Button fx:id="rateMeButton" layoutX="533.0" layoutY="87.0" mnemonicParsing="false" onAction="#giveARating" stylesheets="@style/buttonCss.css" text="Give a personal rating" textFill="WHITE" />
+      <Button fx:id="rateMeButton" layoutX="529.0" layoutY="62.0" mnemonicParsing="false" onAction="#giveARating" prefHeight="28.0" prefWidth="149.0" stylesheets="@style/buttonCss.css" text="Give a personal rating" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor></Button>
       <ImageView fx:id="playButton" fitHeight="39.0" fitWidth="37.0" layoutX="537.0" layoutY="269.0" onMouseClicked="#playMovie" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@image/multimedia.png" />
@@ -61,5 +64,17 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
+      <ImageView fitHeight="27.0" fitWidth="37.0" layoutX="529.0" layoutY="157.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image/star.png" />
+         </image>
+      </ImageView>
+      <TextArea editable="false" layoutX="562.0" layoutY="152.0" prefHeight="0.0" prefWidth="0.0" stylesheets="@style/textarea.css" />
+      <ImageView fitHeight="27.0" fitWidth="27.0" layoutX="529.0" layoutY="101.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@image/dab%20(2).png" />
+         </image>
+      </ImageView>
+      <TextArea editable="false" layoutX="562.0" layoutY="96.0" prefHeight="0.0" prefWidth="0.0" stylesheets="@style/textarea.css" />
    </children>
 </AnchorPane>
