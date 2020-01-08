@@ -8,6 +8,7 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -15,22 +16,22 @@
 
 <AnchorPane id="AnchorPane" prefHeight="665.0" prefWidth="941.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controllers.MovieCollectionController">
    <children>
-      <TableView fx:id="tableMovies" layoutX="73.0" layoutY="133.0" prefHeight="469.0" prefWidth="403.0" stylesheets="@style/Tableview.css">
+      <TableView fx:id="tableMovies" layoutX="73.0" layoutY="142.0" prefHeight="447.0" prefWidth="403.0" stylesheets="@style/Tableview.css">
         <columns>
           <TableColumn fx:id="columnMovieTitle" prefWidth="189.99999237060547" text="Title" />
           <TableColumn fx:id="columnMovieReleaseYear" prefWidth="86.0" text="Release year" />
             <TableColumn fx:id="columnMovieGenre" prefWidth="125.99998982747394" text="Genre" />
         </columns>
       </TableView>
-      <Button layoutX="70.0" layoutY="615.0" mnemonicParsing="false" onAction="#addMovie" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Add" textFill="WHITE">
+      <Button layoutX="73.0" layoutY="609.0" mnemonicParsing="false" onAction="#addMovie" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Add" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button layoutX="245.0" layoutY="615.0" mnemonicParsing="false" onAction="#editMovie" stylesheets="@style/buttonCss.css" text="Edit" textFill="WHITE">
+      <Button layoutX="245.0" layoutY="609.0" mnemonicParsing="false" onAction="#editMovie" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Edit" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button layoutX="417.0" layoutY="615.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Delete" textFill="WHITE">
+      <Button layoutX="417.0" layoutY="609.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Delete" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
@@ -38,21 +39,27 @@
       <ImageView fitHeight="268.0" fitWidth="200.0" layoutX="709.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
       <Text layoutX="533.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personal Rating" />
       <Text layoutX="530.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDb rating" />
-      <TextArea layoutX="530.0" layoutY="335.0" prefHeight="268.0" prefWidth="366.0" />
+      <TextArea layoutX="530.0" layoutY="335.0" prefHeight="268.0" prefWidth="366.0" stylesheets="@style/textarea.css" />
       <Text layoutX="530.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" />
       <Text layoutX="530.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Runtime: " />
-      <ComboBox fx:id="categoryComboBox" layoutX="73.0" layoutY="87.0" prefHeight="25.0" prefWidth="160.0" promptText="Category" />
-      <TextField layoutX="73.0" layoutY="35.0" prefHeight="25.0" prefWidth="403.0" promptText="Search" />
+      <ComboBox fx:id="categoryComboBox" layoutX="73.0" layoutY="87.0" prefHeight="25.0" prefWidth="160.0" promptText="Category" stylesheets="@style/Combobox.css" />
+      <TextField layoutX="73.0" layoutY="35.0" prefHeight="25.0" prefWidth="403.0" promptText="Search" stylesheets="@style/textfield.css" />
       <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="454.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
          <image>
-            <Image url="@image/magnifying-glass%20(6).png" />
+            <Image url="@image/search%20(1).png" />
          </image>
       </ImageView>
       <Button fx:id="rateMeButton" layoutX="533.0" layoutY="87.0" mnemonicParsing="false" onAction="#giveARating" stylesheets="@style/buttonCss.css" text="Give a personal rating" textFill="WHITE" />
-      <ImageView fitHeight="39.0" fitWidth="37.0" layoutX="537.0" layoutY="269.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="playButton" fitHeight="39.0" fitWidth="37.0" layoutX="537.0" layoutY="269.0" onMouseClicked="#playMovie" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@image/multimedia.png" />
          </image>
+         <effect>
+            <DropShadow color="#a1a1a1" height="26.32" radius="12.01" width="23.72" />
+         </effect>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
       </ImageView>
    </children>
 </AnchorPane>

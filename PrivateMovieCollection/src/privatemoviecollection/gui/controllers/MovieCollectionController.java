@@ -22,11 +22,15 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.AppModel;
+import privatemoviecollection.gui.PrivateMovieCollection;
 
 /**
  *
@@ -49,6 +53,8 @@ public class MovieCollectionController implements Initializable
     private ComboBox<Category> categoryComboBox;
     @FXML
     private Button rateMeButton;
+    @FXML
+    private ImageView playButton;
 
 
     @Override
@@ -135,6 +141,7 @@ public class MovieCollectionController implements Initializable
             fxmlLoader.setLocation(AppModel.class.getResource(viewFXML));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
+            stage.getIcons().add(new Image(PrivateMovieCollection.class.getResourceAsStream("views/image/multimedia.png")));
 
             if (movie != null)
             {
@@ -155,6 +162,7 @@ public class MovieCollectionController implements Initializable
                 td.setHeaderText(null);
                 td.setContentText("Do you want to enter the IMDb link to store information?");
                 Optional<String> IMDBLink = td.showAndWait();
+                stage.getIcons().add(new Image(PrivateMovieCollection.class.getResourceAsStream("views/image/multimedia.png")));
                 if (IMDBLink.isPresent())
                 {
                     if (IMDBLink.get().equalsIgnoreCase(""))
@@ -185,5 +193,10 @@ public class MovieCollectionController implements Initializable
     private void giveARating(ActionEvent event)
     {
         openWindow(null, "views/PersonalRatingView.fxml", "Give a personal rating");
+    }
+
+    @FXML
+    private void playMovie(MouseEvent event) {
+        
     }
 }
