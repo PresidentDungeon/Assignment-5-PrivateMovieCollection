@@ -5,9 +5,9 @@
  */
 package privatemoviecollection.gui.controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -15,17 +15,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseDragEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.AppModel;
@@ -62,16 +59,22 @@ public class MovieCollectionController implements Initializable
             String allCategories = "";
             int loopPosition = 1;
 
-            for (Category category : movieCategories)
+            if (!movieCategories.isEmpty())
             {
-                allCategories += category.getName();
-
-                if (loopPosition != movieCategories.size())
+                for (Category category : movieCategories)
                 {
-                    allCategories += ", ";
-                }
+                    allCategories += category.getName();
 
-                loopPosition++;
+                    if (loopPosition != movieCategories.size())
+                    {
+                        allCategories += ", ";
+                    }
+
+                    loopPosition++;
+                }
+            } else
+            {
+                allCategories = "";
             }
 
             return new SimpleStringProperty(allCategories);
@@ -83,13 +86,25 @@ public class MovieCollectionController implements Initializable
 
     }
 
+    /**
+     * Event handler for the new movie button. Opens a new FXML view enabling movies to be
+     * added.
+     *
+     * @param event
+     */
     @FXML
-    private void addMovie(ActionEvent event) throws IOException
+    private void addMovie(ActionEvent event)
     {
         openWindow(null, "views/AddEditMovieView.fxml", "New Movie");
 
     }
 
+    /**
+     * Event handler for the edit movie button. Opens a new FXML view to edit the selected
+     * movie.
+     *
+     * @param event
+     */
     @FXML
     private void editMovie(ActionEvent event)
     {
@@ -120,7 +135,7 @@ public class MovieCollectionController implements Initializable
             if (movie != null)
             {
                 AddEditMovieController controller = fxmlLoader.getController();
-                controller.setText(movie);
+                controller.setText(movie, "");
             }
 
             stage.setTitle(windowMessage);
@@ -129,9 +144,27 @@ public class MovieCollectionController implements Initializable
             stage.initOwner(tableMovies.getScene().getWindow());
             stage.show();
 
-        } catch (IOException ex)
+            if (movie == null)
+            {
+            TextInputDialog td = new TextInputDialog();
+            td.setTitle("Confirmation");
+            td.setHeaderText(null);
+            td.setContentText("Do you want to enter the IMDb link to store information?");
+            Optional<String> IMDBLink = td.showAndWait();
+            if (IMDBLink.isPresent())
+            {
+                if (IMDBLink.get().equalsIgnoreCase(""))
+                {
+                    appModel.openErrorBox("Category name is empty");
+                } else
+                {
+                    AddEditMovieController controller = fxmlLoader.getController();
+                    controller.setText(null, IMDBLink.get());
+                }
+            }
+            }
+        } catch (Exception ex)
         {
-
         }
     }
 

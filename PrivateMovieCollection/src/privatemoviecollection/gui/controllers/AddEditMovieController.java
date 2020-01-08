@@ -6,32 +6,31 @@
 package privatemoviecollection.gui.controllers;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TextField;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.be.Rating;
@@ -44,10 +43,15 @@ import privatemoviecollection.gui.AppModel;
  */
 public class AddEditMovieController implements Initializable
 {
-
+    
     private final AppModel appModel = new AppModel();
     private int currentId;
+    private Rating currentRating;
+    private String currentSummaryText;
+    private String currentPosterLink;
+    private String currentIMDBLink;
     private int currentTimeInSeconds;
+    private Date currentDate;
     @FXML
     private TextField titleString;
     @FXML
@@ -56,10 +60,6 @@ public class AddEditMovieController implements Initializable
     private TextField fileString;
     @FXML
     private Button cancelButton;
-    @FXML
-    private TextField directorString;
-    @FXML
-    private TextField imdbString;
     @FXML
     private TextField releaseInt;
     @FXML
@@ -74,53 +74,55 @@ public class AddEditMovieController implements Initializable
         categoryList.setItems(appModel.getCategoryList());
         categoryList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
-
+    
     @FXML
     private void cancel(ActionEvent event)
     {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
-
+    
     @FXML
     private void saveSong(ActionEvent event) throws NumberFormatException
     {
         try
         {
-
+            
             String title = titleString.getText();
-            String director = directorString.getText();
             int seconds = currentTimeInSeconds;
             int releaseYear = Integer.parseInt(releaseInt.getText());
             String filePath = fileString.getText();
-
+            
             ObservableList<Category> selectedCategories = categoryList.getSelectionModel().getSelectedItems();
             ArrayList<Category> categories = new ArrayList<>();
             categories.addAll(selectedCategories);
-
-            if (title.equals("") || director.equals("") || filePath.equals("") || categories.size() == 0)
+            
+            if (title.equals("") || filePath.equals(""))
             {
-                openErrorBox(String.format("%s%n%s", "The movie failed to save or update.",
+                appModel.openErrorBox(String.format("%s%n%s", "The movie failed to save or update.",
                         "Please check that all information is entered correctly."));
-
+                
             } else
-            {
-
-                //We somehow need to get the IMDB rating here, right now, it is just set to 0.
-                Rating rating = new Rating(0);
-
-                Movie movie = new Movie(title, director, seconds, releaseYear, filePath, rating, categories);
+            {                
+                Movie movie = new Movie(title, seconds, filePath);
                 movie.setId(currentId);
-
+                movie.setSeconds(currentTimeInSeconds);
+                movie.setIMDbLink(currentIMDBLink);
+                movie.setRating(currentRating);
+                movie.setImageLink(currentPosterLink);
+                movie.setSummaryText(currentSummaryText);
+                movie.setLastView(currentDate);
+                movie.setCategories(categories);
+                
                 System.out.println(movie);
             }
         } catch (NumberFormatException ex)
         {
-            openErrorBox(String.format("%s%n%s", "The movie failed to save or update.",
+            appModel.openErrorBox(String.format("%s%n%s", "The movie failed to save or update.",
                     "Please check that all information is entered correctly."));
         }
     }
-
+    
     @FXML
     private void chooseFile(ActionEvent event)
     {
@@ -131,105 +133,130 @@ public class AddEditMovieController implements Initializable
         jfc.setFileFilter(mp4Filter);
         jfc.setAcceptAllFileFilterUsed(false);
         jfc.setCurrentDirectory(new File("."));
-
+        
         int returnValue = jfc.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION)
         {
             File selectedFile = jfc.getSelectedFile();
             
-            if (selectedFile.getAbsolutePath().contains("PrivateMovieCollection\\Movie")) {
+            if (selectedFile.getAbsolutePath().contains("PrivateMovieCollection\\Movie"))
+            {
                 Path absolutePath = Paths.get(selectedFile.getAbsolutePath());
                 Path pathToProject = Paths.get(System.getProperty("user.dir"));
                 Path relativePath = pathToProject.relativize(absolutePath);
                 fileString.setText(relativePath.toString());
-            } else {
+            } else
+            {
                 fileString.setText(selectedFile.getAbsolutePath());
             }
             
-
             Media media = new Media(selectedFile.toURI().toString());
-
+            
             MediaPlayer mediaplayer = new MediaPlayer(media);
-
+            
             mediaplayer.setOnReady(() ->
             {
                 int time = (int) media.getDuration().toSeconds();
-                String title = (String) media.getMetadata().get("title");
-                String directors = (String) media.getMetadata().get("directors");
-
+                
                 currentTimeInSeconds = time;
                 timeInt.setText(formatSeconds(time));
-//                titleString.setText(title);
-//                directorString.setText(directors);
             });
-
+            
         }
     }
-
+    
     @FXML
     private void addCategory(ActionEvent event)
     {
         appModel.saveCategory(null);
-
+        
     }
-
+    
     @FXML
     private void updateCategory(ActionEvent event)
     {
         if (categoryList.getSelectionModel().getSelectedItems().size() > 1)
         {
-            openErrorBox("Please only select one category when updating");
-        }
-        else
+            appModel.openErrorBox("Please only select one category when updating");
+        } else
         {
-                appModel.saveCategory(categoryList.getSelectionModel().getSelectedItem());
+            appModel.saveCategory(categoryList.getSelectionModel().getSelectedItem());
         }
         
-
     }
-
+    
     @FXML
     private void removeCategory(ActionEvent event)
     {
         appModel.deleteCategory(categoryList.getSelectionModel().getSelectedItems());
-
+        
     }
 
     /**
-     * This methods runs if a movie is selected when the AddEditMovieView FXML is opened
-     * by the "edit movie" button. It takes the selected movie and fills the textfields
-     * and category listview in the AddEditMovieView with the information that has already
-     * been given to the movie.
+     * This methods runs when the AddEditMovieView FXML is opened
+     * by either the "new" movie button or the "edit" movie button.
+     * If the "edit" movie button is pressed, the selected movie from the listview in the
+     * AddEditMovieView is taken, and some of the informtion stored in this movie object is
+     * displayed in the textfields and category listview. The rest of the data is stored
+     * in the instance variables of this class.
+     * 
+     * if the "new" movie button is pressed and a IMDB link is given, some of the movie
+     * data will be scraped from the IMDb website. Some data will be stored in the
+     * textfields and the rest in the instance variables of this class.
      *
      * @param movie
      */
-    public void setText(Movie movie)
+    public void setText(Movie movie, String IMDBLink) throws IOException
     {
-
-        titleString.setText(movie.getTitle());
-        directorString.setText(movie.getDirector());
-        releaseInt.setText(movie.getYear() + "");
-        timeInt.setText(movie.formatSeconds());
-        currentTimeInSeconds = movie.getSeconds();
-        fileString.setText(movie.getFilePath());
-
-        //Right now the category matches if the name of two categories are identical. Maybe
-        //this should be changed, so that it matches for ID instead?
-        for (Category category : movie.getCategories())
+        if (IMDBLink.equalsIgnoreCase(""))
         {
-            categoryList.getSelectionModel().select(category);
+            titleString.setText(movie.getTitle());
+            releaseInt.setText(movie.getYear() + "");
+            timeInt.setText(movie.formatSeconds());
+            fileString.setText(movie.getFilePath());
+
+            //Right now the category matches if the name of two categories are identical. Maybe
+            //this should be changed, so that it matches for ID instead?
+            if (!movie.getCategories().isEmpty())
+            {
+                for (Category category : movie.getCategories())
+                {
+                    categoryList.getSelectionModel().select(category);
+                }
+            }
+            
+            currentId = movie.getId();
+            currentTimeInSeconds = movie.getSeconds();
+            currentIMDBLink = movie.getIMDbLink();
+            currentRating = movie.getRating();
+            currentPosterLink = movie.getImageLink();
+            currentSummaryText = movie.getSummaryText();
+            currentDate = movie.getLastView();
+        } else
+        {
+            String url = IMDBLink;
+            Document document = Jsoup.connect(url).get();
+
+            //get the title of the movie
+            Element element = document.select("h1").first();
+            titleString.setText(element.textNodes().get(0).text());
+            //get the release year
+            element = document.select("span#titleYear a").first();
+            releaseInt.setText(element.text());
+            //gets the rating from IMDb
+            element = document.select("span[itemprop=ratingValue]").first();
+            currentRating = new Rating();
+            currentRating.setIMDBRating(Double.parseDouble(element.text()));
+            //gets the movie description
+            element = document.select("div.summary_text").first();
+            currentSummaryText = element.text();
+            //gets the movie posterLink
+            Element poster = document.getElementsByClass("poster").first();
+            Elements img = poster.getElementsByTag("img");
+            currentPosterLink = img.attr("src");
+            //sets the IMDb link
+            currentIMDBLink = IMDBLink;
         }
-
-        currentId = movie.getId();
-    }
-
-    public void openErrorBox(String contentText)
-    {
-        Alert errAlert = new Alert(Alert.AlertType.ERROR);
-        errAlert.setTitle("Error Dialog");
-        errAlert.setHeaderText("ERROR");
-        errAlert.setContentText(contentText);
-        errAlert.showAndWait();
     }
 
     /**
@@ -247,4 +274,5 @@ public class AddEditMovieController implements Initializable
                 (int) duration.toSeconds() % 60);
         return durationString;
     }
+
 }
