@@ -26,6 +26,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.AppModel;
@@ -49,6 +52,8 @@ public class MovieCollectionController implements Initializable
     private TableColumn<Movie, String> columnMovieGenre;
     @FXML
     private ComboBox<Category> categoryComboBox;
+    @FXML
+    private Button rateMeButton;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -143,4 +148,16 @@ public class MovieCollectionController implements Initializable
 //        categoryComboBox.getItems().add(allCategory);
 
     }
+
+
+    
+    
+    
+    @FXML
+    private void giveARating(ActionEvent event)
+    {
+        openWindow(null, "views/PersonalRatingView.fxml", "Give a personal rating");
+    }
 }
+
+

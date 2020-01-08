@@ -34,17 +34,17 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button layoutX="530.0" layoutY="286.0" mnemonicParsing="false" stylesheets="@style/buttonCss.css" text="Button" textFill="WHITE">
+      <Button layoutX="530.0" layoutY="286.0" mnemonicParsing="false" stylesheets="@style/buttonCss.css" text="Play Movie" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Hyperlink layoutX="594.0" layoutY="287.0" text="Hyperlink" />
+      <Hyperlink layoutX="615.0" layoutY="287.0" text="Hyperlink" />
       <ImageView fitHeight="268.0" fitWidth="200.0" layoutX="709.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" />
       <Text layoutX="533.0" layoutY="60.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personal Rating" />
       <Text layoutX="530.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDb rating" />
       <TextArea layoutX="530.0" layoutY="335.0" prefHeight="268.0" prefWidth="366.0" />
-      <Text layoutX="530.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year" />
-      <Text layoutX="530.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Runtime" />
+      <Text layoutX="530.0" layoutY="213.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Year:" />
+      <Text layoutX="530.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Runtime: " />
       <ComboBox fx:id="categoryComboBox" layoutX="73.0" layoutY="87.0" prefHeight="25.0" prefWidth="160.0" promptText="Category" />
       <TextField layoutX="73.0" layoutY="35.0" prefHeight="25.0" prefWidth="403.0" promptText="Search" />
       <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="454.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
@@ -52,5 +52,6 @@
             <Image url="@image/magnifying-glass%20(6).png" />
          </image>
       </ImageView>
+      <Button fx:id="rateMeButton" layoutX="549.0" layoutY="100.0" mnemonicParsing="false" onAction="#giveARating" text="Give a personal rating" />
    </children>
 </AnchorPane>
