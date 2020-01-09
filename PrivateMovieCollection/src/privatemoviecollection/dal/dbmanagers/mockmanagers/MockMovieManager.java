@@ -23,7 +23,7 @@ public class MockMovieManager implements MovieDalFacade
 
     public MockMovieManager()
     {
-        Rating rating = new Rating(7);
+        Rating rating = new Rating();
         Category action = new Category("Action");
         Category drama = new Category("Drama");
 
@@ -31,8 +31,10 @@ public class MockMovieManager implements MovieDalFacade
         batmanCategory.add(action);
         batmanCategory.add(drama);
 
-        Movie m1 = new Movie("Batman the dark knight", "Some guy", 200, 1999, "test", rating, batmanCategory);
+        Movie m1 = new Movie("Batman the dark knight",200,"test");
         m1.setId(4);
+        m1.getCategories().add(drama);
+        m1.getCategories().add(action);
 
         movies.add(m1);
 
@@ -78,13 +80,16 @@ public class MockMovieManager implements MovieDalFacade
         {
             if (m.getId() == movie.getId())
             {
-                m.setId(movie.getId());
                 m.setTitle(movie.getTitle());
                 m.setSeconds(movie.getSeconds());
                 m.setYear(movie.getYear());
                 m.setFilePath(movie.getFilePath());
                 m.setRating(movie.getRating());
                 m.setCategories(movie.getCategories());
+                m.setImageLink(movie.getImageLink());
+                m.setIMDbLink(movie.getIMDbLink());
+                m.setSummaryText(movie.getSummaryText());
+                        
                 return true;
             }
 
@@ -115,7 +120,7 @@ public class MockMovieManager implements MovieDalFacade
         List<Movie> searchMatches = new ArrayList<>();
         for (Movie movie : movies)
         {
-            if (movie.getTitle().contains(searchTerm) || movie.getDirector().contains(searchTerm))
+            if (movie.getTitle().contains(searchTerm))
             {
                 searchMatches.add(movie);
             }

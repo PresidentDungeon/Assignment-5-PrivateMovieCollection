@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="196.0" prefWidth="376.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.views.PersonalRatingViewController">
+<AnchorPane id="AnchorPane" prefHeight="196.0" prefWidth="376.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controllers.PersonalRatingController">
    <children>
       <Text layoutX="53.0" layoutY="64.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What will you rate 'this movie'?" />
       <Button fx:id="oneStar" layoutX="78.0" layoutY="103.0" mnemonicParsing="false" onAction="#oneStarRating" text="1" />

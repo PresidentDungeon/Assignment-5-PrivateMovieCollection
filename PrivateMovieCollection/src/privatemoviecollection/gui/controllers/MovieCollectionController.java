@@ -5,9 +5,9 @@
  */
 package privatemoviecollection.gui.controllers;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
@@ -20,19 +20,18 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseDragEvent;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Duration;
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.gui.AppModel;
+import privatemoviecollection.gui.PrivateMovieCollection;
 
 /**
  *
@@ -58,6 +57,9 @@ public class MovieCollectionController implements Initializable
     @FXML
     private Text personalShow;
 
+    private ImageView playButton;
+
+
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
@@ -70,16 +72,22 @@ public class MovieCollectionController implements Initializable
             String allCategories = "";
             int loopPosition = 1;
 
-            for (Category category : movieCategories)
+            if (!movieCategories.isEmpty())
             {
-                allCategories += category.getName();
-
-                if (loopPosition != movieCategories.size())
+                for (Category category : movieCategories)
                 {
-                    allCategories += ", ";
-                }
+                    allCategories += category.getName();
 
-                loopPosition++;
+                    if (loopPosition != movieCategories.size())
+                    {
+                        allCategories += ", ";
+                    }
+
+                    loopPosition++;
+                }
+            } else
+            {
+                allCategories = "";
             }
 
             return new SimpleStringProperty(allCategories);
@@ -91,13 +99,25 @@ public class MovieCollectionController implements Initializable
 
     }
 
+    /**
+     * Event handler for the new movie button. Opens a new FXML view enabling movies to be
+     * added.
+     *
+     * @param event
+     */
     @FXML
-    private void addMovie(ActionEvent event) throws IOException
+    private void addMovie(ActionEvent event)
     {
         openWindow(null, "views/AddEditMovieView.fxml", "New Movie");
 
     }
 
+    /**
+     * Event handler for the edit movie button. Opens a new FXML view to edit the selected
+     * movie.
+     *
+     * @param event
+     */
     @FXML
     private void editMovie(ActionEvent event)
     {
@@ -124,11 +144,12 @@ public class MovieCollectionController implements Initializable
             fxmlLoader.setLocation(AppModel.class.getResource(viewFXML));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
+            stage.getIcons().add(new Image(PrivateMovieCollection.class.getResourceAsStream("views/image/multimedia.png")));
 
             if (movie != null)
             {
                 AddEditMovieController controller = fxmlLoader.getController();
-                controller.setText(movie);
+                controller.setText(movie, "");
             }
 
             stage.setTitle(windowMessage);
@@ -137,9 +158,28 @@ public class MovieCollectionController implements Initializable
             stage.initOwner(tableMovies.getScene().getWindow());
             stage.show();
 
-        } catch (IOException ex)
+            if (movie == null)
+            {
+                TextInputDialog td = new TextInputDialog();
+                td.setTitle("Confirmation");
+                td.setHeaderText(null);
+                td.setContentText("Do you want to enter the IMDb link to store information?");
+                Optional<String> IMDBLink = td.showAndWait();
+                stage.getIcons().add(new Image(PrivateMovieCollection.class.getResourceAsStream("views/image/multimedia.png")));
+                if (IMDBLink.isPresent())
+                {
+                    if (IMDBLink.get().equalsIgnoreCase(""))
+                    {
+                        appModel.openErrorBox("Category name is empty");
+                    } else
+                    {
+                        AddEditMovieController controller = fxmlLoader.getController();
+                        controller.setText(null, IMDBLink.get());
+                    }
+                }
+            }
+        } catch (Exception ex)
         {
-
         }
     }
 
@@ -152,15 +192,14 @@ public class MovieCollectionController implements Initializable
 
     }
 
-
-    
-    
-    
     @FXML
     private void giveARating(ActionEvent event)
     {
         openWindow(null, "views/PersonalRatingView.fxml", "Give a personal rating");
     }
+
+    @FXML
+    private void playMovie(MouseEvent event) {
+        
+    }
 }
-
-

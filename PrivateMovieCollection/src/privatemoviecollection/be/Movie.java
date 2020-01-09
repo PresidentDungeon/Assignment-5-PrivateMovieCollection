@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.util.Duration;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 /**
  *
@@ -22,23 +26,23 @@ public class Movie
 
     private int id;
     private String title;
-    private String director;
     private int seconds;
     private int year;
     private String filePath;
+    private String IMDbLink;
     private Date lastView;
     private Rating rating;
     private ArrayList<Category> categories;
+    private String summaryText;
+    private String imageLink;
 
-    public Movie(String title, String director, int seconds, int year, String filePath, Rating rating, ArrayList<Category> categories)
+    public Movie(String title,int seconds,String filePath)
     {
         this.title = title;
-        this.director = director;
         this.seconds = seconds;
-        this.year = year;
         this.filePath = filePath;
-        this.rating = rating;
-        this.categories = categories;
+        this.categories = new ArrayList<>();
+        this.rating = new Rating();
     }
 
     public int getId()
@@ -59,16 +63,6 @@ public class Movie
     public void setTitle(String title)
     {
         this.title = title;
-    }
-
-    public String getDirector()
-    {
-        return director;
-    }
-
-    public void setDirector(String director)
-    {
-        this.director = director;
     }
 
     public int getSeconds()
@@ -146,6 +140,38 @@ public class Movie
         this.categories = categories;
     }
 
+    public String getIMDbLink()
+    {
+        return IMDbLink;
+    }
+
+    public void setIMDbLink(String IMDbLink)
+    {
+        this.IMDbLink = IMDbLink;
+    }
+
+    public String getSummaryText()
+    {
+        return summaryText;
+    }
+
+    public void setSummaryText(String summaryText)
+    {
+        this.summaryText = summaryText;
+    }
+
+    public String getImageLink()
+    {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink)
+    {
+        this.imageLink = imageLink;
+    }
+    
+    
+
     @Override
     public String toString()
     {
@@ -165,94 +191,16 @@ public class Movie
             loopPosition++;
 
         }
+       
         return title + ", Id: " + id + "- " + allCategories;
     }
     
     public static void main(String[] args) throws IOException {
         
-        File file = new File("Movie\\y2mate.com - nature_short_clip_video_07m_bT5_OrU_1080p.mp4");
+        File file = new File("Movie\\Nature short clip video.mp4");
         Desktop.getDesktop().open(file);
+             
     }
 
 }
 
-              //Getting rating with /10
-              
-//              
-//                     String url = "https://www.imdb.com/title/tt8111088/";
-//
-//              Document document = Jsoup.connect(url).get();
-//              
-//              for (Element element : document.select("div.ratingValue"))
-//              {
-//                            System.out.println(element.select(".ratingValue").text());
-//                  
-////                            System.out.println(element.text());
-//              }
-
-
-
-              
-                //Getting rating without /10
-                
-//                       String url = "https://www.imdb.com/title/tt5180504/";
-//
-//              Document document = Jsoup.connect(url).get();
-//              
-//              for (Element element : document.select("span[itemprop=ratingValue]"))
-//              {
-//                            System.out.println(element.text());
-//
-//              }
-
-                //Getting the summary text
-                
-//              String url = "https://www.imdb.com/title/tt5180504/";
-//
-//              Document document = Jsoup.connect(url).get();
-//              
-//              for (Element element : document.select("div.summary_text"))
-//              {
-//                            System.out.println(element.text());
-//
-//              }
-       
-                //Getting the title
-                
-//              String url = "https://www.imdb.com/title/tt5180504/";
-//
-//              Document document = Jsoup.connect(url).get();
-//              
-//              for (Element element : document.select("h1"))
-//              {
-//                            System.out.println(element.text());
-//
-//              }
-
-                //Getting director(s)
-                
-//              String url = "https://www.imdb.com/title/tt0944947/";
-
-//              Document document = Jsoup.connect(url).get();
-//              
-//              Element creators = document.getElementsByClass("credit_summary_item").first();
-//              Elements creatorName = creators.getElementsByTag("a");
-//              
-//              for (Element ele : creatorName)
-//              {
-//                  System.out.println(ele.text());
-//              }
-
-            //Save image link
-            
-//              String url = "https://www.imdb.com/title/tt5180504/";
-//
-//              Document document = Jsoup.connect(url).get();
-//              
-//              Elements divs = document.getElementsByClass("poster");
-//              Element poster = divs.first();
-//              Elements img = poster.getElementsByTag("img");
-//              String imageLink = img.attr("src");
-//              
-//              System.out.println(imageLink);
-   
