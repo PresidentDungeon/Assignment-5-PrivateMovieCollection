@@ -20,6 +20,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -57,7 +58,11 @@ public class MovieCollectionController implements Initializable
     @FXML
     private Text personalShow;
 
+    @FXML
     private ImageView playButton;
+    @FXML
+    private TextField txt_search;
+    
 
 
     @Override
@@ -200,6 +205,11 @@ public class MovieCollectionController implements Initializable
 
     @FXML
     private void playMovie(MouseEvent event) {
+        
+    }
+
+    @FXML
+    private void handleSearchMovie(ActionEvent event){
         
     }
 }

@@ -121,6 +121,7 @@ public class AddEditMovieController implements Initializable
             appModel.openErrorBox(String.format("%s%n%s", "The movie failed to save or update.",
                     "Please check that all information is entered correctly."));
         }
+        
     }
     
     @FXML
