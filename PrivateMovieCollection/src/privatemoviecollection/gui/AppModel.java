@@ -94,8 +94,7 @@ public class AppModel
                 {
                 Category cat = new Category(categoryName.get());
                 categoryManager.saveCategory(cat);
-                categories.add(cat);
-//                fetchCategories();
+                fetchCategories();
                 }
                 else
                 {
@@ -145,6 +144,30 @@ public class AppModel
             alert.close();
             return false;
         }
+    }
+    
+    /**
+     * Saves the movie to the database.
+     *
+     * @param movie the movie to be saved
+     * @return true if saved, otherwise false
+     */
+    public boolean saveMovie(Movie movie) {
+        movieManager.saveMovie(movie);
+        fetchMovies();
+        return true;
+    }
+    
+     /**
+     * Deletes the movie from the database.
+     *
+     * @param movie the movie to be removed
+     * @return true if removed, otherwise false
+     */
+    public boolean DeleteMovie(Movie movie) {
+        movieManager.deleteMovie(movie);
+        fetchMovies();
+        return true;
     }
 
     public void openErrorBox(String contentText)

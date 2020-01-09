@@ -130,6 +130,10 @@ public class CategoryDBDAO implements CategoryDalFacade
             String sql = "DELETE FROM Categories WHERE id = ?;";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, category.getId());
+            stmt.executeUpdate();
+            sql = "DELETE FROM CatMovies WHERE CategoryID = ?;";
+            stmt = con.prepareStatement(sql);
+            stmt.setInt(1, category.getId());
             int updatedRows = stmt.executeUpdate();
             return updatedRows > 0;
         } catch (SQLServerException ex) {

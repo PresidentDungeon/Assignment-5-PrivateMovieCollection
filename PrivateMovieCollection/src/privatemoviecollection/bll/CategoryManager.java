@@ -27,9 +27,19 @@ public class CategoryManager
 
     public List<Category> getAllCategories()
     {
-        return categoryManager.readAllCategories();
+        List<Category> sortedList = categoryManager.readAllCategories();
+        sortedList.sort((c1, c2) -> {return c1.getName().compareToIgnoreCase(c2.getName());});
+        return sortedList;
     }
 
+   /**
+     * Checks the category Id.If the category has an Id of zero, a new category will be
+     * added to the database. If the category already exists in the database and has
+     * an Id, the categories instance variables will be updated in the database.
+     *
+     * @param category the category to be added or updated.
+     * @return true if the category was added or updated
+     */
     public boolean saveCategory(Category category)
     {
         if (category.getId() == 0)
@@ -41,6 +51,12 @@ public class CategoryManager
         }
     }
 
+    /**
+     * Deletes the selected category from the database
+     *
+     * @param category The category to be deleted
+     * @return true if the category was deleted
+     */
     public boolean deleteCategory(Category category)
     {
         return categoryManager.deleteCategory(category);

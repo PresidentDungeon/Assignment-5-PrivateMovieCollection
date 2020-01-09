@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="665.0" prefWidth="941.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controllers.MovieCollectionController">
+<AnchorPane id="AnchorPane" onMouseEntered="#updateAll" prefHeight="665.0" prefWidth="941.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controllers.MovieCollectionController">
    <children>
       <TableView fx:id="tableMovies" layoutX="73.0" layoutY="142.0" prefHeight="447.0" prefWidth="403.0" stylesheets="@style/Tableview.css">
         <columns>
@@ -31,7 +31,7 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button layoutX="417.0" layoutY="609.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Delete" textFill="WHITE">
+      <Button layoutX="417.0" layoutY="609.0" mnemonicParsing="false" onAction="#deleteMovie" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Delete" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>

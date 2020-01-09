@@ -13,7 +13,7 @@ public class Rating
 {
 
     private int userRating;
-    private double IMDBRating;
+    private float IMDBRating;
 
     public int getUserRating()
     {
@@ -25,12 +25,12 @@ public class Rating
         this.userRating = userRating;
     }
 
-    public double getIMDBRating()
+    public float getIMDBRating()
     {
         return IMDBRating;
     }
 
-    public void setIMDBRating(double IMDBRating)
+    public void setIMDBRating(float IMDBRating)
     {
         this.IMDBRating = IMDBRating;
     }

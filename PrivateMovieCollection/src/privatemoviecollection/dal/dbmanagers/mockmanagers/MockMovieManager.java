@@ -31,7 +31,7 @@ public class MockMovieManager implements MovieDalFacade
         batmanCategory.add(action);
         batmanCategory.add(drama);
 
-        Movie m1 = new Movie("Batman the dark knight",200,"test");
+        Movie m1 = new Movie("Batman the dark knight",200, 2008, "test");
         m1.setId(4);
         m1.getCategories().add(drama);
         m1.getCategories().add(action);

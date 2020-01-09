@@ -5,6 +5,7 @@
  */
 package privatemoviecollection.gui.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -42,6 +43,7 @@ public class MovieCollectionController implements Initializable
 
     private final AppModel appModel = new AppModel();
     private Label label;
+    private boolean mustRefresh = false;
     @FXML
     private TableView<Movie> tableMovies;
     @FXML
@@ -57,8 +59,8 @@ public class MovieCollectionController implements Initializable
     @FXML
     private Text personalShow;
 
+    @FXML
     private ImageView playButton;
-
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -95,7 +97,9 @@ public class MovieCollectionController implements Initializable
         });
 
         tableMovies.setItems(appModel.getMovieList());
-        updateCategoryBox();
+        categoryComboBox.setItems(appModel.getCategoryList());
+                    Category c = new Category("All");
+            categoryComboBox.getItems().add(0, c);
 
     }
 
@@ -108,7 +112,7 @@ public class MovieCollectionController implements Initializable
     @FXML
     private void addMovie(ActionEvent event)
     {
-        openWindow(null, "views/AddEditMovieView.fxml", "New Movie");
+        openAddEditMovieController(null);
 
     }
 
@@ -123,25 +127,32 @@ public class MovieCollectionController implements Initializable
     {
         if (tableMovies.getSelectionModel().getSelectedItem() != null)
         {
-            openWindow(tableMovies.getSelectionModel().getSelectedItem(), "views/AddEditMovieView.fxml", "New/Edit Movie");
+            openAddEditMovieController(tableMovies.getSelectionModel().getSelectedItem());
         }
 
     }
 
+    @FXML
+    private void deleteMovie(ActionEvent event)
+    {
+        appModel.DeleteMovie(tableMovies.getSelectionModel().getSelectedItem());
+    }
+
     /**
-     * Loads a new FXML view as a window from a primary stage
+     * Loads the OpenAddEditMovie view as a window from a primary stage. If the "add" movie
+     * button is pressed, a popup will ask the user if they want to enter the movies IMDB link
+     * to store extra information. If the "edit" movie button is pressed, the FXMLLoader 
+     * will load the stage and the selected movies data will be stored.
      *
      * @param movie the movie object selected on the tableColumn
-     * @param viewFXML the FXML file that should be viewed as a window
-     * @param windowMessage the title of the window
      */
-    public void openWindow(Movie movie, String viewFXML, String windowMessage)
+    public void openAddEditMovieController(Movie movie)
     {
-
+        mustRefresh = true;
         try
         {
             FXMLLoader fxmlLoader = new FXMLLoader();
-            fxmlLoader.setLocation(AppModel.class.getResource(viewFXML));
+            fxmlLoader.setLocation(AppModel.class.getResource("views/AddEditMovieView.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             stage.getIcons().add(new Image(PrivateMovieCollection.class.getResourceAsStream("views/image/multimedia.png")));
@@ -152,7 +163,7 @@ public class MovieCollectionController implements Initializable
                 controller.setText(movie, "");
             }
 
-            stage.setTitle(windowMessage);
+            stage.setTitle("New/Edit Movie");
             stage.setScene(scene);
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(tableMovies.getScene().getWindow());
@@ -178,18 +189,9 @@ public class MovieCollectionController implements Initializable
                     }
                 }
             }
-        } catch (Exception ex)
+        } catch (IOException ex)
         {
         }
-    }
-
-    private void updateCategoryBox()
-    {
-        categoryComboBox.getItems().clear();
-//        Category allCategory = new Category("All");
-        categoryComboBox.setItems(appModel.getCategoryList());
-//        categoryComboBox.getItems().add(allCategory);
-
     }
 
     @FXML
@@ -199,7 +201,24 @@ public class MovieCollectionController implements Initializable
     }
 
     @FXML
-    private void playMovie(MouseEvent event) {
-        
+    private void playMovie(MouseEvent event)
+    {
+
     }
+
+    @FXML
+    private void updateAll(MouseEvent event)
+    {
+        if (mustRefresh)
+        {
+            appModel.fetchCategories();
+            appModel.fetchMovies();
+            Category c = new Category("All");
+            categoryComboBox.getItems().add(0, c);
+            categoryComboBox.getSelectionModel().select(0);
+            mustRefresh = false;
+        }
+
+    }
+
 }

@@ -8,14 +8,9 @@ package privatemoviecollection.be;
 import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.util.Duration;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 /**
  *
@@ -30,17 +25,18 @@ public class Movie
     private int year;
     private String filePath;
     private String IMDbLink;
-    private Date lastView;
+    private LocalDate lastView;
     private Rating rating;
     private ArrayList<Category> categories;
     private String summaryText;
     private String imageLink;
 
-    public Movie(String title,int seconds,String filePath)
+    public Movie(String title,int seconds,int year, String filePath)
     {
         this.title = title;
         this.seconds = seconds;
         this.filePath = filePath;
+        this.year = year;
         this.categories = new ArrayList<>();
         this.rating = new Rating();
     }
@@ -110,12 +106,12 @@ public class Movie
         this.filePath = filePath;
     }
 
-    public Date getLastView()
+    public LocalDate getLastView()
     {
         return lastView;
     }
 
-    public void setLastView(Date lastView)
+    public void setLastView(LocalDate lastView)
     {
         this.lastView = lastView;
     }

@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -51,7 +52,7 @@ public class AddEditMovieController implements Initializable
     private String currentPosterLink;
     private String currentIMDBLink;
     private int currentTimeInSeconds;
-    private Date currentDate;
+    private LocalDate currentDate;
     @FXML
     private TextField titleString;
     @FXML
@@ -83,7 +84,7 @@ public class AddEditMovieController implements Initializable
     }
     
     @FXML
-    private void saveSong(ActionEvent event) throws NumberFormatException
+    private void saveMovie(ActionEvent event) throws NumberFormatException
     {
         try
         {
@@ -104,7 +105,7 @@ public class AddEditMovieController implements Initializable
                 
             } else
             {                
-                Movie movie = new Movie(title, seconds, filePath);
+                Movie movie = new Movie(title, seconds, releaseYear, filePath);
                 movie.setId(currentId);
                 movie.setSeconds(currentTimeInSeconds);
                 movie.setIMDbLink(currentIMDBLink);
@@ -114,7 +115,8 @@ public class AddEditMovieController implements Initializable
                 movie.setLastView(currentDate);
                 movie.setCategories(categories);
                 
-                System.out.println(movie);
+                appModel.saveMovie(movie);
+                cancel(event);
             }
         } catch (NumberFormatException ex)
         {
@@ -145,6 +147,7 @@ public class AddEditMovieController implements Initializable
                 Path pathToProject = Paths.get(System.getProperty("user.dir"));
                 Path relativePath = pathToProject.relativize(absolutePath);
                 fileString.setText(relativePath.toString());
+                currentDate = LocalDate.now();
             } else
             {
                 fileString.setText(selectedFile.getAbsolutePath());
@@ -215,8 +218,6 @@ public class AddEditMovieController implements Initializable
             timeInt.setText(movie.formatSeconds());
             fileString.setText(movie.getFilePath());
 
-            //Right now the category matches if the name of two categories are identical. Maybe
-            //this should be changed, so that it matches for ID instead?
             if (!movie.getCategories().isEmpty())
             {
                 for (Category category : movie.getCategories())
@@ -246,7 +247,7 @@ public class AddEditMovieController implements Initializable
             //gets the rating from IMDb
             element = document.select("span[itemprop=ratingValue]").first();
             currentRating = new Rating();
-            currentRating.setIMDBRating(Double.parseDouble(element.text()));
+            currentRating.setIMDBRating(Float.parseFloat(element.text()));
             //gets the movie description
             element = document.select("div.summary_text").first();
             currentSummaryText = element.text();
