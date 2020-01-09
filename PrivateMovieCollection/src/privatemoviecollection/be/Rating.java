@@ -35,4 +35,11 @@ public class Rating
         this.IMDBRating = IMDBRating;
     }
 
+    @Override
+    public String toString()
+    {
+        return "Rating{" + "userRating=" + userRating + ", IMDBRating=" + IMDBRating + '}';
+    }
+
+    
 }

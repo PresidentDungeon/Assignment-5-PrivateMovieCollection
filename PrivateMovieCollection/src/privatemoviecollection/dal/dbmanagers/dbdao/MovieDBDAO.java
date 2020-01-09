@@ -112,7 +112,7 @@ public class MovieDBDAO implements MovieDalFacade
                 String IMDBLink = rs.getString("IMDBLink");
                 String lastView = rs.getString("LastView");
                 int personalRating = rs.getInt("PersonalRating");
-                int IMDBRating = rs.getInt("IMDBRating");
+                float IMDBRating = rs.getFloat("IMDBRating");
                 String summaryText = rs.getString("SummaryText");
                 String imageLink = rs.getString("ImageLink");
                 
@@ -121,12 +121,11 @@ public class MovieDBDAO implements MovieDalFacade
                 m.setIMDbLink(IMDBLink);
                 m.setLastView(LocalDate.parse(lastView));
                 m.getRating().setUserRating(personalRating);
-                m.getRating().setUserRating(IMDBRating);
+                m.getRating().setIMDBRating(IMDBRating);
                 m.setSummaryText(summaryText);
                 m.setImageLink(imageLink);
                 m.setCategories(readAllMovieCategories(m));
                 movies.add(m);
-                
             }
             return movies;
         } catch (SQLServerException ex) {

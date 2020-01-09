@@ -92,24 +92,22 @@ public class AppModel
             {
                 if (category == null)
                 {
-                Category cat = new Category(categoryName.get());
-                categoryManager.saveCategory(cat);
-                fetchCategories();
-                }
-                else
+                    Category cat = new Category(categoryName.get());
+                    categoryManager.saveCategory(cat);
+                    fetchCategories();
+                } else
                 {
-                category.setName(categoryName.get());
-                categoryManager.saveCategory(category);
-                fetchCategories();
+                    category.setName(categoryName.get());
+                    categoryManager.saveCategory(category);
+                    fetchCategories();
                 }
-                
-                
+
                 return true;
             }
         }
         return false;
     }
-    
+
     public boolean deleteCategory(List<Category> categories)
     {
         String categoriesForDeletion = "";
@@ -145,29 +143,46 @@ public class AppModel
             return false;
         }
     }
-    
+
     /**
      * Saves the movie to the database.
      *
      * @param movie the movie to be saved
      * @return true if saved, otherwise false
      */
-    public boolean saveMovie(Movie movie) {
+    public boolean saveMovie(Movie movie)
+    {
         movieManager.saveMovie(movie);
         fetchMovies();
         return true;
     }
-    
-     /**
+
+    /**
      * Deletes the movie from the database.
      *
      * @param movie the movie to be removed
      * @return true if removed, otherwise false
      */
-    public boolean DeleteMovie(Movie movie) {
-        movieManager.deleteMovie(movie);
-        fetchMovies();
-        return true;
+    public boolean DeleteMovie(Movie movie)
+    {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initStyle(StageStyle.UTILITY);
+        alert.setTitle("Confirm delete");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to delete movie "
+                + movie.getTitle() + "?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK)
+        {
+            movieManager.deleteMovie(movie);
+            fetchMovies();
+            return true;
+        } else
+        {
+            alert.close();
+            return false;
+        }
+
     }
 
     public void openErrorBox(String contentText)

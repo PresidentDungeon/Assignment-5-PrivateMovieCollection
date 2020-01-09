@@ -31,7 +31,7 @@ public class Movie
     private String summaryText;
     private String imageLink;
 
-    public Movie(String title,int seconds,int year, String filePath)
+    public Movie(String title, int seconds, int year, String filePath)
     {
         this.title = title;
         this.seconds = seconds;
@@ -70,20 +70,45 @@ public class Movie
     {
         this.seconds = seconds;
     }
-    
-        /**
-     * Transforms the seconds int variable into a String.
-     * Example: 130 becomes "02:10"
+
+    /**
+     * Transforms the seconds int variable into a String. Example: 130 becomes "02:10"
+     *
      * @return String with minutes/seconds in format ##.##
      */
     public String formatSeconds()
     {
         Duration duration = Duration.seconds(getSeconds());
-            String durationString = String.format("%02d:%02d:%02d",
-                    (int) duration.toHours() % 60,
-                    (int) duration.toMinutes() % 60,
-                    (int) duration.toSeconds() % 60);
-            return durationString;
+        String durationString = String.format("%02d:%02d:%02d",
+                (int) duration.toHours() % 60,
+                (int) duration.toMinutes() % 60,
+                (int) duration.toSeconds() % 60);
+        return durationString;
+    }
+
+    public String formatCategories()
+    {
+        ArrayList<Category> movieCategories = getCategories();
+        String allCategories = "";
+        int loopPosition = 1;
+
+        if (!movieCategories.isEmpty())
+        {
+            for (Category category : movieCategories)
+            {
+                allCategories += category.getName();
+
+                if (loopPosition != movieCategories.size())
+                {
+                    allCategories += ", ";
+                }
+                loopPosition++;
+            }
+        } else
+        {
+            allCategories = "";
+        }
+        return allCategories;
     }
 
     public int getYear()
@@ -165,8 +190,6 @@ public class Movie
     {
         this.imageLink = imageLink;
     }
-    
-    
 
     @Override
     public String toString()
@@ -187,16 +210,16 @@ public class Movie
             loopPosition++;
 
         }
-       
+
         return title + ", Id: " + id + "- " + allCategories;
     }
-    
-    public static void main(String[] args) throws IOException {
-        
+
+    public static void main(String[] args) throws IOException
+    {
+
         File file = new File("Movie\\Nature short clip video.mp4");
         Desktop.getDesktop().open(file);
-             
+
     }
 
 }
-

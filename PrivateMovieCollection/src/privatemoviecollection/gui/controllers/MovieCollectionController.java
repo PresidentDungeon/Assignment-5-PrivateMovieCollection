@@ -18,9 +18,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -64,7 +66,24 @@ public class MovieCollectionController implements Initializable
     private ImageView playButton;
     @FXML
     private TextField txt_search;
-    
+    @FXML
+    private Hyperlink imdbLink;
+    @FXML
+    private ImageView posterImage;
+    @FXML
+    private TextArea imdbRating;
+    @FXML
+    private TextArea personalRating;
+    @FXML
+    private TextArea movieTitle;
+    @FXML
+    private TextArea movieTime;
+    @FXML
+    private TextArea movieCategories;
+    @FXML
+    private TextArea movieRelease;
+    @FXML
+    private TextArea movieDescription;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -74,36 +93,14 @@ public class MovieCollectionController implements Initializable
         columnMovieGenre.setCellValueFactory((data) ->
         {
             Movie movie = data.getValue();
-            ArrayList<Category> movieCategories = movie.getCategories();
-            String allCategories = "";
-            int loopPosition = 1;
-
-            if (!movieCategories.isEmpty())
-            {
-                for (Category category : movieCategories)
-                {
-                    allCategories += category.getName();
-
-                    if (loopPosition != movieCategories.size())
-                    {
-                        allCategories += ", ";
-                    }
-
-                    loopPosition++;
-                }
-            } else
-            {
-                allCategories = "";
-            }
-
-            return new SimpleStringProperty(allCategories);
+            return new SimpleStringProperty(movie.formatCategories());
 
         });
 
         tableMovies.setItems(appModel.getMovieList());
         categoryComboBox.setItems(appModel.getCategoryList());
-                    Category c = new Category("All");
-            categoryComboBox.getItems().add(0, c);
+        Category c = new Category("All");
+        categoryComboBox.getItems().add(0, c);
 
     }
 
@@ -139,14 +136,17 @@ public class MovieCollectionController implements Initializable
     @FXML
     private void deleteMovie(ActionEvent event)
     {
-        appModel.DeleteMovie(tableMovies.getSelectionModel().getSelectedItem());
+        if (tableMovies.getSelectionModel().isEmpty() != true)
+        {
+            appModel.DeleteMovie(tableMovies.getSelectionModel().getSelectedItem());
+        }
     }
 
     /**
-     * Loads the OpenAddEditMovie view as a window from a primary stage. If the "add" movie
-     * button is pressed, a popup will ask the user if they want to enter the movies IMDB link
-     * to store extra information. If the "edit" movie button is pressed, the FXMLLoader 
-     * will load the stage and the selected movies data will be stored.
+     * Loads the OpenAddEditMovie view as a window from a primary stage. If the "add"
+     * movie button is pressed, a popup will ask the user if they want to enter the movies
+     * IMDB link to store extra information. If the "edit" movie button is pressed, the
+     * FXMLLoader will load the stage and the selected movies data will be stored.
      *
      * @param movie the movie object selected on the tableColumn
      */
@@ -202,18 +202,18 @@ public class MovieCollectionController implements Initializable
     private void giveARating(ActionEvent event) throws IOException
     {
         Movie movie = tableMovies.getSelectionModel().getSelectedItem();
-        
+
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(AppModel.class.getResource("views/PersonalRatingView.fxml"));
-            Scene scene = new Scene(fxmlLoader.load());
-            Stage stage = new Stage();
-            PersonalRatingController controller = fxmlLoader.getController();
-            controller.setText(movie);
-            stage.setTitle("Give a personal rating.");
-            stage.setScene(scene);
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(tableMovies.getScene().getWindow());
-            stage.show();
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        PersonalRatingController controller = fxmlLoader.getController();
+        controller.setText(movie);
+        stage.setTitle("Give a personal rating.");
+        stage.setScene(scene);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(tableMovies.getScene().getWindow());
+        stage.show();
     }
 
     @FXML
@@ -232,12 +232,35 @@ public class MovieCollectionController implements Initializable
     }
 
     @FXML
-    private void handleSearchMovie(ActionEvent event){
-        
+    private void handleSearchMovie(ActionEvent event)
+    {
+
     }
 
     @FXML
     private void playMovie(MouseEvent event)
     {
+    }
+
+    @FXML
+    private void updateMovie(MouseEvent event)
+    {
+        if (!tableMovies.getSelectionModel().isEmpty())
+        {
+            Movie selectedMovie = tableMovies.getSelectionModel().getSelectedItem();
+            movieTitle.setText(selectedMovie.getTitle());
+            movieTime.setText(selectedMovie.formatSeconds());
+            movieCategories.setText(selectedMovie.formatCategories());
+            movieRelease.setText(selectedMovie.getYear() + "");
+            personalRating.setText(selectedMovie.getRating().getUserRating() + "");
+            imdbRating.setText(selectedMovie.getRating().getIMDBRating() + "");
+            imdbLink.setText(selectedMovie.getIMDbLink());
+            movieDescription.setText(selectedMovie.getSummaryText());
+            if (!selectedMovie.getImageLink().equalsIgnoreCase(""))
+            {
+                Image poster = new Image(selectedMovie.getImageLink());
+                posterImage.setImage(poster);
+            }
+        }
     }
 }
