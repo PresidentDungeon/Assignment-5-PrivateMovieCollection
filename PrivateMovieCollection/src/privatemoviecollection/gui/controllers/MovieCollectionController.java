@@ -5,6 +5,7 @@
  */
 package privatemoviecollection.gui.controllers;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
@@ -198,9 +199,21 @@ public class MovieCollectionController implements Initializable
     }
 
     @FXML
-    private void giveARating(ActionEvent event)
+    private void giveARating(ActionEvent event) throws IOException
     {
-        openWindow(null, "views/PersonalRatingView.fxml", "Give a personal rating");
+        Movie movie = tableMovies.getSelectionModel().getSelectedItem();
+        
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(AppModel.class.getResource("views/PersonalRatingView.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            PersonalRatingController controller = fxmlLoader.getController();
+            controller.setText(movie);
+            stage.setTitle("Give a personal rating.");
+            stage.setScene(scene);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(tableMovies.getScene().getWindow());
+            stage.show();
     }
 
     @FXML

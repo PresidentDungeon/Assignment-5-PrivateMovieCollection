@@ -7,9 +7,9 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" prefHeight="196.0" prefWidth="368.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controllers.PersonalRatingController">
+<AnchorPane id="AnchorPane" fx:id="reviewView" prefHeight="157.0" prefWidth="368.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controllers.PersonalRatingController">
    <children>
-      <Text layoutX="94.0" layoutY="68.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What will you rate 'this movie'?" />
+      <Text fx:id="headlineMovie" layoutX="16.0" layoutY="59.0" strokeType="OUTSIDE" strokeWidth="0.0" text="What will you rate 'this movie'?" />
       <ImageView fx:id="oneStar" fitHeight="26.0" fitWidth="26.0" layoutX="14.0" layoutY="94.0" onMouseClicked="#oneStarRating" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@image/star.png" />
@@ -18,7 +18,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <ImageView fx:id="twoStar" fitHeight="26.0" fitWidth="26.0" layoutX="46.0" layoutY="94.0" onMouseClicked="#twoStarRating" pickOnBounds="true" preserveRatio="true">
+      <ImageView fx:id="twoStar" fitHeight="26.0" fitWidth="26.0" layoutX="50.0" layoutY="94.0" onMouseClicked="#twoStarRating" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@image/star.png" />
          </image>
@@ -90,12 +90,7 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </ImageView>
-      <Label layoutX="24.0" layoutY="98.0" text="1" textFill="#f3f3f3">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Label>
-      <Label layoutX="56.0" layoutY="98.0" text="2" textFill="#f3f3f3">
+      <Label layoutX="60.0" layoutY="99.0" text="2" textFill="#f3f3f3">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
@@ -136,6 +131,11 @@
          </cursor>
       </Label>
       <Label layoutX="335.0" layoutY="98.0" text="10" textFill="#f3f3f3">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Label>
+      <Label layoutX="24.0" layoutY="98.0" text="1" textFill="#f3f3f3">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
