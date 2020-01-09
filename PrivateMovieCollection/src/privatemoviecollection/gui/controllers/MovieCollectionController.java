@@ -21,6 +21,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
@@ -61,6 +62,9 @@ public class MovieCollectionController implements Initializable
 
     @FXML
     private ImageView playButton;
+    @FXML
+    private TextField txt_search;
+    
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -201,9 +205,21 @@ public class MovieCollectionController implements Initializable
     }
 
     @FXML
-    private void playMovie(MouseEvent event)
+    private void giveARating(ActionEvent event) throws IOException
     {
-
+        Movie movie = tableMovies.getSelectionModel().getSelectedItem();
+        
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(AppModel.class.getResource("views/PersonalRatingView.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            PersonalRatingController controller = fxmlLoader.getController();
+            controller.setText(movie);
+            stage.setTitle("Give a personal rating.");
+            stage.setScene(scene);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(tableMovies.getScene().getWindow());
+            stage.show();
     }
 
     @FXML
@@ -221,4 +237,8 @@ public class MovieCollectionController implements Initializable
 
     }
 
+    @FXML
+    private void handleSearchMovie(ActionEvent event){
+        
+    }
 }

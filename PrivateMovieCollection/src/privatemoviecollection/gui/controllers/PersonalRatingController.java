@@ -7,10 +7,15 @@ package privatemoviecollection.gui.controllers;
 
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.text.Text;
+import javafx.stage.Stage;
+import privatemoviecollection.be.Movie;
+import privatemoviecollection.be.Rating;
 
 /**
  * FXML Controller class
@@ -21,25 +26,32 @@ public class PersonalRatingController implements Initializable
 {
 
     @FXML
-    private Button oneStar;
+    private ImageView oneStar;
     @FXML
-    private Button twoStar;
+    private ImageView twoStar;
     @FXML
-    private Button threeStar;
+    private ImageView threeStar;
     @FXML
-    private Button fourStar;
+    private ImageView fourStar;
     @FXML
-    private Button fiveStar;
+    private ImageView fiveStar;
     @FXML
-    private Button sixStar;
+    private ImageView sixStar;
     @FXML
-    private Button sevenStar;
+    private ImageView sevenStar;
     @FXML
-    private Button eightStar;
+    private ImageView eightStar;
     @FXML
-    private Button nineStar;
+    private ImageView nineStar;
     @FXML
-    private Button tenStar;
+    private ImageView tenStar;
+    
+    private Movie movie;
+    private Rating rating;
+    @FXML
+    private AnchorPane reviewView;
+    @FXML
+    private Text headlineMovie;
 
     /**
      * Initializes the controller class.
@@ -47,57 +59,113 @@ public class PersonalRatingController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        // TODO
+        
     }    
 
     @FXML
-    private void oneStarRating(ActionEvent event) //TODO setting 1/10 rating on selected movie.
+    private void oneStarRating(MouseEvent event) //TODO setting 1/10 rating on selected movie.
     {
+        movie.getId();
+        movie.getRating().setUserRating(1);
+        System.out.println(movie.getRating().getUserRating());
+        close();
     }
 
     @FXML
-    private void twoStarRating(ActionEvent event) //TODO setting 2/10 rating on selected movie.
+    private void twoStarRating(MouseEvent event) //TODO setting 2/10 rating on selected movie.
     {
+        movie.getId();
+        movie.getRating().setUserRating(2);
+        System.out.println(movie.getRating().getUserRating());
+        close();
     }
 
     @FXML
-    private void threeStarRating(ActionEvent event)
+    private void threeStarRating(MouseEvent event)
     {
+        movie.getId();
+        movie.getRating().setUserRating(3);
+        System.out.println(movie.getRating().getUserRating());
+        close();
     }
 
     @FXML
-    private void fourStarRating(ActionEvent event)
+    private void fourStarRating(MouseEvent event)
     {
+        movie.getId();
+        movie.getRating().setUserRating(4);
+        System.out.println(movie.getRating().getUserRating());
+        close();
     }
 
     @FXML
-    private void fiveStarRating(ActionEvent event)
+    private void sixStarRating(MouseEvent event)
     {
+        movie.getId();
+        movie.getRating().setUserRating(6);
+        System.out.println(movie.getRating().getUserRating());
+        close();
     }
 
     @FXML
-    private void sixStarRating(ActionEvent event)
+    private void sevenStarRating(MouseEvent event)
     {
+        movie.getId();
+        movie.getRating().setUserRating(7);
+        System.out.println(movie.getRating().getUserRating());
+        close();
     }
 
     @FXML
-    private void sevenStarRating(ActionEvent event)
+    private void eightStarRating(MouseEvent event)
     {
+        movie.getId();
+        movie.getRating().setUserRating(8);
+        System.out.println(movie.getRating().getUserRating());
+        close();
     }
 
     @FXML
-    private void eightStarRating(ActionEvent event)
+    private void nineStarRating(MouseEvent event)
     {
+        movie.getId();
+        movie.getRating().setUserRating(9);
+        System.out.println(movie.getRating().getUserRating());
+        close();
     }
 
     @FXML
-    private void nineStarRating(ActionEvent event)
+    private void tenStarRating(MouseEvent event)
     {
+        movie.getId();
+        movie.getRating().setUserRating(10);
+        System.out.println(movie.getRating().getUserRating());
+        close();
     }
 
     @FXML
-    private void tenStarRating(ActionEvent event)
+    private void fiveStarRating(MouseEvent event)
     {
+        movie.getId();
+        movie.getRating().setUserRating(5);
+        System.out.println(movie.getRating().getUserRating());
+        close();
     }
     
+    public void setText(Movie movie)
+    {
+        this.movie = movie;
+        headlineMovie.setText("What will you rate " + movie.getTitle() + "?");
+    }
+    
+    private void close ()
+    {
+        Stage stage = (Stage) reviewView.getScene().getWindow();
+        stage.close();
+    }
+    
+    public static void main(String[] args)
+    {
+        
+    }
 }
