@@ -51,12 +51,12 @@ public class PersonalRatingViewController implements Initializable
     }    
 
     @FXML
-    private void oneStarRating(ActionEvent event)
+    private void oneStarRating(ActionEvent event) //TODO setting 1/10 rating on selected movie.
     {
     }
 
     @FXML
-    private void twoStarRating(ActionEvent event)
+    private void twoStarRating(ActionEvent event) //TODO setting 2/10 rating on selected movie.
     {
     }
 

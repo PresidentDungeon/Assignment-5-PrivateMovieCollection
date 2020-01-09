@@ -23,6 +23,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseDragEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -54,6 +55,8 @@ public class MovieCollectionController implements Initializable
     private ComboBox<Category> categoryComboBox;
     @FXML
     private Button rateMeButton;
+    @FXML
+    private Text personalShow;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
