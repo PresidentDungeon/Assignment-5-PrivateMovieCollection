@@ -199,12 +199,6 @@ public class MovieCollectionController implements Initializable
     }
 
     @FXML
-    private void giveARating(ActionEvent event)
-    {
-        openWindow(null, "views/PersonalRatingView.fxml", "Give a personal rating");
-    }
-
-    @FXML
     private void giveARating(ActionEvent event) throws IOException
     {
         Movie movie = tableMovies.getSelectionModel().getSelectedItem();
@@ -240,5 +234,10 @@ public class MovieCollectionController implements Initializable
     @FXML
     private void handleSearchMovie(ActionEvent event){
         
+    }
+
+    @FXML
+    private void playMovie(MouseEvent event)
+    {
     }
 }
