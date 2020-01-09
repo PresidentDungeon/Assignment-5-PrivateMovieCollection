@@ -8,9 +8,14 @@ package privatemoviecollection.gui.controllers;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
 /**
  * FXML Controller class
@@ -21,25 +26,25 @@ public class PersonalRatingController implements Initializable
 {
 
     @FXML
-    private Button oneStar;
+    private ImageView oneStar;
     @FXML
-    private Button twoStar;
+    private ImageView twoStar;
     @FXML
-    private Button threeStar;
+    private ImageView threeStar;
     @FXML
-    private Button fourStar;
+    private ImageView fourStar;
     @FXML
-    private Button fiveStar;
+    private ImageView fiveStar;
     @FXML
-    private Button sixStar;
+    private ImageView sixStar;
     @FXML
-    private Button sevenStar;
+    private ImageView sevenStar;
     @FXML
-    private Button eightStar;
+    private ImageView eightStar;
     @FXML
-    private Button nineStar;
+    private ImageView nineStar;
     @FXML
-    private Button tenStar;
+    private ImageView tenStar;
 
     /**
      * Initializes the controller class.
@@ -51,52 +56,52 @@ public class PersonalRatingController implements Initializable
     }    
 
     @FXML
-    private void oneStarRating(ActionEvent event) //TODO setting 1/10 rating on selected movie.
+    private void oneStarRating(MouseEvent event) //TODO setting 1/10 rating on selected movie.
     {
     }
 
     @FXML
-    private void twoStarRating(ActionEvent event) //TODO setting 2/10 rating on selected movie.
+    private void twoStarRating(MouseEvent event) //TODO setting 2/10 rating on selected movie.
     {
     }
 
     @FXML
-    private void threeStarRating(ActionEvent event)
+    private void threeStarRating(MouseEvent event)
     {
     }
 
     @FXML
-    private void fourStarRating(ActionEvent event)
+    private void fourStarRating(MouseEvent event)
     {
     }
 
     @FXML
-    private void fiveStarRating(ActionEvent event)
+    private void sixStarRating(MouseEvent event)
     {
     }
 
     @FXML
-    private void sixStarRating(ActionEvent event)
+    private void sevenStarRating(MouseEvent event)
     {
     }
 
     @FXML
-    private void sevenStarRating(ActionEvent event)
+    private void eightStarRating(MouseEvent event)
     {
     }
 
     @FXML
-    private void eightStarRating(ActionEvent event)
+    private void nineStarRating(MouseEvent event)
     {
     }
 
     @FXML
-    private void nineStarRating(ActionEvent event)
+    private void tenStarRating(MouseEvent event)
     {
     }
 
     @FXML
-    private void tenStarRating(ActionEvent event)
+    private void fiveStarRating(MouseEvent event)
     {
     }
     

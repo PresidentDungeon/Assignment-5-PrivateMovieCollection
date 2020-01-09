@@ -75,7 +75,6 @@
             <Image url="@image/dab%20(2).png" />
          </image>
       </ImageView>
-      <Button fx:id="rateMeButton" layoutX="549.0" layoutY="100.0" mnemonicParsing="false" onAction="#giveARating" text="Give a personal rating" />
       <Text fx:id="personalShow" layoutX="557.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="73.99999999999989" />
       <TextArea editable="false" layoutX="562.0" layoutY="96.0" prefHeight="0.0" prefWidth="0.0" stylesheets="@style/textarea.css" />
    </children>
