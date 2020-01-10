@@ -148,7 +148,6 @@ public class AddEditMovieController implements Initializable
                 Path pathToProject = Paths.get(System.getProperty("user.dir"));
                 Path relativePath = pathToProject.relativize(absolutePath);
                 fileString.setText(relativePath.toString());
-                currentDate = LocalDate.now();
             } else
             {
                 fileString.setText(selectedFile.getAbsolutePath());
@@ -164,6 +163,7 @@ public class AddEditMovieController implements Initializable
                 
                 currentTimeInSeconds = time;
                 timeInt.setText(formatSeconds(time));
+                currentDate = LocalDate.now();
             });
             
         }

@@ -38,7 +38,7 @@ public class Rating
     @Override
     public String toString()
     {
-        return "Rating{" + "userRating=" + userRating + ", IMDBRating=" + IMDBRating + '}';
+        return "Rating{" + "userRating = " + userRating + ", IMDBRating = " + IMDBRating + "}";
     }
 
     
