@@ -107,15 +107,6 @@ public class PersonalRatingController implements Initializable
         appModel.saveMovie(movie);
         close();
     }
-
-    @FXML
-    private void fiveStarRating(MouseEvent event)
-    {
-        movie.getId();
-        movie.getRating().setUserRating(5);
-        System.out.println(movie.getRating().getUserRating());
-        close();
-    }
     
     @FXML
     private void sixStarRating(MouseEvent event)
