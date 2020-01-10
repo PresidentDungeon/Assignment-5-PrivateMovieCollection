@@ -214,8 +214,7 @@ public class Movie
             loopPosition++;
 
         }
-
-        return title + ", Id: " + id + "- " + allCategories;
+        return "Id: " + id + "Categories: " + allCategories;
     }
 
     public Long compareLastView()

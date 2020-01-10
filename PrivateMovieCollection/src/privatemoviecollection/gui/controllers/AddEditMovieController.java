@@ -44,13 +44,13 @@ import privatemoviecollection.gui.AppModel;
  */
 public class AddEditMovieController implements Initializable
 {
-    
+
     private final AppModel appModel = new AppModel();
     private int currentId;
-    private Rating currentRating;
-    private String currentSummaryText;
-    private String currentPosterLink;
-    private String currentIMDBLink;
+    private Rating currentRating = new Rating();
+    private String currentSummaryText = "";
+    private String currentPosterLink = "";
+    private String currentIMDBLink = "";
     private int currentTimeInSeconds;
     private LocalDate currentDate;
     @FXML
@@ -75,36 +75,36 @@ public class AddEditMovieController implements Initializable
         categoryList.setItems(appModel.getCategoryList());
         categoryList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
-    
+
     @FXML
     private void cancel(ActionEvent event)
     {
         Stage stage = (Stage) cancelButton.getScene().getWindow();
         stage.close();
     }
-    
+
     @FXML
     private void saveMovie(ActionEvent event) throws NumberFormatException
     {
         try
         {
-            
+
             String title = titleString.getText();
             int seconds = currentTimeInSeconds;
             int releaseYear = Integer.parseInt(releaseInt.getText());
             String filePath = fileString.getText();
-            
+
             ObservableList<Category> selectedCategories = categoryList.getSelectionModel().getSelectedItems();
             ArrayList<Category> categories = new ArrayList<>();
             categories.addAll(selectedCategories);
-            
+
             if (title.equals("") || filePath.equals(""))
             {
                 appModel.openErrorBox(String.format("%s%n%s", "The movie failed to save or update.",
                         "Please check that all information is entered correctly."));
-                
+
             } else
-            {                
+            {
                 Movie movie = new Movie(title, seconds, releaseYear, filePath);
                 movie.setId(currentId);
                 movie.setSeconds(currentTimeInSeconds);
@@ -114,7 +114,6 @@ public class AddEditMovieController implements Initializable
                 movie.setSummaryText(currentSummaryText);
                 movie.setLastView(currentDate);
                 movie.setCategories(categories);
-                
                 appModel.saveMovie(movie);
                 cancel(event);
             }
@@ -123,9 +122,9 @@ public class AddEditMovieController implements Initializable
             appModel.openErrorBox(String.format("%s%n%s", "The movie failed to save or update.",
                     "Please check that all information is entered correctly."));
         }
-        
+
     }
-    
+
     @FXML
     private void chooseFile(ActionEvent event)
     {
@@ -136,12 +135,12 @@ public class AddEditMovieController implements Initializable
         jfc.setFileFilter(mp4Filter);
         jfc.setAcceptAllFileFilterUsed(false);
         jfc.setCurrentDirectory(new File("."));
-        
+
         int returnValue = jfc.showOpenDialog(null);
         if (returnValue == JFileChooser.APPROVE_OPTION)
         {
             File selectedFile = jfc.getSelectedFile();
-            
+
             if (selectedFile.getAbsolutePath().contains("PrivateMovieCollection\\Movie"))
             {
                 Path absolutePath = Paths.get(selectedFile.getAbsolutePath());
@@ -152,30 +151,30 @@ public class AddEditMovieController implements Initializable
             {
                 fileString.setText(selectedFile.getAbsolutePath());
             }
-            
+
             Media media = new Media(selectedFile.toURI().toString());
-            
+
             MediaPlayer mediaplayer = new MediaPlayer(media);
-            
+
             mediaplayer.setOnReady(() ->
             {
                 int time = (int) media.getDuration().toSeconds();
-                
+
                 currentTimeInSeconds = time;
                 timeInt.setText(formatSeconds(time));
                 currentDate = LocalDate.now();
             });
-            
+
         }
     }
-    
+
     @FXML
     private void addCategory(ActionEvent event)
     {
         appModel.saveCategory(null);
-        
+
     }
-    
+
     @FXML
     private void updateCategory(ActionEvent event)
     {
@@ -186,24 +185,23 @@ public class AddEditMovieController implements Initializable
         {
             appModel.saveCategory(categoryList.getSelectionModel().getSelectedItem());
         }
-        
+
     }
-    
+
     @FXML
     private void removeCategory(ActionEvent event)
     {
         appModel.deleteCategory(categoryList.getSelectionModel().getSelectedItems());
-        
+
     }
 
     /**
-     * This methods runs when the AddEditMovieView FXML is opened
-     * by either the "new" movie button or the "edit" movie button.
-     * If the "edit" movie button is pressed, the selected movie from the listview in the
-     * AddEditMovieView is taken, and some of the informtion stored in this movie object is
-     * displayed in the textfields and category listview. The rest of the data is stored
-     * in the instance variables of this class.
-     * 
+     * This methods runs when the AddEditMovieView FXML is opened by either the "new"
+     * movie button or the "edit" movie button. If the "edit" movie button is pressed, the
+     * selected movie from the listview in the AddEditMovieView is taken, and some of the
+     * informtion stored in this movie object is displayed in the textfields and category
+     * listview. The rest of the data is stored in the instance variables of this class.
+     *
      * if the "new" movie button is pressed and a IMDB link is given, some of the movie
      * data will be scraped from the IMDb website. Some data will be stored in the
      * textfields and the rest in the instance variables of this class.
@@ -227,7 +225,7 @@ public class AddEditMovieController implements Initializable
                     categoryList.getSelectionModel().select(category);
                 }
             }
-            
+
             currentId = movie.getId();
             currentTimeInSeconds = movie.getSeconds();
             currentIMDBLink = movie.getIMDbLink();
@@ -237,29 +235,38 @@ public class AddEditMovieController implements Initializable
             currentDate = movie.getLastView();
         } else
         {
-            String url = IMDBLink;
-            Document document = Jsoup.connect(url).get();
+            try
+            {
+                String url = IMDBLink;
+                Document document = Jsoup.connect(url).get();
 
-            //get the title of the movie
-            Element element = document.select("h1").first();
-            titleString.setText(element.textNodes().get(0).text());
-            //get the release year
-            element = document.select("span#titleYear a").first();
-            releaseInt.setText(element.text());
-            //gets the rating from IMDb
-            element = document.select("span[itemprop=ratingValue]").first();
-            currentRating = new Rating();
-            currentRating.setIMDBRating(Float.parseFloat(element.text()));
-            //gets the movie description
-            element = document.select("div.summary_text").first();
-            currentSummaryText = element.text();
-            //gets the movie posterLink
-            Element poster = document.getElementsByClass("poster").first();
-            Elements img = poster.getElementsByTag("img");
-            currentPosterLink = img.attr("src");
-            //sets the IMDb link
-            currentIMDBLink = IMDBLink;
+                //get the title of the movie
+                Element element = document.select("h1").first();
+                titleString.setText(element.textNodes().get(0).text());
+                //gets the rating from IMDb
+                element = document.select("span[itemprop=ratingValue]").first();
+                currentRating = new Rating();
+                currentRating.setIMDBRating(Float.parseFloat(element.text()));
+                //gets the movie description
+                element = document.select("div.summary_text").first();
+                currentSummaryText = element.text();
+                //gets the movie posterLink
+                Element poster = document.getElementsByClass("poster").first();
+                Elements img = poster.getElementsByTag("img");
+                currentPosterLink = img.attr("src");
+                //sets the IMDb link
+                currentIMDBLink = IMDBLink;
+                //get the release year
+                element = document.select("span#titleYear a").first();
+                if (element.hasText())
+                {
+                    releaseInt.setText(element.text());
+                }
+            } catch (Exception ex)
+            {
+            }
         }
+
     }
 
     /**
