@@ -9,6 +9,10 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.chrono.ChronoPeriod;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import javafx.util.Duration;
 
@@ -214,11 +218,33 @@ public class Movie
         return title + ", Id: " + id + "- " + allCategories;
     }
 
+    public Long compareLastView()
+    {
+        LocalDate p = LocalDate.now();
+        LocalDate d = getLastView();
+        long days = ChronoUnit.DAYS.between(d, p);
+        
+        return days;
+    }
+    
+    
+    
+    
+    
+    
+    
     public static void main(String[] args) throws IOException
     {
 
-        File file = new File("Movie\\Nature short clip video.mp4");
-        Desktop.getDesktop().open(file);
+//        File file = new File("Movie\\Nature short clip video.mp4");
+//        Desktop.getDesktop().open(file);
+//        LocalDate p = LocalDate.now();
+//        LocalDate d = LocalDate.of(getLastView);
+//        long days = ChronoUnit.DAYS.between(d, p);
+        
+        
+                
+                
 
     }
 
