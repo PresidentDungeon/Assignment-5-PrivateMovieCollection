@@ -28,7 +28,7 @@ public class CategoryDBDAO implements CategoryDalFacade
 {
     private DBSettings dbs;
     
-        public CategoryDBDAO() {
+    public CategoryDBDAO() {
         try {
             dbs = new DBSettings();
         } catch (IOException e) {

@@ -295,6 +295,7 @@ public class MovieCollectionController implements Initializable
     posterImage.setImage(null);
     movieDescription.clear();
     }
+    
     @FXML
     private void openBrowser(ActionEvent event)
     {
