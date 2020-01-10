@@ -136,6 +136,9 @@ public class MovieCollectionController implements Initializable
         tableMovies.setItems(appModel.getMovieList());
         catListView.setItems(appModel.getCategoryList());
         catListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+                    Category c = new Category("All");
+            catListView.getItems().add(0, c);
+            catListView.getSelectionModel().select(0);
         checkForLastView();
         
        
@@ -243,6 +246,7 @@ public class MovieCollectionController implements Initializable
         {
             appModel.fetchCategories();
             appModel.fetchMovies();
+            searchMovie(txt_search.getText());
             Category c = new Category("All");
             catListView.getItems().add(0, c);
             catListView.getSelectionModel().select(0);
@@ -343,11 +347,9 @@ public class MovieCollectionController implements Initializable
         }
     }
 
-    @FXML
-    private void handleSearchMovie(KeyEvent event)
+    private void searchMovie(String searchString)
     {
-        String searchString = txt_search.getText().trim().toLowerCase();
-
+    
         if (searchString.equalsIgnoreCase(""))
         {
             tableMovies.setItems(appModel.getMovieList());
@@ -355,6 +357,13 @@ public class MovieCollectionController implements Initializable
         {
             tableMovies.setItems(appModel.searchMovies(searchString));
         }
+    }
+    
+    @FXML
+    private void handleSearchMovie(KeyEvent event)
+    {
+        searchMovie(txt_search.getText().trim().toLowerCase());
+
     }
 
     public void checkForLastView()
