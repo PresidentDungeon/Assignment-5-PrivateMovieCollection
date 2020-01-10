@@ -208,6 +208,7 @@ public class AddEditMovieController implements Initializable
      * data will be scraped from the IMDb website. Some data will be stored in the
      * textfields and the rest in the instance variables of this class.
      *
+     * @param IMDBLink
      * @param movie
      */
     public void setText(Movie movie, String IMDBLink) throws IOException
