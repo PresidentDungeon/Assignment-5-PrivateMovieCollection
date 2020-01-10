@@ -37,11 +37,11 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Hyperlink fx:id="imdbLink" layoutX="521.0" layoutY="309.0" text="link til IMDb" />
+      <Hyperlink fx:id="imdbLink" layoutX="521.0" layoutY="309.0" onAction="#openBrowser" text="link til IMDb" />
       <ImageView fx:id="posterImage" fitHeight="233.0" fitWidth="200.0" layoutX="717.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true" />
       <Text layoutX="522.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personal Rating:" wrappingWidth="94.494140625" />
       <Text layoutX="525.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDb rating:" />
-      <TextArea fx:id="movieDescription" editable="false" layoutX="511.0" layoutY="443.0" prefHeight="145.0" prefWidth="354.0" stylesheets="@style/textarea.css" text="description">
+      <TextArea fx:id="movieDescription" editable="false" layoutX="511.0" layoutY="443.0" prefHeight="145.0" prefWidth="354.0" stylesheets="@style/textarea.css" wrapText="true">
          <font>
             <Font size="13.0" />
          </font></TextArea>
@@ -85,26 +85,26 @@
          <font>
             <Font name="System Bold" size="21.0" />
          </font></TextArea>
-      <TextArea fx:id="movieTime" layoutX="524.0" layoutY="86.0" prefHeight="23.0" prefWidth="59.0" stylesheets="@style/textarea.css" text="time">
+      <TextArea fx:id="movieTime" layoutX="524.0" layoutY="86.0" prefHeight="43.0" prefWidth="83.0" stylesheets="@style/textarea.css" text="time">
          <font>
             <Font name="System Bold" size="13.0" />
          </font></TextArea>
-      <Label layoutX="582.0" layoutY="72.0" prefHeight="51.0" prefWidth="0.0" text="|" textFill="#adadad">
+      <Label layoutX="608.0" layoutY="72.0" prefHeight="51.0" prefWidth="0.0" text="|" textFill="#adadad">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <TextArea fx:id="movieCategories" layoutX="592.0" layoutY="85.0" prefHeight="17.0" prefWidth="59.0" stylesheets="@style/textarea.css" text="category">
+      <TextArea fx:id="movieCategories" layoutX="618.0" layoutY="85.0" prefHeight="45.0" prefWidth="101.0" stylesheets="@style/textarea.css" text="category">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </TextArea>
-      <Label layoutX="659.0" layoutY="72.0" prefHeight="51.0" prefWidth="0.0" text="|" textFill="#adadad">
+      <Label layoutX="713.0" layoutY="69.0" prefHeight="51.0" prefWidth="0.0" text="|" textFill="#adadad">
          <font>
             <Font size="22.0" />
          </font>
       </Label>
-      <TextArea fx:id="movieRelease" layoutX="669.0" layoutY="85.0" prefHeight="17.0" prefWidth="59.0" stylesheets="@style/textarea.css" text="release">
+      <TextArea fx:id="movieRelease" layoutX="723.0" layoutY="82.0" prefHeight="45.0" prefWidth="94.0" stylesheets="@style/textarea.css" text="release">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
