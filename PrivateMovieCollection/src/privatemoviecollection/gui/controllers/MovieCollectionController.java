@@ -5,11 +5,16 @@
  */
 package privatemoviecollection.gui.controllers;
 
+import java.awt.Desktop;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -254,13 +259,31 @@ public class MovieCollectionController implements Initializable
             movieRelease.setText(selectedMovie.getYear() + "");
             personalRating.setText(selectedMovie.getRating().getUserRating() + "");
             imdbRating.setText(selectedMovie.getRating().getIMDBRating() + "");
-            imdbLink.setText(selectedMovie.getIMDbLink());
             movieDescription.setText(selectedMovie.getSummaryText());
             if (!selectedMovie.getImageLink().equalsIgnoreCase(""))
             {
                 Image poster = new Image(selectedMovie.getImageLink());
                 posterImage.setImage(poster);
             }
+        }
+    }
+
+    @FXML
+    private void openBrowser(ActionEvent event)
+    {
+        try
+        {
+            if (tableMovies.getSelectionModel().isEmpty() != true)
+            {
+            Desktop.getDesktop().browse(new URI(tableMovies.getSelectionModel().getSelectedItem().getIMDbLink()));
+            }
+        } catch (URISyntaxException ex)
+        {
+            Logger.getLogger(MovieCollectionController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        catch (IOException ex)
+        {
+            Logger.getLogger(MovieCollectionController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 }
