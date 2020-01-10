@@ -5,6 +5,7 @@
  */
 package privatemoviecollection.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javafx.collections.FXCollections;
@@ -192,6 +193,23 @@ public class AppModel
         errAlert.setHeaderText("ERROR");
         errAlert.setContentText(contentText);
         errAlert.showAndWait();
+    }
+
+    public ObservableList<Movie> searchMovies(String input)
+    {
+        ObservableList<Movie> searchedMovieList = FXCollections.observableArrayList();
+
+        for (Movie movie : getMovieList())
+        {
+            String movieYear = movie.getYear() + "";
+            if (movie.getTitle().toLowerCase().contains(input) || movieYear.contains(input))
+            {
+                searchedMovieList.add(movie);
+            }
+
+        }
+
+        return searchedMovieList;
     }
 
 }

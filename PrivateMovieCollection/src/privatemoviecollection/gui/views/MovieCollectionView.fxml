@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
@@ -49,7 +50,7 @@
          </font></TextArea>
       <Text layoutX="543.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" />
       <ComboBox fx:id="categoryComboBox" layoutX="73.0" layoutY="87.0" prefHeight="25.0" prefWidth="160.0" promptText="Category" stylesheets="@style/Combobox.css" />
-      <TextField fx:id="txt_search" layoutX="73.0" layoutY="35.0" onAction="#handleSearchMovie" prefHeight="25.0" prefWidth="403.0" promptText="Search" stylesheets="@style/textfield.css" />
+      <TextField fx:id="txt_search" layoutX="73.0" layoutY="35.0" onKeyTyped="#handleSearchMovie" prefHeight="25.0" prefWidth="403.0" promptText="Search" stylesheets="@style/textfield.css" />
       <ImageView fitHeight="17.0" fitWidth="17.0" layoutX="454.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@image/search%20(1).png" />
@@ -111,5 +112,6 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </TextArea>
+      <ListView layoutX="245.0" layoutY="82.0" prefHeight="37.0" prefWidth="200.0" />
    </children>
 </AnchorPane>

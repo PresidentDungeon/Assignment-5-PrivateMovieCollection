@@ -42,6 +42,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.lang.Integer;
 import javafx.beans.property.SimpleFloatProperty;
+import javafx.scene.input.KeyEvent;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.be.Rating;
@@ -129,6 +130,7 @@ public class MovieCollectionController implements Initializable
         categoryComboBox.setItems(appModel.getCategoryList());
         Category c = new Category("All");
         categoryComboBox.getItems().add(0, c);
+
         
     }
 
@@ -267,11 +269,7 @@ public class MovieCollectionController implements Initializable
         
     }
     
-    @FXML
-    private void handleSearchMovie(ActionEvent event)
-    {
-        
-    }
+
     
     @FXML
     private void playMovie(MouseEvent event) throws IOException
@@ -332,5 +330,24 @@ public class MovieCollectionController implements Initializable
         {
             Logger.getLogger(MovieCollectionController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+
+    @FXML
+    private void handleSearchMovie(KeyEvent event)
+    {
+       String searchString = txt_search.getText().trim().toLowerCase();
+       
+       if (searchString.equalsIgnoreCase(""))
+       {
+           tableMovies.setItems(appModel.getMovieList());
+       }
+       else
+       {
+           tableMovies.setItems(appModel.searchMovies(searchString));
+       }
+       
+       
+       
+       
     }
 }
