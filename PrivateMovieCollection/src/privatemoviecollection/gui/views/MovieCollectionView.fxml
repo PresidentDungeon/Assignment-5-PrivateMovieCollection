@@ -41,7 +41,7 @@
       <ImageView fx:id="posterImage" fitHeight="233.0" fitWidth="200.0" layoutX="717.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true" />
       <Text layoutX="522.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personal Rating:" wrappingWidth="94.494140625" />
       <Text layoutX="525.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDb rating:" />
-      <TextArea fx:id="movieDescription" editable="false" layoutX="511.0" layoutY="443.0" prefHeight="145.0" prefWidth="354.0" stylesheets="@style/textarea.css" text="description">
+      <TextArea fx:id="movieDescription" editable="false" layoutX="511.0" layoutY="443.0" prefHeight="145.0" prefWidth="354.0" stylesheets="@style/textarea.css">
          <font>
             <Font size="13.0" />
          </font></TextArea>

@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -52,6 +51,7 @@ public class MovieCollectionController implements Initializable
     private final AppModel appModel = new AppModel();
     private Label label;
     private boolean mustRefresh = false;
+    private boolean mustRefreshRating = false;
     @FXML
     private TableView<Movie> tableMovies;
     @FXML
@@ -207,7 +207,7 @@ public class MovieCollectionController implements Initializable
     private void giveARating(ActionEvent event) throws IOException
     {
         Movie movie = tableMovies.getSelectionModel().getSelectedItem();
-
+        mustRefreshRating = true;
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(AppModel.class.getResource("views/PersonalRatingView.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
@@ -232,6 +232,12 @@ public class MovieCollectionController implements Initializable
             categoryComboBox.getItems().add(0, c);
             categoryComboBox.getSelectionModel().select(0);
             mustRefresh = false;
+            clearMovie();
+        }
+        else if (mustRefreshRating)
+        {
+        personalRating.setText(tableMovies.getSelectionModel().getSelectedItem().getRating().getUserRating() + "");
+        mustRefreshRating = false;
         }
 
     }
@@ -268,6 +274,17 @@ public class MovieCollectionController implements Initializable
         }
     }
 
+    private void clearMovie()
+    {
+    movieTitle.setText("Title");
+    personalRating.clear();
+    imdbRating.clear();
+    movieTime.setText("time");
+    movieCategories.setText("category");
+    movieRelease.setText("release");
+    posterImage.setImage(null);
+    movieDescription.clear();
+    }
     @FXML
     private void openBrowser(ActionEvent event)
     {
@@ -277,11 +294,7 @@ public class MovieCollectionController implements Initializable
             {
             Desktop.getDesktop().browse(new URI(tableMovies.getSelectionModel().getSelectedItem().getIMDbLink()));
             }
-        } catch (URISyntaxException ex)
-        {
-            Logger.getLogger(MovieCollectionController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        catch (IOException ex)
+        } catch (URISyntaxException | IOException ex)
         {
             Logger.getLogger(MovieCollectionController.class.getName()).log(Level.SEVERE, null, ex);
         }
