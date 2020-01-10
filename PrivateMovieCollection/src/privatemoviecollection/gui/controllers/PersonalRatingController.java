@@ -99,6 +99,15 @@ public class PersonalRatingController implements Initializable
     }
 
     @FXML
+    private void fiveStarRating(MouseEvent event)
+    {
+        movie.getId();
+        movie.getRating().setUserRating(5);
+        System.out.println(movie.getRating().getUserRating());
+        close();
+    }
+    
+    @FXML
     private void sixStarRating(MouseEvent event)
     {
         movie.getId();
@@ -143,14 +152,6 @@ public class PersonalRatingController implements Initializable
         close();
     }
 
-    @FXML
-    private void fiveStarRating(MouseEvent event)
-    {
-        movie.getId();
-        movie.getRating().setUserRating(5);
-        System.out.println(movie.getRating().getUserRating());
-        close();
-    }
     
     public void setText(Movie movie)
     {
