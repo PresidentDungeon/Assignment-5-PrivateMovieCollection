@@ -42,10 +42,14 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.lang.Integer;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import javafx.beans.property.SimpleFloatProperty;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.ListView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.input.KeyEvent;
 import javafx.stage.StageStyle;
 import privatemoviecollection.be.Category;
@@ -81,8 +85,6 @@ public class MovieCollectionController implements Initializable
     private ComboBox<Category> categoryComboBox;
     @FXML
     private Button rateMeButton;
-    @FXML
-    private Text personalShow;
 
     @FXML
     private ImageView playButton;
@@ -106,10 +108,13 @@ public class MovieCollectionController implements Initializable
     private TextArea movieRelease;
     @FXML
     private TextArea movieDescription;
+    @FXML
+    private ListView<Category> catListView;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
+        
         columnMovieTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         columnMovieReleaseYear.setCellValueFactory(new PropertyValueFactory<>("year"));
         columnMovieGenre.setCellValueFactory((data) ->
@@ -132,10 +137,10 @@ public class MovieCollectionController implements Initializable
         });
 
         tableMovies.setItems(appModel.getMovieList());
-        categoryComboBox.setItems(appModel.getCategoryList());
-        Category c = new Category("All");
-        categoryComboBox.getItems().add(0, c);
-        checkForLastView();
+        catListView.setItems(appModel.getCategoryList());
+        catListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        
+       
 
     }
 
@@ -234,24 +239,6 @@ public class MovieCollectionController implements Initializable
     }
 
     @FXML
-    private void giveARating(ActionEvent event) throws IOException
-    {
-        Movie movie = tableMovies.getSelectionModel().getSelectedItem();
-        mustRefreshRating = true;
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(AppModel.class.getResource("views/PersonalRatingView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        PersonalRatingController controller = fxmlLoader.getController();
-        controller.setText(movie);
-        stage.setTitle("Give a personal rating.");
-        stage.setScene(scene);
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(tableMovies.getScene().getWindow());
-        stage.show();
-    }
-
-    @FXML
     private void updateAll(MouseEvent event)
     {
         if (mustRefresh)
@@ -285,6 +272,23 @@ public class MovieCollectionController implements Initializable
             File file = new File(selectedMovie.getFilePath());
             Desktop.getDesktop().open(file);
         }
+    }
+    
+        @FXML
+    private void giveRating(MouseEvent event) throws IOException {
+        Movie movie = tableMovies.getSelectionModel().getSelectedItem();
+        mustRefreshRating = true;
+        FXMLLoader fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(AppModel.class.getResource("views/PersonalRatingView.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        Stage stage = new Stage();
+        PersonalRatingController controller = fxmlLoader.getController();
+        controller.setText(movie);
+        stage.setTitle("Give a personal rating.");
+        stage.setScene(scene);
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(tableMovies.getScene().getWindow());
+        stage.show();
     }
 
     @FXML
