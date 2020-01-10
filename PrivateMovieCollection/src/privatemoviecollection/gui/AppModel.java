@@ -211,5 +211,22 @@ public class AppModel
 
         return searchedMovieList;
     }
+    
+    public boolean searchForExistingMovie(Movie movie)
+    {
+        if (movieManager.searchForExistingMovie(movie))
+        {
+            openErrorBox("Following movie already exists");
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 
 }
+
+//Hvis man tilføjer en fil - søge efter navn og eller filePath - skal have 0 results
+//Hvis man redigerer en fil - søge efter navn og eller filePath - skal have 1 results
+//open error baseret på dette

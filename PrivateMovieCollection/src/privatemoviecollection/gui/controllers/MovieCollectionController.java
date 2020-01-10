@@ -180,6 +180,8 @@ public class MovieCollectionController implements Initializable
         if (selectedMovie != null)
         {
             appModel.DeleteMovie(selectedMovie);
+            searchMovie(txt_search.getText());
+            tableMovies.getSelectionModel().select(selectedMovie);
         }
     }
 

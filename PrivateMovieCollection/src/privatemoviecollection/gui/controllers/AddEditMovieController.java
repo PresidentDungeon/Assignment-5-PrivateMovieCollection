@@ -89,7 +89,7 @@ public class AddEditMovieController implements Initializable
         try
         {
 
-            String title = titleString.getText();
+            String title = titleString.getText().trim();
             int seconds = currentTimeInSeconds;
             int releaseYear = Integer.parseInt(releaseInt.getText());
             String filePath = fileString.getText();
@@ -114,6 +114,16 @@ public class AddEditMovieController implements Initializable
                 movie.setSummaryText(currentSummaryText);
                 movie.setLastView(currentDate);
                 movie.setCategories(categories);
+                
+                //This is currently disabled, as it checks for already existing movies before
+                //adding them. This is a problem during testing. REMOVE WHEN PROJECT IS DONE.
+                
+//                if (!appModel.searchForExistingMovie(movie))
+//                {
+//                appModel.saveMovie(movie);
+//                cancel(event);
+//                }
+
                 appModel.saveMovie(movie);
                 cancel(event);
             }

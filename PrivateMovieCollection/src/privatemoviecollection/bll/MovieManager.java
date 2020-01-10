@@ -61,5 +61,10 @@ public class MovieManager
     {
         return movieManager.deleteMovie(movie);
     }
+    
+    public boolean searchForExistingMovie(Movie movie)
+    {
+        return movieManager.searchForExistingMovie(movie);
+    }
 
 }

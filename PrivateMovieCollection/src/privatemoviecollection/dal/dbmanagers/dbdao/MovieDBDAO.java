@@ -31,6 +31,7 @@ import privatemoviecollection.dal.dbmanagers.facades.MovieDalFacade;
  */
 public class MovieDBDAO implements MovieDalFacade
 {
+
     private DBSettings dbs;
 
     public MovieDBDAO()
@@ -38,7 +39,8 @@ public class MovieDBDAO implements MovieDalFacade
         try
         {
             dbs = new DBSettings();
-        } catch (IOException e){
+        } catch (IOException e)
+        {
 
         }
     }
@@ -52,7 +54,8 @@ public class MovieDBDAO implements MovieDalFacade
     @Override
     public boolean createMovie(Movie movie)
     {
-        try (Connection con = dbs.getConnection()) {
+        try ( Connection con = dbs.getConnection())
+        {
             String sql = "INSERT INTO Movies (Title, Seconds, Year, FilePath, IMDBLink, "
                     + "LastView, PersonalRating, IMDBRating, SummaryText, imageLink) "
                     + "VALUES (?,?,?,?,?,?,?,?,?,?);";
@@ -70,20 +73,22 @@ public class MovieDBDAO implements MovieDalFacade
             stmt.setString(10, movie.getImageLink());
 
             int updatedRows = stmt.executeUpdate();
-            
+
             ResultSet generatedKeys = stmt.getGeneratedKeys();
             if (generatedKeys.next())
             {
                 movie.setId(generatedKeys.getInt(1));
             }
-            
+
             addCategoriesToMovie(movie);
 
             return updatedRows > 0;
 
-        } catch (SQLServerException ex) {
+        } catch (SQLServerException ex)
+        {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -97,13 +102,15 @@ public class MovieDBDAO implements MovieDalFacade
     @Override
     public List<Movie> readAllMovies()
     {
-        try (Connection con = dbs.getConnection()) {
+        try ( Connection con = dbs.getConnection())
+        {
             String sql = "SELECT * FROM Movies;";
             Statement stmt = con.createStatement();
             ResultSet rs = stmt.executeQuery(sql);
             List<Movie> movies = new ArrayList<>();
-            while (rs.next()) {
-                
+            while (rs.next())
+            {
+
                 int id = rs.getInt("Id");
                 String title = rs.getString("Title");
                 int seconds = rs.getInt("Seconds");
@@ -115,7 +122,7 @@ public class MovieDBDAO implements MovieDalFacade
                 float IMDBRating = rs.getFloat("IMDBRating");
                 String summaryText = rs.getString("SummaryText");
                 String imageLink = rs.getString("ImageLink");
-                
+
                 Movie m = new Movie(title, seconds, year, filePath);
                 m.setId(id);
                 m.setIMDbLink(IMDBLink);
@@ -128,9 +135,11 @@ public class MovieDBDAO implements MovieDalFacade
                 movies.add(m);
             }
             return movies;
-        } catch (SQLServerException ex) {
+        } catch (SQLServerException ex)
+        {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
@@ -145,7 +154,8 @@ public class MovieDBDAO implements MovieDalFacade
     @Override
     public boolean updateMovie(Movie movie)
     {
-        try (Connection con = dbs.getConnection()) {
+        try ( Connection con = dbs.getConnection())
+        {
             String sql = "UPDATE Movies SET Title = ?, Seconds = ?, Year = ?, FilePath = ?, "
                     + "IMDBLink = ?, LastView = ?, PersonalRating = ?, IMDBRating = ?,"
                     + "SummaryText = ?, ImageLink = ? WHERE id = ?;";
@@ -162,14 +172,16 @@ public class MovieDBDAO implements MovieDalFacade
             stmt.setString(10, movie.getImageLink());
             stmt.setInt(11, movie.getId());
             int updatedRows = stmt.executeUpdate();
-            
+
             removeCategoriesFromMovie(movie);
             addCategoriesToMovie(movie);
 
             return updatedRows > 0;
-        } catch (SQLServerException ex) {
+        } catch (SQLServerException ex)
+        {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
@@ -184,32 +196,37 @@ public class MovieDBDAO implements MovieDalFacade
     @Override
     public boolean deleteMovie(Movie movie)
     {
-        try (Connection con = dbs.getConnection()) {
+        try ( Connection con = dbs.getConnection())
+        {
             String sql = "DELETE FROM Movies WHERE id = ?;";
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, movie.getId());
             int updatedRows = stmt.executeUpdate();
             removeCategoriesFromMovie(movie);
-            
+
             return updatedRows > 0;
-        } catch (SQLServerException ex) {
+        } catch (SQLServerException ex)
+        {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
 
-     /**
+    /**
      * Adds the movie categories to the database
      *
      * @param movie the movie the category should be added to
      * @return true if category was added, else false
      */
-    public boolean addCategoriesToMovie(Movie movie) {
+    public boolean addCategoriesToMovie(Movie movie)
+    {
 
-        try (Connection con = dbs.getConnection()) {
-            
+        try ( Connection con = dbs.getConnection())
+        {
+
             for (Category category : movie.getCategories())
             {
                 String sql = "INSERT INTO CatMovies (MovieID, CategoryID) VALUES (?,?);";
@@ -221,23 +238,27 @@ public class MovieDBDAO implements MovieDalFacade
 
             return true;
 
-        } catch (SQLServerException ex) {
+        } catch (SQLServerException ex)
+        {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
-    
+
     /**
      * Removes all categories from the movie.
      *
      * @param movie the movie that the categories should be removed from
      * @return true if song was removed, else false
      */
-    public boolean removeCategoriesFromMovie(Movie movie) {
+    public boolean removeCategoriesFromMovie(Movie movie)
+    {
 
-        try (Connection con = dbs.getConnection()) {
+        try ( Connection con = dbs.getConnection())
+        {
             String sql = "DELETE FROM CatMovies WHERE MovieID = ?;";
             PreparedStatement stmt = con.prepareStatement(sql);
 
@@ -247,22 +268,26 @@ public class MovieDBDAO implements MovieDalFacade
 
             return updatedRows > 0;
 
-        } catch (SQLServerException ex) {
+        } catch (SQLServerException ex)
+        {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return false;
     }
-    
+
     /**
      * Retrieves all the categories in the specified movie and puts them in a list
      *
      * @param movie the movie the categories should be read from
      * @return a list of all the categories in the specified movie
      */
-    public ArrayList<Category> readAllMovieCategories(Movie movie) {
-        try (Connection con = dbs.getConnection()) {
+    public ArrayList<Category> readAllMovieCategories(Movie movie)
+    {
+        try ( Connection con = dbs.getConnection())
+        {
             String sql = "SELECT * FROM CatMovies FULL OUTER JOIN Categories ON "
                     + "CatMovies.CategoryID = Categories.Id WHERE MovieID = ? "
                     + "ORDER BY Categories.Name;";
@@ -270,55 +295,79 @@ public class MovieDBDAO implements MovieDalFacade
             stmt.setInt(1, movie.getId());
             ResultSet rs = stmt.executeQuery();
             ArrayList<Category> categories = new ArrayList<>();
-            while (rs.next()) {
+            while (rs.next())
+            {
                 int Id = rs.getInt("Id");
                 String name = rs.getString("Name");
                 Category c = new Category(name);
                 c.setId(Id);
-                
+
                 categories.add(c);
-                categories.sort((c1, c2) -> {return c1.getName().compareToIgnoreCase(c2.getName());});
+                categories.sort((c1, c2) ->
+                {
+                    return c1.getName().compareToIgnoreCase(c2.getName());
+                });
             }
             return categories;
-        } catch (SQLServerException ex) {
+        } catch (SQLServerException ex)
+        {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (SQLException ex)
+        {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
+    public boolean searchForExistingMovie(Movie movie)
+    {
+        try ( Connection con = dbs.getConnection())
+        {
+
+            if (movie.getId() == 0)
+            {
+                String sql = "SELECT * FROM Movies WHERE Title = ? OR FilePath = ?;";
+                PreparedStatement stmt = con.prepareStatement(sql);
+                stmt.setString(1, movie.getTitle());
+                stmt.setString(2, movie.getFilePath());
+                ResultSet rs = stmt.executeQuery();
+                return rs.next();
+            } else
+            {
+                String sql = "SELECT * FROM Movies WHERE Title = ? OR FilePath = ?;";
+                PreparedStatement stmt = con.prepareStatement(sql);
+                stmt.setString(1, movie.getTitle());
+                stmt.setString(2, movie.getFilePath());
+                ResultSet rs = stmt.executeQuery();
+
+                if (rs.next())
+                {
+                    int Id = rs.getInt("Id");
+                    if (Id == movie.getId())
+                    {
+                        return rs.next();
+                    } else
+                    {
+                        return true;
+                    }
+                } else
+                {
+                    return false;
+                }
+            }
+        } catch (SQLServerException ex)
+        {
+            Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return true;
+    }
+
     @Override
     public List<Movie> getSearchResult(String searchTerm)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
-//    public static void main(String[] args)
-//    {
-//        
-//        LocalDate date = LocalDate.now();
-//        date.toString();
-//        System.out.println(date);
-//        
-//        LocalDate newDate = LocalDate.parse(date.toString());
-//        System.out.println(newDate.toString());
-//        
-//        Period p = Period.between(date, newDate).ofDays(0);
-//        p
-//
-//        Når en movie updates, skal alle dens categorier også opdates.
-          // når en movie slettes, skal alle dens kategorier slettes
-//    }
-
 }

@@ -128,4 +128,10 @@ public class MockMovieManager implements MovieDalFacade
         return searchMatches;
     }
 
+    @Override
+    public boolean searchForExistingMovie(Movie movie)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

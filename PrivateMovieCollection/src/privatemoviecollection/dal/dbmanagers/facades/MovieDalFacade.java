@@ -53,4 +53,6 @@ public interface MovieDalFacade
      * @return list of matching songs
      */
     public List<Movie> getSearchResult(String searchTerm);
+    
+    public boolean searchForExistingMovie(Movie movie);
 }
