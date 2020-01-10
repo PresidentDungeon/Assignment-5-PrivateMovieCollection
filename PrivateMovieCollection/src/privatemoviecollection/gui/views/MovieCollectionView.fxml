@@ -42,10 +42,14 @@
       <Text layoutX="522.0" layoutY="164.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personal Rating:" wrappingWidth="94.494140625" />
       <Text layoutX="525.0" layoutY="258.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDb rating:" />
 <<<<<<< HEAD
+<<<<<<< HEAD
       <TextArea fx:id="movieDescription" editable="false" layoutX="511.0" layoutY="443.0" prefHeight="145.0" prefWidth="354.0" stylesheets="@style/textarea.css" text="description" wrapText="true">
 =======
       <TextArea fx:id="movieDescription" editable="false" layoutX="511.0" layoutY="443.0" prefHeight="145.0" prefWidth="354.0" stylesheets="@style/textarea.css" wrapText="true">
 >>>>>>> 319b3e8f3e7e678940b80b2c8e6c6e70e593108a
+=======
+      <TextArea fx:id="movieDescription" editable="false" layoutX="511.0" layoutY="443.0" prefHeight="145.0" prefWidth="354.0" stylesheets="@style/textarea.css" text="description">
+>>>>>>> parent of 515d1b9... Description text wraps, and removed an unused library.
          <font>
             <Font size="13.0" />
          </font></TextArea>
@@ -113,6 +117,5 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </TextArea>
-      <ImageView fx:id="posterImage1" fitHeight="233.0" fitWidth="200.0" layoutX="727.0" layoutY="165.0" pickOnBounds="true" preserveRatio="true" />
    </children>
 </AnchorPane>
