@@ -16,6 +16,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.be.Rating;
+import privatemoviecollection.gui.AppModel;
 
 /**
  * FXML Controller class
@@ -24,7 +25,7 @@ import privatemoviecollection.be.Rating;
  */
 public class PersonalRatingController implements Initializable
 {
-
+    private AppModel appModel = new AppModel();
     @FXML
     private ImageView oneStar;
     @FXML
@@ -63,20 +64,20 @@ public class PersonalRatingController implements Initializable
     }    
 
     @FXML
-    private void oneStarRating(MouseEvent event) //TODO setting 1/10 rating on selected movie.
+    private void oneStarRating(MouseEvent event)
     {
         movie.getId();
         movie.getRating().setUserRating(1);
-        System.out.println(movie.getRating().getUserRating());
+        appModel.saveMovie(movie);
         close();
     }
 
     @FXML
-    private void twoStarRating(MouseEvent event) //TODO setting 2/10 rating on selected movie.
+    private void twoStarRating(MouseEvent event)
     {
         movie.getId();
         movie.getRating().setUserRating(2);
-        System.out.println(movie.getRating().getUserRating());
+        appModel.saveMovie(movie);
         close();
     }
 
@@ -85,7 +86,7 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(3);
-        System.out.println(movie.getRating().getUserRating());
+        appModel.saveMovie(movie);
         close();
     }
 
@@ -94,7 +95,16 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(4);
-        System.out.println(movie.getRating().getUserRating());
+        appModel.saveMovie(movie);
+        close();
+    }
+    
+    @FXML
+    private void fiveStarRating(MouseEvent event)
+    {
+        movie.getId();
+        movie.getRating().setUserRating(5);
+        appModel.saveMovie(movie);
         close();
     }
 
@@ -103,7 +113,7 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(6);
-        System.out.println(movie.getRating().getUserRating());
+        appModel.saveMovie(movie);
         close();
     }
 
@@ -112,7 +122,7 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(7);
-        System.out.println(movie.getRating().getUserRating());
+        appModel.saveMovie(movie);
         close();
     }
 
@@ -121,7 +131,7 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(8);
-        System.out.println(movie.getRating().getUserRating());
+        appModel.saveMovie(movie);
         close();
     }
 
@@ -130,7 +140,7 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(9);
-        System.out.println(movie.getRating().getUserRating());
+        appModel.saveMovie(movie);
         close();
     }
 
@@ -139,18 +149,10 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(10);
-        System.out.println(movie.getRating().getUserRating());
+        appModel.saveMovie(movie);
         close();
     }
 
-    @FXML
-    private void fiveStarRating(MouseEvent event)
-    {
-        movie.getId();
-        movie.getRating().setUserRating(5);
-        System.out.println(movie.getRating().getUserRating());
-        close();
-    }
     
     public void setText(Movie movie)
     {
