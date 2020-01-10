@@ -6,10 +6,12 @@
 package privatemoviecollection.gui.controllers;
 
 import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -249,8 +251,16 @@ public class MovieCollectionController implements Initializable
     }
 
     @FXML
-    private void playMovie(MouseEvent event)
+    private void playMovie(MouseEvent event) throws IOException
     {
+        if (!tableMovies.getSelectionModel().isEmpty())
+        {
+        Movie selectedMovie = tableMovies.getSelectionModel().getSelectedItem();
+        selectedMovie.setLastView(LocalDate.now());
+        appModel.saveMovie(selectedMovie);
+        File file = new File(selectedMovie.getFilePath());
+        Desktop.getDesktop().open(file);
+        }
     }
 
     @FXML
