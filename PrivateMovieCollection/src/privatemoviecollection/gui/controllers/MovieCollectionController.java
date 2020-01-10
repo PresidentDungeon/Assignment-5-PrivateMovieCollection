@@ -16,7 +16,9 @@ import java.util.Optional;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,8 +40,11 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import java.lang.Integer;
+import javafx.beans.property.SimpleFloatProperty;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.be.Rating;
 import privatemoviecollection.gui.AppModel;
 import privatemoviecollection.gui.PrivateMovieCollection;
 
@@ -49,7 +54,7 @@ import privatemoviecollection.gui.PrivateMovieCollection;
  */
 public class MovieCollectionController implements Initializable
 {
-
+    
     private final AppModel appModel = new AppModel();
     private Label label;
     private boolean mustRefresh = false;
@@ -63,12 +68,16 @@ public class MovieCollectionController implements Initializable
     @FXML
     private TableColumn<Movie, String> columnMovieGenre;
     @FXML
+    private TableColumn<Movie, Integer> columnUserRating;
+    @FXML
+    private TableColumn<Movie, Float> ColumnIMDBRating;
+    @FXML
     private ComboBox<Category> categoryComboBox;
     @FXML
     private Button rateMeButton;
     @FXML
     private Text personalShow;
-
+    
     @FXML
     private ImageView playButton;
     @FXML
@@ -91,7 +100,7 @@ public class MovieCollectionController implements Initializable
     private TextArea movieRelease;
     @FXML
     private TextArea movieDescription;
-
+    
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
@@ -101,14 +110,26 @@ public class MovieCollectionController implements Initializable
         {
             Movie movie = data.getValue();
             return new SimpleStringProperty(movie.formatCategories());
-
+            
         });
-
+        columnUserRating.setCellValueFactory((data) ->
+        {
+            int userRating = data.getValue().getRating().getUserRating();
+            return new SimpleIntegerProperty(userRating).asObject();
+            
+        });
+        ColumnIMDBRating.setCellValueFactory((data) ->
+        {
+            float IMDBRating = data.getValue().getRating().getIMDBRating();
+            return new SimpleFloatProperty(IMDBRating).asObject();
+            
+        });
+        
         tableMovies.setItems(appModel.getMovieList());
         categoryComboBox.setItems(appModel.getCategoryList());
         Category c = new Category("All");
         categoryComboBox.getItems().add(0, c);
-
+        
     }
 
     /**
@@ -121,7 +142,7 @@ public class MovieCollectionController implements Initializable
     private void addMovie(ActionEvent event)
     {
         openAddEditMovieController(null);
-
+        
     }
 
     /**
@@ -137,9 +158,9 @@ public class MovieCollectionController implements Initializable
         {
             openAddEditMovieController(tableMovies.getSelectionModel().getSelectedItem());
         }
-
+        
     }
-
+    
     @FXML
     private void deleteMovie(ActionEvent event)
     {
@@ -167,19 +188,19 @@ public class MovieCollectionController implements Initializable
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             stage.getIcons().add(new Image(PrivateMovieCollection.class.getResourceAsStream("views/image/multimedia.png")));
-
+            
             if (movie != null)
             {
                 AddEditMovieController controller = fxmlLoader.getController();
                 controller.setText(movie, "");
             }
-
+            
             stage.setTitle("New/Edit Movie");
             stage.setScene(scene);
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(tableMovies.getScene().getWindow());
             stage.show();
-
+            
             if (movie == null)
             {
                 TextInputDialog td = new TextInputDialog();
@@ -204,7 +225,7 @@ public class MovieCollectionController implements Initializable
         {
         }
     }
-
+    
     @FXML
     private void giveARating(ActionEvent event) throws IOException
     {
@@ -222,7 +243,7 @@ public class MovieCollectionController implements Initializable
         stage.initOwner(tableMovies.getScene().getWindow());
         stage.show();
     }
-
+    
     @FXML
     private void updateAll(MouseEvent event)
     {
@@ -235,34 +256,36 @@ public class MovieCollectionController implements Initializable
             categoryComboBox.getSelectionModel().select(0);
             mustRefresh = false;
             clearMovie();
-        }
-        else if (mustRefreshRating)
+        } else if (mustRefreshRating)
         {
-        personalRating.setText(tableMovies.getSelectionModel().getSelectedItem().getRating().getUserRating() + "");
-        mustRefreshRating = false;
+            Movie selectedMovie = tableMovies.getSelectionModel().getSelectedItem();
+            personalRating.setText(selectedMovie.getRating().getUserRating() + "");
+            appModel.fetchMovies();
+            tableMovies.getSelectionModel().select(selectedMovie);
+            mustRefreshRating = false;
         }
-
+        
     }
-
+    
     @FXML
     private void handleSearchMovie(ActionEvent event)
     {
-
+        
     }
-
+    
     @FXML
     private void playMovie(MouseEvent event) throws IOException
     {
         if (!tableMovies.getSelectionModel().isEmpty())
         {
-        Movie selectedMovie = tableMovies.getSelectionModel().getSelectedItem();
-        selectedMovie.setLastView(LocalDate.now());
-        appModel.saveMovie(selectedMovie);
-        File file = new File(selectedMovie.getFilePath());
-        Desktop.getDesktop().open(file);
+            Movie selectedMovie = tableMovies.getSelectionModel().getSelectedItem();
+            selectedMovie.setLastView(LocalDate.now());
+            appModel.saveMovie(selectedMovie);
+            File file = new File(selectedMovie.getFilePath());
+            Desktop.getDesktop().open(file);
         }
     }
-
+    
     @FXML
     private void updateMovie(MouseEvent event)
     {
@@ -283,18 +306,19 @@ public class MovieCollectionController implements Initializable
             }
         }
     }
-
+    
     private void clearMovie()
     {
-    movieTitle.setText("Title");
-    personalRating.clear();
-    imdbRating.clear();
-    movieTime.setText("time");
-    movieCategories.setText("category");
-    movieRelease.setText("release");
-    posterImage.setImage(null);
-    movieDescription.clear();
+        movieTitle.setText("Title");
+        personalRating.clear();
+        imdbRating.clear();
+        movieTime.setText("time");
+        movieCategories.setText("category");
+        movieRelease.setText("release");
+        posterImage.setImage(null);
+        movieDescription.clear();
     }
+
     @FXML
     private void openBrowser(ActionEvent event)
     {
@@ -302,7 +326,7 @@ public class MovieCollectionController implements Initializable
         {
             if (tableMovies.getSelectionModel().isEmpty() != true)
             {
-            Desktop.getDesktop().browse(new URI(tableMovies.getSelectionModel().getSelectedItem().getIMDbLink()));
+                Desktop.getDesktop().browse(new URI(tableMovies.getSelectionModel().getSelectedItem().getIMDbLink()));
             }
         } catch (URISyntaxException | IOException ex)
         {

@@ -18,11 +18,13 @@
 
 <AnchorPane id="AnchorPane" onMouseEntered="#updateAll" prefHeight="665.0" prefWidth="941.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="privatemoviecollection.gui.controllers.MovieCollectionController">
    <children>
-      <TableView fx:id="tableMovies" layoutX="73.0" layoutY="142.0" onMouseClicked="#updateMovie" prefHeight="447.0" prefWidth="403.0" stylesheets="@style/Tableview.css">
+      <TableView fx:id="tableMovies" layoutX="65.0" layoutY="142.0" onMouseClicked="#updateMovie" prefHeight="447.0" prefWidth="403.0" stylesheets="@style/Tableview.css">
         <columns>
-          <TableColumn fx:id="columnMovieTitle" prefWidth="189.99999237060547" text="Title" />
-          <TableColumn fx:id="columnMovieReleaseYear" prefWidth="86.0" text="Release year" />
-            <TableColumn fx:id="columnMovieGenre" prefWidth="125.99998982747394" text="Genre" />
+          <TableColumn fx:id="columnMovieTitle" prefWidth="110.66665649414062" text="Title" />
+          <TableColumn fx:id="columnMovieReleaseYear" prefWidth="46.666656494140625" text="Year" />
+            <TableColumn fx:id="columnMovieGenre" prefWidth="113.33329772949219" sortable="false" text="Genre" />
+            <TableColumn fx:id="columnUserRating" minWidth="8.6666259765625" prefWidth="58.66668701171875" text="User(R)" />
+            <TableColumn fx:id="ColumnIMDBRating" prefWidth="71.33331298828125" text="IMDb(R)" />
         </columns>
       </TableView>
       <Button layoutX="73.0" layoutY="609.0" mnemonicParsing="false" onAction="#addMovie" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Add" textFill="WHITE">
