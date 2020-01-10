@@ -112,5 +112,10 @@
          </font>
       </TextArea>
       <ListView fx:id="catListView" layoutX="65.0" layoutY="86.0" prefHeight="103.0" prefWidth="403.0" stylesheets="@style/listview.css" />
+      <Button layoutX="524.0" layoutY="142.0" mnemonicParsing="false" onAction="#giveRating" prefHeight="25.0" prefWidth="139.0" stylesheets="@style/buttonCss.css" text="Give a personal rating" textFill="WHITE">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>

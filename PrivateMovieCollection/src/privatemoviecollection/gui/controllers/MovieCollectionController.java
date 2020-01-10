@@ -66,7 +66,7 @@ public class MovieCollectionController implements Initializable
 {
 
     private final AppModel appModel = new AppModel();
-    private Label label;
+    private Movie selectedMovie;
     private boolean mustRefresh = false;
     private boolean mustRefreshRating = false;
     @FXML
@@ -81,11 +81,6 @@ public class MovieCollectionController implements Initializable
     private TableColumn<Movie, Integer> columnUserRating;
     @FXML
     private TableColumn<Movie, Float> ColumnIMDBRating;
-    @FXML
-    private ComboBox<Category> categoryComboBox;
-    @FXML
-    private Button rateMeButton;
-
     @FXML
     private ImageView playButton;
     @FXML
@@ -110,6 +105,8 @@ public class MovieCollectionController implements Initializable
     private TextArea movieDescription;
     @FXML
     private ListView<Category> catListView;
+    @FXML
+    private ImageView personPic;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -139,6 +136,7 @@ public class MovieCollectionController implements Initializable
         tableMovies.setItems(appModel.getMovieList());
         catListView.setItems(appModel.getCategoryList());
         catListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+        checkForLastView();
         
        
 
@@ -166,9 +164,9 @@ public class MovieCollectionController implements Initializable
     @FXML
     private void editMovie(ActionEvent event)
     {
-        if (tableMovies.getSelectionModel().getSelectedItem() != null)
+        if (selectedMovie != null)
         {
-            openAddEditMovieController(tableMovies.getSelectionModel().getSelectedItem());
+            openAddEditMovieController(selectedMovie);
         }
 
     }
@@ -176,9 +174,9 @@ public class MovieCollectionController implements Initializable
     @FXML
     private void deleteMovie(ActionEvent event)
     {
-        if (tableMovies.getSelectionModel().isEmpty() != true)
+        if (selectedMovie != null)
         {
-            appModel.DeleteMovie(tableMovies.getSelectionModel().getSelectedItem());
+            appModel.DeleteMovie(selectedMovie);
         }
     }
 
@@ -246,13 +244,13 @@ public class MovieCollectionController implements Initializable
             appModel.fetchCategories();
             appModel.fetchMovies();
             Category c = new Category("All");
-            categoryComboBox.getItems().add(0, c);
-            categoryComboBox.getSelectionModel().select(0);
+            catListView.getItems().add(0, c);
+            catListView.getSelectionModel().select(0);
+            selectedMovie = null;
             mustRefresh = false;
             clearMovie();
         } else if (mustRefreshRating)
         {
-            Movie selectedMovie = tableMovies.getSelectionModel().getSelectedItem();
             personalRating.setText(selectedMovie.getRating().getUserRating() + "");
             appModel.fetchMovies();
             tableMovies.getSelectionModel().select(selectedMovie);
@@ -264,9 +262,8 @@ public class MovieCollectionController implements Initializable
     @FXML
     private void playMovie(MouseEvent event) throws IOException
     {
-        if (!tableMovies.getSelectionModel().isEmpty())
+        if (selectedMovie != null)
         {
-            Movie selectedMovie = tableMovies.getSelectionModel().getSelectedItem();
             selectedMovie.setLastView(LocalDate.now());
             appModel.saveMovie(selectedMovie);
             File file = new File(selectedMovie.getFilePath());
@@ -274,29 +271,36 @@ public class MovieCollectionController implements Initializable
         }
     }
     
-        @FXML
-    private void giveRating(MouseEvent event) throws IOException {
-        Movie movie = tableMovies.getSelectionModel().getSelectedItem();
+       @FXML
+    private void giveRating(ActionEvent event) throws IOException
+    {
+        if (selectedMovie != null)
+        {
         mustRefreshRating = true;
         FXMLLoader fxmlLoader = new FXMLLoader();
         fxmlLoader.setLocation(AppModel.class.getResource("views/PersonalRatingView.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         Stage stage = new Stage();
         PersonalRatingController controller = fxmlLoader.getController();
-        controller.setText(movie);
+        controller.setText(selectedMovie);
         stage.setTitle("Give a personal rating.");
         stage.setScene(scene);
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(tableMovies.getScene().getWindow());
         stage.show();
+        }
+        
+        
+        
     }
+
 
     @FXML
     private void updateMovie(MouseEvent event)
     {
         if (!tableMovies.getSelectionModel().isEmpty())
         {
-            Movie selectedMovie = tableMovies.getSelectionModel().getSelectedItem();
+            selectedMovie = tableMovies.getSelectionModel().getSelectedItem();
             movieTitle.setText(selectedMovie.getTitle());
             movieTime.setText(selectedMovie.formatSeconds());
             movieCategories.setText(selectedMovie.formatCategories());
@@ -329,7 +333,7 @@ public class MovieCollectionController implements Initializable
     {
         try
         {
-            if (tableMovies.getSelectionModel().isEmpty() != true)
+            if (selectedMovie != null)
             {
                 Desktop.getDesktop().browse(new URI(tableMovies.getSelectionModel().getSelectedItem().getIMDbLink()));
             }
@@ -396,4 +400,5 @@ public class MovieCollectionController implements Initializable
 
     }
 
+ 
 }
