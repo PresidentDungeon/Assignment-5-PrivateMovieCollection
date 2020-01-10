@@ -198,23 +198,7 @@ public class Movie
     @Override
     public String toString()
     {
-        ArrayList<Category> movieCategories = this.getCategories();
-        String allCategories = "";
-        int loopPosition = 1;
-
-        for (Category category : movieCategories)
-        {
-            allCategories += category.getName();
-
-            if (loopPosition != movieCategories.size())
-            {
-                allCategories += ", ";
-            }
-
-            loopPosition++;
-
-        }
-        return "Id: " + id + "Categories: " + allCategories;
+        return title + " Personal rating: " + getRating().getUserRating();
     }
 
     public Long compareLastView()

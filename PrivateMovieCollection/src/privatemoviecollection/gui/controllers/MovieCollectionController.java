@@ -41,8 +41,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.lang.Integer;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.beans.property.SimpleFloatProperty;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.input.KeyEvent;
+import javafx.stage.StageStyle;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.be.Rating;
@@ -55,7 +60,7 @@ import privatemoviecollection.gui.PrivateMovieCollection;
  */
 public class MovieCollectionController implements Initializable
 {
-    
+
     private final AppModel appModel = new AppModel();
     private Label label;
     private boolean mustRefresh = false;
@@ -78,7 +83,7 @@ public class MovieCollectionController implements Initializable
     private Button rateMeButton;
     @FXML
     private Text personalShow;
-    
+
     @FXML
     private ImageView playButton;
     @FXML
@@ -101,7 +106,7 @@ public class MovieCollectionController implements Initializable
     private TextArea movieRelease;
     @FXML
     private TextArea movieDescription;
-    
+
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
@@ -111,27 +116,27 @@ public class MovieCollectionController implements Initializable
         {
             Movie movie = data.getValue();
             return new SimpleStringProperty(movie.formatCategories());
-            
+
         });
         columnUserRating.setCellValueFactory((data) ->
         {
             int userRating = data.getValue().getRating().getUserRating();
             return new SimpleIntegerProperty(userRating).asObject();
-            
+
         });
         ColumnIMDBRating.setCellValueFactory((data) ->
         {
             float IMDBRating = data.getValue().getRating().getIMDBRating();
             return new SimpleFloatProperty(IMDBRating).asObject();
-            
+
         });
-        
+
         tableMovies.setItems(appModel.getMovieList());
         categoryComboBox.setItems(appModel.getCategoryList());
         Category c = new Category("All");
         categoryComboBox.getItems().add(0, c);
+        checkForLastView();
 
-        
     }
 
     /**
@@ -144,7 +149,7 @@ public class MovieCollectionController implements Initializable
     private void addMovie(ActionEvent event)
     {
         openAddEditMovieController(null);
-        
+
     }
 
     /**
@@ -160,9 +165,9 @@ public class MovieCollectionController implements Initializable
         {
             openAddEditMovieController(tableMovies.getSelectionModel().getSelectedItem());
         }
-        
+
     }
-    
+
     @FXML
     private void deleteMovie(ActionEvent event)
     {
@@ -190,19 +195,19 @@ public class MovieCollectionController implements Initializable
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             stage.getIcons().add(new Image(PrivateMovieCollection.class.getResourceAsStream("views/image/multimedia.png")));
-            
+
             if (movie != null)
             {
                 AddEditMovieController controller = fxmlLoader.getController();
                 controller.setText(movie, "");
             }
-            
+
             stage.setTitle("New/Edit Movie");
             stage.setScene(scene);
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(tableMovies.getScene().getWindow());
             stage.show();
-            
+
             if (movie == null)
             {
                 TextInputDialog td = new TextInputDialog();
@@ -227,7 +232,7 @@ public class MovieCollectionController implements Initializable
         {
         }
     }
-    
+
     @FXML
     private void giveARating(ActionEvent event) throws IOException
     {
@@ -245,7 +250,7 @@ public class MovieCollectionController implements Initializable
         stage.initOwner(tableMovies.getScene().getWindow());
         stage.show();
     }
-    
+
     @FXML
     private void updateAll(MouseEvent event)
     {
@@ -266,11 +271,9 @@ public class MovieCollectionController implements Initializable
             tableMovies.getSelectionModel().select(selectedMovie);
             mustRefreshRating = false;
         }
-        
-    }
-    
 
-    
+    }
+
     @FXML
     private void playMovie(MouseEvent event) throws IOException
     {
@@ -283,7 +286,7 @@ public class MovieCollectionController implements Initializable
             Desktop.getDesktop().open(file);
         }
     }
-    
+
     @FXML
     private void updateMovie(MouseEvent event)
     {
@@ -304,7 +307,7 @@ public class MovieCollectionController implements Initializable
             }
         }
     }
-    
+
     private void clearMovie()
     {
         movieTitle.setText("Title");
@@ -335,19 +338,58 @@ public class MovieCollectionController implements Initializable
     @FXML
     private void handleSearchMovie(KeyEvent event)
     {
-       String searchString = txt_search.getText().trim().toLowerCase();
-       
-       if (searchString.equalsIgnoreCase(""))
-       {
-           tableMovies.setItems(appModel.getMovieList());
-       }
-       else
-       {
-           tableMovies.setItems(appModel.searchMovies(searchString));
-       }
-       
-       
-       
-       
+        String searchString = txt_search.getText().trim().toLowerCase();
+
+        if (searchString.equalsIgnoreCase(""))
+        {
+            tableMovies.setItems(appModel.getMovieList());
+        } else
+        {
+            tableMovies.setItems(appModel.searchMovies(searchString));
+        }
     }
+
+    public void checkForLastView()
+    {
+        List<Movie> oldMovies = new ArrayList();
+        String allOldMovies = "";
+
+        for (Movie movie : appModel.getMovieList())
+        {
+            if (movie.getRating().getUserRating() < 6) //rating
+            {
+                if (movie.compareLastView() > 730) //number of days
+                {
+                    oldMovies.add(movie);
+                    allOldMovies += movie.toString() + "\n";
+
+                }
+            }
+        }
+
+        if (!oldMovies.isEmpty())
+        {
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.initStyle(StageStyle.UTILITY);
+            alert.setTitle("Old (low rated) movies");
+            alert.setHeaderText(null);
+            alert.setContentText("You haven't watched these movies in a while: \n"
+                    + allOldMovies + "Do you want to delete?");
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if (result.get() == ButtonType.OK)
+            {
+                for (Movie m : oldMovies)
+                {
+                    appModel.DeleteMovie(m);
+                }
+            } else
+            {
+                alert.close();
+            }
+        }
+
+    }
+
 }
