@@ -44,6 +44,7 @@ import java.lang.Integer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleFloatProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -80,7 +81,7 @@ public class MovieCollectionController implements Initializable
     @FXML
     private TableColumn<Movie, Integer> columnUserRating;
     @FXML
-    private TableColumn<Movie, Float> ColumnIMDBRating;
+    private TableColumn<Movie, Double> ColumnIMDBRating;
     @FXML
     private ImageView playButton;
     @FXML
@@ -107,11 +108,13 @@ public class MovieCollectionController implements Initializable
     private ListView<Category> catListView;
     @FXML
     private ImageView personPic;
+    @FXML
+    private TextArea minIMDBRating;
 
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        
+
         columnMovieTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         columnMovieReleaseYear.setCellValueFactory(new PropertyValueFactory<>("year"));
         columnMovieGenre.setCellValueFactory((data) ->
@@ -128,20 +131,18 @@ public class MovieCollectionController implements Initializable
         });
         ColumnIMDBRating.setCellValueFactory((data) ->
         {
-            float IMDBRating = data.getValue().getRating().getIMDBRating();
-            return new SimpleFloatProperty(IMDBRating).asObject();
+            double IMDBRating = data.getValue().getRating().getIMDBRating();
+            return new SimpleDoubleProperty(IMDBRating).asObject();
 
         });
 
         tableMovies.setItems(appModel.getMovieList());
         catListView.setItems(appModel.getCategoryList());
         catListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-                    Category c = new Category("All");
-            catListView.getItems().add(0, c);
-            catListView.getSelectionModel().select(0);
+        Category c = new Category("All");
+        catListView.getItems().add(0, c);
+        catListView.getSelectionModel().select(0);
         checkForLastView();
-        
-       
 
     }
 
@@ -276,30 +277,27 @@ public class MovieCollectionController implements Initializable
             Desktop.getDesktop().open(file);
         }
     }
-    
-       @FXML
+
+    @FXML
     private void giveRating(ActionEvent event) throws IOException
     {
         if (selectedMovie != null)
         {
-        mustRefreshRating = true;
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(AppModel.class.getResource("views/PersonalRatingView.fxml"));
-        Scene scene = new Scene(fxmlLoader.load());
-        Stage stage = new Stage();
-        PersonalRatingController controller = fxmlLoader.getController();
-        controller.setText(selectedMovie);
-        stage.setTitle("Give a personal rating.");
-        stage.setScene(scene);
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(tableMovies.getScene().getWindow());
-        stage.show();
+            mustRefreshRating = true;
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(AppModel.class.getResource("views/PersonalRatingView.fxml"));
+            Scene scene = new Scene(fxmlLoader.load());
+            Stage stage = new Stage();
+            PersonalRatingController controller = fxmlLoader.getController();
+            controller.setText(selectedMovie);
+            stage.setTitle("Give a personal rating.");
+            stage.setScene(scene);
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(tableMovies.getScene().getWindow());
+            stage.show();
         }
-        
-        
-        
-    }
 
+    }
 
     @FXML
     private void updateMovie(MouseEvent event)
@@ -351,7 +349,7 @@ public class MovieCollectionController implements Initializable
 
     private void searchMovie(String searchString)
     {
-    
+
         if (searchString.equalsIgnoreCase(""))
         {
             tableMovies.setItems(appModel.getMovieList());
@@ -360,7 +358,7 @@ public class MovieCollectionController implements Initializable
             tableMovies.setItems(appModel.searchMovies(searchString));
         }
     }
-    
+
     @FXML
     private void handleSearchMovie(KeyEvent event)
     {
@@ -381,21 +379,17 @@ public class MovieCollectionController implements Initializable
                 {
                     oldMovies.add(movie);
                     allOldMovies += movie.toString() + "\n";
-
                 }
             }
         }
-
         if (!oldMovies.isEmpty())
         {
-
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.initStyle(StageStyle.UTILITY);
             alert.setTitle("Old (low rated) movies");
             alert.setHeaderText(null);
             alert.setContentText("You haven't watched these movies in a while: \n"
                     + allOldMovies + "Do you want to delete?");
-
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK)
             {
@@ -410,6 +404,22 @@ public class MovieCollectionController implements Initializable
         }
 
     }
+    
+    public void categorySort()
+    {
+        float MinimumRating = Float.parseFloat(minIMDBRating.getText());
+        
+        if (catListView.getSelectionModel().isSelected(0) || catListView.getSelectionModel().isEmpty())
+        {
+            appModel.fetchMovies();
+            searchMovie(txt_search.getText());
+        }
+        else
+        {
+            catListView.getSelectionModel().getSelectedItems();
+        }
+    }
 
- 
+    
+
 }

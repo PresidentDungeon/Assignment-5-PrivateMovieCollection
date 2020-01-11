@@ -5,13 +5,8 @@
  */
 package privatemoviecollection.be;
 
-import java.awt.Desktop;
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-import java.time.LocalTime;
-import java.time.Month;
-import java.time.chrono.ChronoPeriod;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import javafx.util.Duration;
@@ -89,7 +84,7 @@ public class Movie
                 (int) duration.toSeconds() % 60);
         return durationString;
     }
-
+    
     public String formatCategories()
     {
         ArrayList<Category> movieCategories = getCategories();

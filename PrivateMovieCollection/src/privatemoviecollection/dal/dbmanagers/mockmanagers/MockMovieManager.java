@@ -108,30 +108,19 @@ public class MockMovieManager implements MovieDalFacade
         return movies.remove(movie);
     }
 
-    /**
-     * Returns a list of movies with title or fully or partially matching search term.
-     *
-     * @param searchTerm
-     * @return list of matching songs
-     */
-    @Override
-    public List<Movie> getSearchResult(String searchTerm)
-    {
-        List<Movie> searchMatches = new ArrayList<>();
-        for (Movie movie : movies)
-        {
-            if (movie.getTitle().contains(searchTerm))
-            {
-                searchMatches.add(movie);
-            }
-        }
-        return searchMatches;
-    }
 
     @Override
     public boolean searchForExistingMovie(Movie movie)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public List<Movie> getCategoryFilterResult(String allSelectedCategory, boolean isAllSelected, int listSize, double minimumRating)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+
 
 }

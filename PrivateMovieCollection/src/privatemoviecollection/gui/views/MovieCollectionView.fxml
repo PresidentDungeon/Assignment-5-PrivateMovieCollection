@@ -117,5 +117,6 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
+      <TextArea fx:id="minIMDBRating" layoutX="14.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="29.0" prefWidth="29.0" text="0" />
    </children>
 </AnchorPane>

@@ -68,7 +68,7 @@ public class MovieDBDAO implements MovieDalFacade
             stmt.setString(5, movie.getIMDbLink());
             stmt.setString(6, movie.getLastView().toString());
             stmt.setInt(7, movie.getRating().getUserRating());
-            stmt.setFloat(8, movie.getRating().getIMDBRating());
+            stmt.setDouble(8, movie.getRating().getIMDBRating());
             stmt.setString(9, movie.getSummaryText());
             stmt.setString(10, movie.getImageLink());
 
@@ -110,29 +110,7 @@ public class MovieDBDAO implements MovieDalFacade
             List<Movie> movies = new ArrayList<>();
             while (rs.next())
             {
-
-                int id = rs.getInt("Id");
-                String title = rs.getString("Title");
-                int seconds = rs.getInt("Seconds");
-                int year = rs.getInt("Year");
-                String filePath = rs.getString("FilePath");
-                String IMDBLink = rs.getString("IMDBLink");
-                String lastView = rs.getString("LastView");
-                int personalRating = rs.getInt("PersonalRating");
-                float IMDBRating = rs.getFloat("IMDBRating");
-                String summaryText = rs.getString("SummaryText");
-                String imageLink = rs.getString("ImageLink");
-
-                Movie m = new Movie(title, seconds, year, filePath);
-                m.setId(id);
-                m.setIMDbLink(IMDBLink);
-                m.setLastView(LocalDate.parse(lastView));
-                m.getRating().setUserRating(personalRating);
-                m.getRating().setIMDBRating(IMDBRating);
-                m.setSummaryText(summaryText);
-                m.setImageLink(imageLink);
-                m.setCategories(readAllMovieCategories(m));
-                movies.add(m);
+                movies.add(readMovieFromResultset(rs));
             }
             return movies;
         } catch (SQLServerException ex)
@@ -167,7 +145,7 @@ public class MovieDBDAO implements MovieDalFacade
             stmt.setString(5, movie.getIMDbLink());
             stmt.setString(6, movie.getLastView().toString());
             stmt.setInt(7, movie.getRating().getUserRating());
-            stmt.setFloat(8, movie.getRating().getIMDBRating());
+            stmt.setDouble(8, movie.getRating().getIMDBRating());
             stmt.setString(9, movie.getSummaryText());
             stmt.setString(10, movie.getImageLink());
             stmt.setInt(11, movie.getId());
@@ -319,6 +297,7 @@ public class MovieDBDAO implements MovieDalFacade
         return null;
     }
 
+    @Override
     public boolean searchForExistingMovie(Movie movie)
     {
         try ( Connection con = dbs.getConnection())
@@ -366,8 +345,103 @@ public class MovieDBDAO implements MovieDalFacade
     }
 
     @Override
-    public List<Movie> getSearchResult(String searchTerm)
+    public List<Movie> getCategoryFilterResult(String allSelectedCategoryId,
+            boolean isAllSelected, int listSize, double minimumRating)
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        try ( Connection con = dbs.getConnection())
+        {
+            List<Movie> sortedList = new ArrayList<>();
+            if (isAllSelected)
+            {
+                String sql = "SELECT * FROM Movies WHERE Movies.IMDBRating >= ?";
+                PreparedStatement stmt = con.prepareStatement(sql);
+                stmt.setDouble(1, minimumRating);
+                ResultSet rs = stmt.executeQuery();
+                while (rs.next())
+                {
+                    sortedList.add(readMovieFromResultset(rs));
+                }
+                return sortedList;
+            } else
+            {
+                String sql = "WITH x AS (SELECT MovieID FROM CatMovies WHERE CategoryID "
+                        + "IN ("+ allSelectedCategoryId +") GROUP BY MovieID HAVING COUNT "
+                        + "(DISTINCT CategoryID) = "+ listSize +") SELECT * from Movies "
+                        + "y JOIN x ON x.MovieID = y.Id WHERE y.IMDBRating >= "+ minimumRating +";";
+                Statement stmt = con.createStatement();
+                ResultSet rs = stmt.executeQuery(sql);
+                while (rs.next())
+                {
+                    sortedList.add(readMovieFromResultset(rs));
+                }
+                return sortedList;
+
+            }
+        } catch (SQLServerException ex)
+        {
+            Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
+
+    public Movie readMovieFromResultset(ResultSet rs)
+    {
+        try
+        {
+            int id = rs.getInt("Id");
+            String title = rs.getString("Title");
+            int seconds = rs.getInt("Seconds");
+            int year = rs.getInt("Year");
+            String filePath = rs.getString("FilePath");
+            String IMDBLink = rs.getString("IMDBLink");
+            String lastView = rs.getString("LastView");
+            int personalRating = rs.getInt("PersonalRating");
+            double IMDBRating = rs.getDouble("IMDBRating");
+            String summaryText = rs.getString("SummaryText");
+            String imageLink = rs.getString("ImageLink");
+
+            Movie m = new Movie(title, seconds, year, filePath);
+            m.setId(id);
+            m.setIMDbLink(IMDBLink);
+            m.setLastView(LocalDate.parse(lastView));
+            m.getRating().setUserRating(personalRating);
+            m.getRating().setIMDBRating(IMDBRating);
+            m.setSummaryText(summaryText);
+            m.setImageLink(imageLink);
+            m.setCategories(readAllMovieCategories(m));
+            return m;
+        } catch (SQLServerException ex)
+        {
+            Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex)
+        {
+            Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+
+    
+    public static void main(String[] args)
+    {
+        MovieDBDAO movieDBDAO = new MovieDBDAO();
+        
+      List<Movie> test = movieDBDAO.getCategoryFilterResult("1,4", true, 2, 9.1);
+      for (Movie m : test)
+      {
+          System.out.println(m);
+      }
+        
+    }
+    
 }
+
+
+//WITH x AS (
+//SELECT MovieID FROM CatMovies WHERE CONVERT(varchar(MAX),CategoryID) IN (1,4) 
+//GROUP BY MovieID HAVING COUNT (DISTINCT CategoryID) = 2
+//)
+//SELECT * from Movies y JOIN x ON x.MovieID = y.Id
+//WHERE y.IMDBRating >= 4

@@ -6,6 +6,7 @@
 package privatemoviecollection.dal.dbmanagers.facades;
 
 import java.util.List;
+import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 
 /**
@@ -49,10 +50,12 @@ public interface MovieDalFacade
     /**
      * Returns a list of movies with title or fully or partially matching search term.
      *
-     * @param searchTerm
+     * @param allSelectedCategory
+     * @param IsAllSelected
      * @return list of matching songs
      */
-    public List<Movie> getSearchResult(String searchTerm);
+    public List<Movie> getCategoryFilterResult(String allSelectedCategory, 
+            boolean isAllSelected, int listSize, double minimumRating);
     
     public boolean searchForExistingMovie(Movie movie);
 }
