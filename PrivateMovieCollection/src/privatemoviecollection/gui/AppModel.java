@@ -224,6 +224,11 @@ public class AppModel
             return false;
         }
     }
+    
+    public void sortByCategories(List<Category> categoryList, boolean isAllSelected, double minimumRating)
+    {
+        movies.setAll(movieManager.sortByCategories(categoryList, isAllSelected, minimumRating));
+    }
 
 }
 

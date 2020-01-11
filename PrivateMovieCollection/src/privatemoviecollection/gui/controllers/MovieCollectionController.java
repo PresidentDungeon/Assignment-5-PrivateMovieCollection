@@ -18,16 +18,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.Hyperlink;
-import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -37,16 +33,11 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import java.lang.Integer;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleFloatProperty;
-import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ListView;
@@ -55,7 +46,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.StageStyle;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
-import privatemoviecollection.be.Rating;
 import privatemoviecollection.gui.AppModel;
 import privatemoviecollection.gui.PrivateMovieCollection;
 
@@ -63,13 +53,13 @@ import privatemoviecollection.gui.PrivateMovieCollection;
  *
  * @author Bruger
  */
-public class MovieCollectionController implements Initializable
-{
+public class MovieCollectionController implements Initializable {
 
     private final AppModel appModel = new AppModel();
     private Movie selectedMovie;
     private boolean mustRefresh = false;
     private boolean mustRefreshRating = false;
+    private double minimumRating = 0;
     @FXML
     private TableView<Movie> tableMovies;
     @FXML
@@ -112,25 +102,24 @@ public class MovieCollectionController implements Initializable
     private TextArea minIMDBRating;
 
     @Override
-    public void initialize(URL url, ResourceBundle rb)
-    {
+    public void initialize(URL url, ResourceBundle rb) {
 
         columnMovieTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
         columnMovieReleaseYear.setCellValueFactory(new PropertyValueFactory<>("year"));
-        columnMovieGenre.setCellValueFactory((data) ->
-        {
+        columnMovieGenre.setCellValueFactory((data)
+                -> {
             Movie movie = data.getValue();
             return new SimpleStringProperty(movie.formatCategories());
 
         });
-        columnUserRating.setCellValueFactory((data) ->
-        {
+        columnUserRating.setCellValueFactory((data)
+                -> {
             int userRating = data.getValue().getRating().getUserRating();
             return new SimpleIntegerProperty(userRating).asObject();
 
         });
-        ColumnIMDBRating.setCellValueFactory((data) ->
-        {
+        ColumnIMDBRating.setCellValueFactory((data)
+                -> {
             double IMDBRating = data.getValue().getRating().getIMDBRating();
             return new SimpleDoubleProperty(IMDBRating).asObject();
 
@@ -147,39 +136,32 @@ public class MovieCollectionController implements Initializable
     }
 
     /**
-     * Event handler for the new movie button. Opens a new FXML view enabling movies to be
-     * added.
+     * Event handler for the new movie button. Opens a new FXML view enabling movies to be added.
      *
      * @param event
      */
     @FXML
-    private void addMovie(ActionEvent event)
-    {
+    private void addMovie(ActionEvent event) {
         openAddEditMovieController(null);
 
     }
 
     /**
-     * Event handler for the edit movie button. Opens a new FXML view to edit the selected
-     * movie.
+     * Event handler for the edit movie button. Opens a new FXML view to edit the selected movie.
      *
      * @param event
      */
     @FXML
-    private void editMovie(ActionEvent event)
-    {
-        if (selectedMovie != null)
-        {
+    private void editMovie(ActionEvent event) {
+        if (selectedMovie != null) {
             openAddEditMovieController(selectedMovie);
         }
 
     }
 
     @FXML
-    private void deleteMovie(ActionEvent event)
-    {
-        if (selectedMovie != null)
-        {
+    private void deleteMovie(ActionEvent event) {
+        if (selectedMovie != null) {
             appModel.DeleteMovie(selectedMovie);
             searchMovie(txt_search.getText());
             tableMovies.getSelectionModel().select(selectedMovie);
@@ -187,26 +169,20 @@ public class MovieCollectionController implements Initializable
     }
 
     /**
-     * Loads the OpenAddEditMovie view as a window from a primary stage. If the "add"
-     * movie button is pressed, a popup will ask the user if they want to enter the movies
-     * IMDB link to store extra information. If the "edit" movie button is pressed, the
-     * FXMLLoader will load the stage and the selected movies data will be stored.
+     * Loads the OpenAddEditMovie view as a window from a primary stage. If the "add" movie button is pressed, a popup will ask the user if they want to enter the movies IMDB link to store extra information. If the "edit" movie button is pressed, the FXMLLoader will load the stage and the selected movies data will be stored.
      *
      * @param movie the movie object selected on the tableColumn
      */
-    public void openAddEditMovieController(Movie movie)
-    {
+    public void openAddEditMovieController(Movie movie) {
         mustRefresh = true;
-        try
-        {
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(AppModel.class.getResource("views/AddEditMovieView.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             stage.getIcons().add(new Image(PrivateMovieCollection.class.getResourceAsStream("views/image/multimedia.png")));
 
-            if (movie != null)
-            {
+            if (movie != null) {
                 AddEditMovieController controller = fxmlLoader.getController();
                 controller.setText(movie, "");
             }
@@ -217,36 +193,29 @@ public class MovieCollectionController implements Initializable
             stage.initOwner(tableMovies.getScene().getWindow());
             stage.show();
 
-            if (movie == null)
-            {
+            if (movie == null) {
                 TextInputDialog td = new TextInputDialog();
                 td.setTitle("Confirmation");
                 td.setHeaderText(null);
                 td.setContentText("Do you want to enter the IMDb link to store information?");
                 Optional<String> IMDBLink = td.showAndWait();
                 stage.getIcons().add(new Image(PrivateMovieCollection.class.getResourceAsStream("views/image/multimedia.png")));
-                if (IMDBLink.isPresent())
-                {
-                    if (IMDBLink.get().equalsIgnoreCase(""))
-                    {
+                if (IMDBLink.isPresent()) {
+                    if (IMDBLink.get().equalsIgnoreCase("")) {
                         appModel.openErrorBox("Category name is empty");
-                    } else
-                    {
+                    } else {
                         AddEditMovieController controller = fxmlLoader.getController();
                         controller.setText(null, IMDBLink.get());
                     }
                 }
             }
-        } catch (IOException ex)
-        {
+        } catch (IOException ex) {
         }
     }
 
     @FXML
-    private void updateAll(MouseEvent event)
-    {
-        if (mustRefresh)
-        {
+    private void updateAll(MouseEvent event) {
+        if (mustRefresh) {
             appModel.fetchCategories();
             appModel.fetchMovies();
             searchMovie(txt_search.getText());
@@ -254,12 +223,14 @@ public class MovieCollectionController implements Initializable
             catListView.getItems().add(0, c);
             catListView.getSelectionModel().select(0);
             selectedMovie = null;
+            minIMDBRating.setText("0");
             mustRefresh = false;
             clearMovie();
-        } else if (mustRefreshRating)
-        {
+        } else if (mustRefreshRating) {
             personalRating.setText(selectedMovie.getRating().getUserRating() + "");
             appModel.fetchMovies();
+            sortCategories();
+            searchMovie(txt_search.getText());
             tableMovies.getSelectionModel().select(selectedMovie);
             mustRefreshRating = false;
         }
@@ -267,10 +238,8 @@ public class MovieCollectionController implements Initializable
     }
 
     @FXML
-    private void playMovie(MouseEvent event) throws IOException
-    {
-        if (selectedMovie != null)
-        {
+    private void playMovie(MouseEvent event) throws IOException {
+        if (selectedMovie != null) {
             selectedMovie.setLastView(LocalDate.now());
             appModel.saveMovie(selectedMovie);
             File file = new File(selectedMovie.getFilePath());
@@ -279,10 +248,8 @@ public class MovieCollectionController implements Initializable
     }
 
     @FXML
-    private void giveRating(ActionEvent event) throws IOException
-    {
-        if (selectedMovie != null)
-        {
+    private void giveRating(ActionEvent event) throws IOException {
+        if (selectedMovie != null) {
             mustRefreshRating = true;
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(AppModel.class.getResource("views/PersonalRatingView.fxml"));
@@ -300,10 +267,8 @@ public class MovieCollectionController implements Initializable
     }
 
     @FXML
-    private void updateMovie(MouseEvent event)
-    {
-        if (!tableMovies.getSelectionModel().isEmpty())
-        {
+    private void updateMovie(MouseEvent event) {
+        if (!tableMovies.getSelectionModel().isEmpty()) {
             selectedMovie = tableMovies.getSelectionModel().getSelectedItem();
             movieTitle.setText(selectedMovie.getTitle());
             movieTime.setText(selectedMovie.formatSeconds());
@@ -312,16 +277,14 @@ public class MovieCollectionController implements Initializable
             personalRating.setText(selectedMovie.getRating().getUserRating() + "");
             imdbRating.setText(selectedMovie.getRating().getIMDBRating() + "");
             movieDescription.setText(selectedMovie.getSummaryText());
-            if (!selectedMovie.getImageLink().equalsIgnoreCase(""))
-            {
+            if (!selectedMovie.getImageLink().equalsIgnoreCase("")) {
                 Image poster = new Image(selectedMovie.getImageLink());
                 posterImage.setImage(poster);
             }
         }
     }
 
-    private void clearMovie()
-    {
+    private void clearMovie() {
         movieTitle.setText("Title");
         personalRating.clear();
         imdbRating.clear();
@@ -333,46 +296,36 @@ public class MovieCollectionController implements Initializable
     }
 
     @FXML
-    private void openBrowser(ActionEvent event)
-    {
-        try
-        {
-            if (selectedMovie != null)
-            {
+    private void openBrowser(ActionEvent event) {
+        try {
+            if (selectedMovie != null) {
                 Desktop.getDesktop().browse(new URI(tableMovies.getSelectionModel().getSelectedItem().getIMDbLink()));
             }
-        } catch (URISyntaxException | IOException ex)
-        {
+        } catch (URISyntaxException | IOException ex) {
             Logger.getLogger(MovieCollectionController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
-    private void searchMovie(String searchString)
-    {
+    private void searchMovie(String searchString) {
 
-        if (searchString.equalsIgnoreCase(""))
-        {
+        if (searchString.equalsIgnoreCase("")) {
             tableMovies.setItems(appModel.getMovieList());
-        } else
-        {
+        } else {
             tableMovies.setItems(appModel.searchMovies(searchString));
         }
     }
 
     @FXML
-    private void handleSearchMovie(KeyEvent event)
-    {
+    private void handleSearchMovie(KeyEvent event) {
         searchMovie(txt_search.getText().trim().toLowerCase());
 
     }
 
-    public void checkForLastView()
-    {
+    public void checkForLastView() {
         List<Movie> oldMovies = new ArrayList();
         String allOldMovies = "";
 
-        for (Movie movie : appModel.getMovieList())
-        {
+        for (Movie movie : appModel.getMovieList()) {
             if (movie.getRating().getUserRating() < 6) //rating
             {
                 if (movie.compareLastView() > 730) //number of days
@@ -382,8 +335,7 @@ public class MovieCollectionController implements Initializable
                 }
             }
         }
-        if (!oldMovies.isEmpty())
-        {
+        if (!oldMovies.isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
             alert.initStyle(StageStyle.UTILITY);
             alert.setTitle("Old (low rated) movies");
@@ -391,35 +343,73 @@ public class MovieCollectionController implements Initializable
             alert.setContentText("You haven't watched these movies in a while: \n"
                     + allOldMovies + "Do you want to delete?");
             Optional<ButtonType> result = alert.showAndWait();
-            if (result.get() == ButtonType.OK)
-            {
-                for (Movie m : oldMovies)
-                {
+            if (result.get() == ButtonType.OK) {
+                for (Movie m : oldMovies) {
                     appModel.DeleteMovie(m);
                 }
-            } else
-            {
+            } else {
                 alert.close();
             }
         }
 
     }
-    
-    public void categorySort()
-    {
-        float MinimumRating = Float.parseFloat(minIMDBRating.getText());
-        
-        if (catListView.getSelectionModel().isSelected(0) || catListView.getSelectionModel().isEmpty())
-        {
-            appModel.fetchMovies();
+
+    private void sortCategories() {
+
+        if (catListView.getSelectionModel().isEmpty() || catListView.getSelectionModel().isSelected(0)) {
+            List<Category> emptyList = new ArrayList();
+            appModel.sortByCategories(emptyList, true, minimumRating);
             searchMovie(txt_search.getText());
+        } else {
+            appModel.sortByCategories(catListView.getSelectionModel().getSelectedItems(), false, minimumRating);
+            searchMovie(txt_search.getText());
+        }
+
+    }
+
+    @FXML
+    private void handleUpdateList(MouseEvent event) {
+        sortCategories();
+    }
+
+    @FXML
+    private void handleScoreUpdate(KeyEvent event) {
+        
+        String rating = minIMDBRating.getText();
+        
+        if (rating.isEmpty() || rating.equalsIgnoreCase(""))
+        {
+            minimumRating = 0;
         }
         else
         {
-            catListView.getSelectionModel().getSelectedItems();
+            try
+            {
+                minimumRating = Double.parseDouble(rating);
+            }
+            catch
+                    (Exception ex)
+            {
+                appModel.openErrorBox("Rating must be between 0-10");
+                minIMDBRating.setText("0");
+                minimumRating = 0;
+            }
         }
+        if (minimumRating < 0 || minimumRating > 10)
+        {
+            appModel.openErrorBox("Rating must be between 0-10");
+                minIMDBRating.setText("0");
+                minimumRating = 0;
+        }
+        System.out.println(minimumRating);
+        sortCategories();
+        
+        
+        
+        
+        
     }
 
-    
 
+ 
 }

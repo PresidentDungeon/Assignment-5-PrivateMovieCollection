@@ -111,12 +111,12 @@
             <Font name="System Bold" size="13.0" />
          </font>
       </TextArea>
-      <ListView fx:id="catListView" layoutX="65.0" layoutY="86.0" prefHeight="103.0" prefWidth="403.0" stylesheets="@style/listview.css" />
+      <ListView fx:id="catListView" layoutX="65.0" layoutY="86.0" onMouseClicked="#handleUpdateList" prefHeight="103.0" prefWidth="403.0" stylesheets="@style/listview.css" />
       <Button layoutX="524.0" layoutY="142.0" mnemonicParsing="false" onAction="#giveRating" prefHeight="25.0" prefWidth="139.0" stylesheets="@style/buttonCss.css" text="Give a personal rating" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <TextArea fx:id="minIMDBRating" layoutX="14.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="29.0" prefWidth="29.0" text="0" />
+      <TextArea fx:id="minIMDBRating" layoutX="14.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#handleScoreUpdate" prefHeight="29.0" prefWidth="29.0" text="0" />
    </children>
 </AnchorPane>

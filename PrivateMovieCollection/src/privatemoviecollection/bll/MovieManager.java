@@ -5,7 +5,9 @@
  */
 package privatemoviecollection.bll;
 
+import java.util.ArrayList;
 import java.util.List;
+import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.dal.dbmanagers.dbdao.MovieDBDAO;
 import privatemoviecollection.dal.dbmanagers.facades.MovieDalFacade;
@@ -66,5 +68,37 @@ public class MovieManager
     {
         return movieManager.searchForExistingMovie(movie);
     }
+    
+    public List<Movie> sortByCategories(List<Category> categoryList, boolean isAllSelected, double minimumRating)
+    {
+   
+        String allCategories = "";
+        int loopPosition = 1;
+
+        if (!categoryList.isEmpty())
+        {
+            for (Category category : categoryList)
+            {
+                allCategories += category.getId();
+
+                if (loopPosition != categoryList.size())
+                {
+                    allCategories += ", ";
+                }
+                loopPosition++;
+            }
+        } else
+        {
+            allCategories = "";
+        }
+        return movieManager.getCategoryFilterResult(allCategories, isAllSelected, categoryList.size(), minimumRating);
+    }
+        
+        
+        
+        
+        
+        
+    
 
 }

@@ -428,7 +428,7 @@ public class MovieDBDAO implements MovieDalFacade
     {
         MovieDBDAO movieDBDAO = new MovieDBDAO();
         
-      List<Movie> test = movieDBDAO.getCategoryFilterResult("1,4", true, 2, 9.1);
+      List<Movie> test = movieDBDAO.getCategoryFilterResult("1,4", false, 2, 0);
       for (Movie m : test)
       {
           System.out.println(m);
