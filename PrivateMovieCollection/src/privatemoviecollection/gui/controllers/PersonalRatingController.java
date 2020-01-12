@@ -26,6 +26,7 @@ import privatemoviecollection.gui.AppModel;
 public class PersonalRatingController implements Initializable
 {
     private AppModel appModel = new AppModel();
+    private MovieCollectionController controller;
     @FXML
     private ImageView oneStar;
     @FXML
@@ -68,7 +69,7 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(1);
-        appModel.saveMovie(movie);
+        controller.updateRating(movie);
         close();
     }
 
@@ -77,7 +78,7 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(2);
-        appModel.saveMovie(movie);
+        controller.updateRating(movie);
         close();
     }
 
@@ -86,7 +87,7 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(3);
-        appModel.saveMovie(movie);
+        controller.updateRating(movie);
         close();
     }
 
@@ -95,7 +96,7 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(4);
-        appModel.saveMovie(movie);
+        controller.updateRating(movie);
         close();
     }
     
@@ -104,7 +105,7 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(5);
-        appModel.saveMovie(movie);
+        controller.updateRating(movie);
         close();
     }
     
@@ -113,7 +114,7 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(6);
-        appModel.saveMovie(movie);
+        controller.updateRating(movie);
         close();
     }
 
@@ -122,7 +123,7 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(7);
-        appModel.saveMovie(movie);
+        controller.updateRating(movie);
         close();
     }
 
@@ -131,7 +132,7 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(8);
-        appModel.saveMovie(movie);
+        controller.updateRating(movie);
         close();
     }
 
@@ -140,7 +141,7 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(9);
-        appModel.saveMovie(movie);
+        controller.updateRating(movie);
         close();
     }
 
@@ -149,15 +150,21 @@ public class PersonalRatingController implements Initializable
     {
         movie.getId();
         movie.getRating().setUserRating(10);
-        appModel.saveMovie(movie);
+        controller.updateRating(movie);
         close();
     }
+
 
     
     public void setText(Movie movie)
     {
         this.movie = movie;
         headlineMovie.setText("What will you rate " + movie.getTitle() + "?");
+    }
+    
+       public void setController(MovieCollectionController controller)
+    {
+        this.controller = controller;
     }
     
     private void close ()

@@ -57,8 +57,6 @@ public class MovieCollectionController implements Initializable {
 
     private final AppModel appModel = new AppModel();
     private Movie selectedMovie;
-    private boolean mustRefresh = false;
-    private boolean mustRefreshRating = false;
     private double minimumRating = 0;
     @FXML
     private TableView<Movie> tableMovies;
@@ -164,7 +162,7 @@ public class MovieCollectionController implements Initializable {
         if (selectedMovie != null) {
             appModel.DeleteMovie(selectedMovie);
             searchMovie(txt_search.getText());
-            tableMovies.getSelectionModel().select(selectedMovie);
+            clearMovie();
         }
     }
 
@@ -174,16 +172,18 @@ public class MovieCollectionController implements Initializable {
      * @param movie the movie object selected on the tableColumn
      */
     public void openAddEditMovieController(Movie movie) {
-        mustRefresh = true;
         try {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(AppModel.class.getResource("views/AddEditMovieView.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             stage.getIcons().add(new Image(PrivateMovieCollection.class.getResourceAsStream("views/image/multimedia.png")));
-
+            
+            AddEditMovieController controller = fxmlLoader.getController();
+            MovieCollectionController c = this;
+            controller.setController(c);
+ 
             if (movie != null) {
-                AddEditMovieController controller = fxmlLoader.getController();
                 controller.setText(movie, "");
             }
 
@@ -204,37 +204,12 @@ public class MovieCollectionController implements Initializable {
                     if (IMDBLink.get().equalsIgnoreCase("")) {
                         appModel.openErrorBox("Category name is empty");
                     } else {
-                        AddEditMovieController controller = fxmlLoader.getController();
                         controller.setText(null, IMDBLink.get());
                     }
                 }
             }
         } catch (IOException ex) {
         }
-    }
-
-    @FXML
-    private void updateAll(MouseEvent event) {
-        if (mustRefresh) {
-            appModel.fetchCategories();
-            appModel.fetchMovies();
-            searchMovie(txt_search.getText());
-            Category c = new Category("All");
-            catListView.getItems().add(0, c);
-            catListView.getSelectionModel().select(0);
-            selectedMovie = null;
-            minIMDBRating.setText("0");
-            mustRefresh = false;
-            clearMovie();
-        } else if (mustRefreshRating) {
-            personalRating.setText(selectedMovie.getRating().getUserRating() + "");
-            appModel.fetchMovies();
-            sortCategories();
-            searchMovie(txt_search.getText());
-            tableMovies.getSelectionModel().select(selectedMovie);
-            mustRefreshRating = false;
-        }
-
     }
 
     @FXML
@@ -250,12 +225,13 @@ public class MovieCollectionController implements Initializable {
     @FXML
     private void giveRating(ActionEvent event) throws IOException {
         if (selectedMovie != null) {
-            mustRefreshRating = true;
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(AppModel.class.getResource("views/PersonalRatingView.fxml"));
             Scene scene = new Scene(fxmlLoader.load());
             Stage stage = new Stage();
             PersonalRatingController controller = fxmlLoader.getController();
+            MovieCollectionController c = this;
+            controller.setController(c);
             controller.setText(selectedMovie);
             stage.setTitle("Give a personal rating.");
             stage.setScene(scene);
@@ -284,7 +260,7 @@ public class MovieCollectionController implements Initializable {
         }
     }
 
-    private void clearMovie() {
+    public void clearMovie() {
         movieTitle.setText("Title");
         personalRating.clear();
         imdbRating.clear();
@@ -354,7 +330,7 @@ public class MovieCollectionController implements Initializable {
 
     }
 
-    private void sortCategories() {
+    public void sortCategories() {
 
         if (catListView.getSelectionModel().isEmpty() || catListView.getSelectionModel().isSelected(0)) {
             List<Category> emptyList = new ArrayList();
@@ -365,6 +341,15 @@ public class MovieCollectionController implements Initializable {
             searchMovie(txt_search.getText());
         }
 
+    }
+    
+    public void updateRating(Movie movie)
+    {
+        appModel.saveMovie(movie);
+        sortCategories();
+        tableMovies.getSelectionModel().select(movie);
+        selectedMovie = movie;
+        personalRating.setText(movie.getRating().getUserRating() + "");
     }
 
     @FXML
@@ -401,7 +386,6 @@ public class MovieCollectionController implements Initializable {
                 minIMDBRating.setText("0");
                 minimumRating = 0;
         }
-        System.out.println(minimumRating);
         sortCategories();
         
         
@@ -410,6 +394,10 @@ public class MovieCollectionController implements Initializable {
         
     }
 
+        public AppModel getAppModel()
+    {
+        return appModel;
+    }
 
  
 }

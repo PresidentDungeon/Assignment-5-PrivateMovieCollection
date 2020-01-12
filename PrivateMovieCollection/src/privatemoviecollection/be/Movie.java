@@ -204,6 +204,13 @@ public class Movie
         
         return days;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        Movie movie = (Movie) obj;
+        return this.id == movie.id;
+    }
+    
     
     
     

@@ -12,7 +12,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,6 +45,7 @@ public class AddEditMovieController implements Initializable
 {
 
     private final AppModel appModel = new AppModel();
+    private MovieCollectionController controller;
     private int currentId;
     private Rating currentRating = new Rating();
     private String currentSummaryText = "";
@@ -124,7 +124,9 @@ public class AddEditMovieController implements Initializable
 //                cancel(event);
 //                }
 
-                appModel.saveMovie(movie);
+                controller.getAppModel().saveMovie(movie);
+                controller.clearMovie();
+                controller.sortCategories();
                 cancel(event);
             }
         } catch (NumberFormatException ex)
@@ -181,8 +183,8 @@ public class AddEditMovieController implements Initializable
     @FXML
     private void addCategory(ActionEvent event)
     {
-        appModel.saveCategory(null);
-
+        controller.getAppModel().saveCategory(null);
+        categoryList.setItems(controller.getAppModel().getCategoryList());
     }
 
     @FXML
@@ -193,7 +195,8 @@ public class AddEditMovieController implements Initializable
             appModel.openErrorBox("Please only select one category when updating");
         } else
         {
-            appModel.saveCategory(categoryList.getSelectionModel().getSelectedItem());
+            controller.getAppModel().saveCategory(categoryList.getSelectionModel().getSelectedItem());
+            categoryList.setItems(controller.getAppModel().getCategoryList());
         }
 
     }
@@ -201,7 +204,8 @@ public class AddEditMovieController implements Initializable
     @FXML
     private void removeCategory(ActionEvent event)
     {
-        appModel.deleteCategory(categoryList.getSelectionModel().getSelectedItems());
+       controller.getAppModel().deleteCategory(categoryList.getSelectionModel().getSelectedItems());
+       categoryList.setItems(controller.getAppModel().getCategoryList());
 
     }
 
@@ -278,6 +282,11 @@ public class AddEditMovieController implements Initializable
         }
 
     }
+    
+    public void setController(MovieCollectionController controller)
+    {
+        this.controller = controller;
+    }
 
     /**
      * Transforms the seconds int variable into a String.Example: 130 becomes "02:10"
@@ -294,5 +303,7 @@ public class AddEditMovieController implements Initializable
                 (int) duration.toSeconds() % 60);
         return durationString;
     }
+    
+
 
 }
