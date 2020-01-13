@@ -12,16 +12,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Period;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.be.Rating;
 import privatemoviecollection.dal.DBAccess.DBSettings;
 import privatemoviecollection.dal.dbmanagers.facades.MovieDalFacade;
 
@@ -346,16 +344,18 @@ public class MovieDBDAO implements MovieDalFacade
 
     @Override
     public List<Movie> getCategoryFilterResult(String allSelectedCategoryId,
-            boolean isAllSelected, int listSize, double minimumRating)
+            boolean isAllSelected, int listSize, Rating rating)
     {
         try ( Connection con = dbs.getConnection())
         {
             List<Movie> sortedList = new ArrayList<>();
             if (isAllSelected)
             {
-                String sql = "SELECT * FROM Movies WHERE Movies.IMDBRating >= ?";
+                String sql = "SELECT * FROM Movies WHERE Movies.IMDBRating >= ? "
+                        + "AND Movies.PersonalRating >= ?";
                 PreparedStatement stmt = con.prepareStatement(sql);
-                stmt.setDouble(1, minimumRating);
+                stmt.setDouble(1, rating.getIMDBRating());
+                stmt.setInt(2, rating.getUserRating());
                 ResultSet rs = stmt.executeQuery();
                 while (rs.next())
                 {
@@ -367,7 +367,8 @@ public class MovieDBDAO implements MovieDalFacade
                 String sql = "WITH x AS (SELECT MovieID FROM CatMovies WHERE CategoryID "
                         + "IN ("+ allSelectedCategoryId +") GROUP BY MovieID HAVING COUNT "
                         + "(DISTINCT CategoryID) = "+ listSize +") SELECT * from Movies "
-                        + "y JOIN x ON x.MovieID = y.Id WHERE y.IMDBRating >= "+ minimumRating +";";
+                        + "y JOIN x ON x.MovieID = y.Id WHERE y.IMDBRating >= "+ rating.getIMDBRating()+""
+                        + "AND y.PersonalRating >= "+ rating.getUserRating() +";";
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
                 while (rs.next())
@@ -422,21 +423,9 @@ public class MovieDBDAO implements MovieDalFacade
         }
         return null;
     }
-
-    
-    public static void main(String[] args)
-    {
-        MovieDBDAO movieDBDAO = new MovieDBDAO();
-        
-      List<Movie> test = movieDBDAO.getCategoryFilterResult("1,4", false, 2, 0);
-      for (Movie m : test)
-      {
-          System.out.println(m);
-      }
-        
-    }
     
 }
+
 
 
 //WITH x AS (

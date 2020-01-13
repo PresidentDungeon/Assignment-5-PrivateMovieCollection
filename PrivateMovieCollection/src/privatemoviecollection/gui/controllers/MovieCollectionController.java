@@ -46,6 +46,7 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.StageStyle;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.be.Rating;
 import privatemoviecollection.gui.AppModel;
 import privatemoviecollection.gui.PrivateMovieCollection;
 
@@ -57,7 +58,8 @@ public class MovieCollectionController implements Initializable {
 
     private final AppModel appModel = new AppModel();
     private Movie selectedMovie;
-    private double minimumRating = 0;
+    private double selectedIMDBRating = 0;
+    private int selectedUserRating = 0;
     @FXML
     private TableView<Movie> tableMovies;
     @FXML
@@ -98,6 +100,8 @@ public class MovieCollectionController implements Initializable {
     private ImageView personPic;
     @FXML
     private TextArea minIMDBRating;
+    @FXML
+    private TextArea minUserRating;
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
@@ -331,13 +335,16 @@ public class MovieCollectionController implements Initializable {
     }
 
     public void sortCategories() {
-
+            Rating rating = new Rating();
+            rating.setIMDBRating(selectedIMDBRating);
+            rating.setUserRating(selectedUserRating);
+            
         if (catListView.getSelectionModel().isEmpty() || catListView.getSelectionModel().isSelected(0)) {
             List<Category> emptyList = new ArrayList();
-            appModel.sortByCategories(emptyList, true, minimumRating);
+            appModel.sortByCategories(emptyList, true, rating);
             searchMovie(txt_search.getText());
         } else {
-            appModel.sortByCategories(catListView.getSelectionModel().getSelectedItems(), false, minimumRating);
+            appModel.sortByCategories(catListView.getSelectionModel().getSelectedItems(), false, rating);
             searchMovie(txt_search.getText());
         }
 
@@ -358,40 +365,67 @@ public class MovieCollectionController implements Initializable {
     }
 
     @FXML
-    private void handleScoreUpdate(KeyEvent event) {
+    private void handleIMDBScoreUpdate(KeyEvent event) {
         
         String rating = minIMDBRating.getText();
         
         if (rating.isEmpty() || rating.equalsIgnoreCase(""))
         {
-            minimumRating = 0;
+            selectedIMDBRating = 0;
         }
         else
         {
             try
             {
-                minimumRating = Double.parseDouble(rating);
+                selectedIMDBRating = Double.parseDouble(rating);
             }
             catch
-                    (Exception ex)
+                    (NumberFormatException ex)
             {
-                appModel.openErrorBox("Rating must be between 0-10");
+                appModel.openErrorBox("IMDb must be between 0-10");
                 minIMDBRating.setText("0");
-                minimumRating = 0;
+                selectedIMDBRating = 0;
             }
         }
-        if (minimumRating < 0 || minimumRating > 10)
+        if (selectedIMDBRating < 0 || selectedIMDBRating > 10)
         {
-            appModel.openErrorBox("Rating must be between 0-10");
+            appModel.openErrorBox("IMDb Rating must be between 0-10");
                 minIMDBRating.setText("0");
-                minimumRating = 0;
+                selectedIMDBRating = 0;
         }
-        sortCategories();
+        sortCategories(); 
+    }
+    
+    @FXML
+    private void handleUserScoreUpdate(KeyEvent event) {
         
+        String rating = minUserRating.getText();
         
-        
-        
-        
+        if (rating.isEmpty() || rating.equalsIgnoreCase(""))
+        {
+            selectedUserRating = 0;
+        }
+        else
+        {
+            try
+            {
+                selectedUserRating = Integer.parseInt(rating);
+            }
+            catch
+                    (NumberFormatException ex)
+            {
+                appModel.openErrorBox("User rating must be a whole number between 0-10");
+                minUserRating.setText("0");
+                selectedUserRating = 0;
+            }
+        }
+        if (selectedUserRating < 0 || selectedUserRating > 10)
+        {
+            appModel.openErrorBox("User rating must be a whole number between 0-10");
+                minUserRating.setText("0");
+                selectedUserRating = 0;
+        }
+        sortCategories(); 
     }
 
         public AppModel getAppModel()

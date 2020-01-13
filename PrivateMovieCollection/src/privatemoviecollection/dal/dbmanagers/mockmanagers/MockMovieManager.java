@@ -116,7 +116,7 @@ public class MockMovieManager implements MovieDalFacade
     }
 
     @Override
-    public List<Movie> getCategoryFilterResult(String allSelectedCategory, boolean isAllSelected, int listSize, double minimumRating)
+    public List<Movie> getCategoryFilterResult(String allSelectedCategory, boolean isAllSelected, int listSize, Rating rating)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

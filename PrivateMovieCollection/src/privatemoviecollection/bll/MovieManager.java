@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.be.Rating;
 import privatemoviecollection.dal.dbmanagers.dbdao.MovieDBDAO;
 import privatemoviecollection.dal.dbmanagers.facades.MovieDalFacade;
 import privatemoviecollection.dal.dbmanagers.mockmanagers.MockMovieManager;
@@ -69,7 +70,7 @@ public class MovieManager
         return movieManager.searchForExistingMovie(movie);
     }
     
-    public List<Movie> sortByCategories(List<Category> categoryList, boolean isAllSelected, double minimumRating)
+    public List<Movie> sortByCategories(List<Category> categoryList, boolean isAllSelected, Rating rating)
     {
    
         String allCategories = "";
@@ -91,7 +92,7 @@ public class MovieManager
         {
             allCategories = "";
         }
-        return movieManager.getCategoryFilterResult(allCategories, isAllSelected, categoryList.size(), minimumRating);
+        return movieManager.getCategoryFilterResult(allCategories, isAllSelected, categoryList.size(), rating);
     }
         
         

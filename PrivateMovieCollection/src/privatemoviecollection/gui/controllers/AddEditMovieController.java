@@ -120,7 +120,9 @@ public class AddEditMovieController implements Initializable
                 
 //                if (!appModel.searchForExistingMovie(movie))
 //                {
-//                appModel.saveMovie(movie);
+//                controller.getAppModel().saveMovie(movie);
+//                controller.clearMovie();
+//                controller.sortCategories();
 //                cancel(event);
 //                }
 

@@ -8,6 +8,7 @@ package privatemoviecollection.dal.dbmanagers.facades;
 import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.be.Rating;
 
 /**
  *
@@ -55,7 +56,7 @@ public interface MovieDalFacade
      * @return list of matching songs
      */
     public List<Movie> getCategoryFilterResult(String allSelectedCategory, 
-            boolean isAllSelected, int listSize, double minimumRating);
+            boolean isAllSelected, int listSize, Rating rating);
     
     public boolean searchForExistingMovie(Movie movie);
 }

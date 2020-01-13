@@ -5,7 +5,6 @@
  */
 package privatemoviecollection.gui;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import javafx.collections.FXCollections;
@@ -16,6 +15,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.stage.StageStyle;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
+import privatemoviecollection.be.Rating;
 import privatemoviecollection.bll.CategoryManager;
 import privatemoviecollection.bll.MovieManager;
 
@@ -225,9 +225,9 @@ public class AppModel
         }
     }
     
-    public void sortByCategories(List<Category> categoryList, boolean isAllSelected, double minimumRating)
+    public void sortByCategories(List<Category> categoryList, boolean isAllSelected, Rating rating)
     {
-        movies.setAll(movieManager.sortByCategories(categoryList, isAllSelected, minimumRating));
+        movies.setAll(movieManager.sortByCategories(categoryList, isAllSelected, rating));
     }
 
 }
