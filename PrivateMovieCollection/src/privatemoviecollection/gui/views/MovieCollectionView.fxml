@@ -39,7 +39,7 @@
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Hyperlink fx:id="imdbLink" layoutX="756.0" layoutY="396.0" onAction="#openBrowser" prefHeight="23.0" prefWidth="83.0" text="Link til IMDb" />
+      <Hyperlink fx:id="imdbLink" layoutX="756.0" layoutY="396.0" onAction="#openBrowser" prefHeight="23.0" prefWidth="83.0" text="IMDb Link" />
       <ImageView fx:id="posterImage" fitHeight="233.0" fitWidth="200.0" layoutX="717.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true" />
       <Text layoutX="524.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personal Rating:" wrappingWidth="106.494140625" />
       <Text layoutX="524.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDb rating:" wrappingWidth="106.494140625" />
@@ -84,7 +84,7 @@
          <font>
             <Font name="System Bold" size="21.0" />
          </font></TextArea>
-      <TextArea fx:id="movieTime" layoutX="524.0" layoutY="86.0" prefHeight="43.0" prefWidth="83.0" stylesheets="@style/textarea.css" text="time">
+      <TextArea fx:id="movieTime" layoutX="524.0" layoutY="86.0" prefHeight="43.0" prefWidth="83.0" stylesheets="@style/textarea.css" text="Time">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -96,7 +96,7 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <TextArea fx:id="movieCategories" layoutX="698.0" layoutY="86.0" prefHeight="45.0" prefWidth="220.0" stylesheets="@style/textarea.css" text="category">
+      <TextArea fx:id="movieCategories" layoutX="698.0" layoutY="86.0" prefHeight="45.0" prefWidth="220.0" stylesheets="@style/textarea.css" text="Category">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -106,18 +106,20 @@
             <Font size="22.0" />
          </font>
       </Label>
-      <TextArea fx:id="movieRelease" layoutX="622.0" layoutY="86.0" prefHeight="45.0" prefWidth="66.0" stylesheets="@style/textarea.css" text="release">
+      <TextArea fx:id="movieRelease" layoutX="622.0" layoutY="86.0" prefHeight="45.0" prefWidth="66.0" stylesheets="@style/textarea.css" text="Release">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
       </TextArea>
-      <ListView fx:id="catListView" layoutX="65.0" layoutY="86.0" onMouseClicked="#handleUpdateList" prefHeight="103.0" prefWidth="403.0" stylesheets="@style/listview.css" />
+      <ListView fx:id="catListView" layoutX="65.0" layoutY="86.0" onMouseClicked="#handleUpdateList" prefHeight="103.0" prefWidth="220.0" stylesheets="@style/listview.css" />
       <Button layoutX="524.0" layoutY="142.0" mnemonicParsing="false" onAction="#giveRating" prefHeight="25.0" prefWidth="139.0" stylesheets="@style/buttonCss.css" text="Give a personal rating" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <TextArea fx:id="minIMDBRating" layoutX="14.0" layoutY="90.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#handleIMDBScoreUpdate" prefHeight="29.0" prefWidth="29.0" text="0" />
-      <TextArea fx:id="minUserRating" layoutX="14.0" layoutY="127.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#handleUserScoreUpdate" prefHeight="29.0" prefWidth="29.0" text="0" />
+      <TextArea fx:id="minIMDBRating" layoutX="433.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#handleIMDBScoreUpdate" prefHeight="29.0" prefWidth="37.0" text="0" />
+      <TextArea fx:id="minUserRating" layoutX="433.0" layoutY="94.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#handleUserScoreUpdate" prefHeight="29.0" prefWidth="37.0" text="0" />
+      <Label layoutX="304.0" layoutY="100.0" prefHeight="17.0" prefWidth="106.0" text="Personal Rating" />
+      <Label layoutX="304.0" layoutY="146.0" prefHeight="17.0" prefWidth="106.0" text="IMDb Rating" />
    </children>
 </AnchorPane>
