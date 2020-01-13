@@ -46,6 +46,7 @@ public class AddEditMovieController implements Initializable
 
     private final AppModel appModel = new AppModel();
     private MovieCollectionController controller;
+    private MediaPlayer mediaplayer;
     private int currentId;
     private Rating currentRating = new Rating();
     private String currentSummaryText = "";
@@ -168,11 +169,11 @@ public class AddEditMovieController implements Initializable
 
             Media media = new Media(selectedFile.toURI().toString());
 
-            MediaPlayer mediaplayer = new MediaPlayer(media);
+            mediaplayer = new MediaPlayer(media);
 
             mediaplayer.setOnReady(() ->
             {
-                int time = (int) media.getDuration().toSeconds();
+               int time = (int) mediaplayer.getTotalDuration().toSeconds();
 
                 currentTimeInSeconds = time;
                 timeInt.setText(formatSeconds(time));
