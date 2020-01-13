@@ -5,14 +5,12 @@
  */
 package privatemoviecollection.bll;
 
-import java.util.ArrayList;
 import java.util.List;
 import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.be.Rating;
 import privatemoviecollection.dal.dbmanagers.dbdao.MovieDBDAO;
 import privatemoviecollection.dal.dbmanagers.facades.MovieDalFacade;
-import privatemoviecollection.dal.dbmanagers.mockmanagers.MockMovieManager;
 
 /**
  *
@@ -28,6 +26,11 @@ public class MovieManager
         movieManager = new MovieDBDAO();
     }
 
+    /**
+     * Reads all movies from the database
+     *
+     * @return a List of movies
+     */
     public List<Movie> getAllMovies()
     {
         return movieManager.readAllMovies();
@@ -51,7 +54,6 @@ public class MovieManager
         {
             return movieManager.updateMovie(movie);
         }
-
     }
 
     /**
@@ -65,17 +67,29 @@ public class MovieManager
         return movieManager.deleteMovie(movie);
     }
     
+    /**
+     * Searches for movies with the same title or filepath as the specified movie
+     * @param movie the movie to search for
+     * @return true if there are identical movies, otherwise false
+     */
     public boolean searchForExistingMovie(Movie movie)
     {
         return movieManager.searchForExistingMovie(movie);
     }
     
+    /**
+     * Searches the database for movies that contains the selected categories and meets the
+     * minimum user and IMDb rating set in the textareas.The observable list containing
+     * all the movies is then set to all the resulting movies.
+     * @param categoryList the categories that are being searched for
+     * @param isAllSelected boolean value signaling wether the "All" category is selected
+     * @param rating the minimum rating that the movies must contain
+     * @return a list containing all the matching movies
+     */
     public List<Movie> sortByCategories(List<Category> categoryList, boolean isAllSelected, Rating rating)
     {
-   
         String allCategories = "";
         int loopPosition = 1;
-
         if (!categoryList.isEmpty())
         {
             for (Category category : categoryList)
@@ -94,12 +108,5 @@ public class MovieManager
         }
         return movieManager.getCategoryFilterResult(allCategories, isAllSelected, categoryList.size(), rating);
     }
-        
-        
-        
-        
-        
-        
     
-
 }

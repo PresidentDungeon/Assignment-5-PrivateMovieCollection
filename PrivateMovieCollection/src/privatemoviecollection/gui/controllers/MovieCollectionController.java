@@ -161,6 +161,12 @@ public class MovieCollectionController implements Initializable {
 
     }
 
+    /**
+     * Event handler for the delete song button. Reads the selected song and removes it
+     * from the database and tableview.
+     * 
+     * @param event 
+     */
     @FXML
     private void deleteMovie(ActionEvent event) {
         if (selectedMovie != null) {
@@ -171,9 +177,12 @@ public class MovieCollectionController implements Initializable {
     }
 
     /**
-     * Loads the OpenAddEditMovie view as a window from a primary stage. If the "add" movie button is pressed, a popup will ask the user if they want to enter the movies IMDB link to store extra information. If the "edit" movie button is pressed, the FXMLLoader will load the stage and the selected movies data will be stored.
+     * Loads the OpenAddEditMovie view as a window from a primary stage. If the "add" movie 
+     * button is pressed, a popup will ask the user if they want to enter the movies IMDB link 
+     * to store extra information. If the "edit" movie button is pressed, the FXMLLoader 
+     * will load the stage and the selected movies data will be stored.
      *
-     * @param movie the movie object selected on the tableColumn
+     * @param movie the movie object selected in the tableColumn
      */
     public void openAddEditMovieController(Movie movie) {
         try {
@@ -216,6 +225,13 @@ public class MovieCollectionController implements Initializable {
         }
     }
 
+    /**
+     * Event handler for the play movie button. Opens the selected movie in the
+     * systems default movieplayer and plays the movie. Also updates the value
+     * of when the movie was last seen.
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void playMovie(MouseEvent event) throws IOException {
         if (selectedMovie != null) {
@@ -226,6 +242,14 @@ public class MovieCollectionController implements Initializable {
         }
     }
 
+    
+    /**
+     * Loads the PersonalRating view as a window from a primary stage. The selected movie
+     * in the table column will be selected, and a user rating for this movie can be given
+     * in the newly opened window.
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void giveRating(ActionEvent event) throws IOException {
         if (selectedMovie != null) {
@@ -245,7 +269,12 @@ public class MovieCollectionController implements Initializable {
         }
 
     }
-
+    
+    /**
+     * Displays the information stored about the selected movie in the tableview, when a
+     * movie is selected.
+     * @param event 
+     */
     @FXML
     private void updateMovie(MouseEvent event) {
         if (!tableMovies.getSelectionModel().isEmpty()) {
@@ -264,6 +293,9 @@ public class MovieCollectionController implements Initializable {
         }
     }
 
+    /**
+     * Clears the text and image of the previously selected movie.
+     */
     public void clearMovie() {
         movieTitle.setText("Title");
         personalRating.clear();
@@ -275,10 +307,15 @@ public class MovieCollectionController implements Initializable {
         movieDescription.clear();
     }
 
+    /**
+     * Opens the IMDb link stored in the selected movie. If the IMDbLink instance variable
+     * of the selected movie is empty, no browser is opened.
+     * @param event 
+     */
     @FXML
     private void openBrowser(ActionEvent event) {
         try {
-            if (selectedMovie != null) {
+            if (selectedMovie != null || !selectedMovie.getIMDbLink().equalsIgnoreCase("")) {
                 Desktop.getDesktop().browse(new URI(tableMovies.getSelectionModel().getSelectedItem().getIMDbLink()));
             }
         } catch (URISyntaxException | IOException ex) {
@@ -286,6 +323,11 @@ public class MovieCollectionController implements Initializable {
         }
     }
 
+    /**
+     * Searches the ObservableList displayed in the table view of movies for a specific movie.
+     * The user can search for a movie title or release year.
+     * @param searchString the search input the user entered.
+     */
     private void searchMovie(String searchString) {
 
         if (searchString.equalsIgnoreCase("")) {
@@ -295,20 +337,32 @@ public class MovieCollectionController implements Initializable {
         }
     }
 
+    /**
+     * Event handler for the search movie textfield. Selects the text inserted in the
+     * textfield and searches for that movie.
+     * @param event 
+     */
     @FXML
     private void handleSearchMovie(KeyEvent event) {
         searchMovie(txt_search.getText().trim().toLowerCase());
 
     }
-
+    /**
+     * Checks every movie for whether the movie has a user rating
+     * under six and have not been watched for two years or above. If such a movie
+     * exists, a warned is shown to the user, asking wether they want to delete
+     * the movies or not.
+     */
     public void checkForLastView() {
         List<Movie> oldMovies = new ArrayList();
         String allOldMovies = "";
+        int minimumRating = 6;
+        int amountOfDays = 730;
 
         for (Movie movie : appModel.getMovieList()) {
-            if (movie.getRating().getUserRating() < 6) //rating
+            if (movie.getRating().getUserRating() < minimumRating)
             {
-                if (movie.compareLastView() > 730) //number of days
+                if (movie.compareLastView() > amountOfDays)
                 {
                     oldMovies.add(movie);
                     allOldMovies += movie.toString() + "\n";
@@ -334,6 +388,11 @@ public class MovieCollectionController implements Initializable {
 
     }
 
+    /**
+     * Searches the database for movies that contains the selected categories and meets the
+     * minimum user and IMDb rating set in the textareas. The observable list containing
+     * all the movies is then set to all the resulting movies.
+     */
     public void sortCategories() {
             Rating rating = new Rating();
             rating.setIMDBRating(selectedIMDBRating);
@@ -350,6 +409,10 @@ public class MovieCollectionController implements Initializable {
 
     }
     
+    /**
+     * Updates the rating for a specific movie.
+     * @param movie the movie to be updated.
+     */
     public void updateRating(Movie movie)
     {
         appModel.saveMovie(movie);
@@ -359,11 +422,26 @@ public class MovieCollectionController implements Initializable {
         personalRating.setText(movie.getRating().getUserRating() + "");
     }
 
+    /**
+     * Event handler for the listview containing all categories. When a cagegory is
+     * selected, the sortCategories method is run, sorting the movies after selected
+     * rating and categories.
+     * @param event 
+     */
     @FXML
     private void handleUpdateList(MouseEvent event) {
         sortCategories();
     }
 
+    /**
+     * Event handler for the IMDbScore textarea. This method parses the written text
+     * into a double data type, resembling the minimum allowed IMDb rating when filtering
+     * the movies. If the data cannot be parsed or the rating isn't between values 0-10,
+     * the user is warned through an error box and the minimum score is set to 0.
+     * The sortCategories method is run, sorting the movies after selected
+     * rating and categories.
+     * @param event 
+     */
     @FXML
     private void handleIMDBScoreUpdate(KeyEvent event) {
         
@@ -396,6 +474,15 @@ public class MovieCollectionController implements Initializable {
         sortCategories(); 
     }
     
+    /**
+     * Event handler for the UserScore textarea. This method parses the written text
+     * into a Integer data type, resembling the minimum allowed user rating when filtering
+     * the movies. If the data cannot be parsed or the rating isn't between values 0-10,
+     * the user is warned through an error box and the minimum score is set to 0.
+     * The sortCategories method is run, sorting the movies after selected
+     * rating and categories.
+     * @param event 
+     */
     @FXML
     private void handleUserScoreUpdate(KeyEvent event) {
         
@@ -428,10 +515,14 @@ public class MovieCollectionController implements Initializable {
         sortCategories(); 
     }
 
+    /**
+     * Returns the appmodel currently being used by the program.
+     * @return the appmodel object being used.
+     */
         public AppModel getAppModel()
     {
         return appModel;
     }
-
  
+        
 }

@@ -41,6 +41,9 @@ public class AppModel
         fetchCategories();
     }
 
+    /**
+     * Fetches the movies from the database and adds them to the ObservableList.
+     */
     public void fetchMovies()
     {
         movies.clear();
@@ -48,6 +51,9 @@ public class AppModel
 
     }
 
+    /**
+     * Fetches the categories from the database and adds them to the ObservableList.
+     */
     public void fetchCategories()
     {
         categories.clear();
@@ -55,16 +61,34 @@ public class AppModel
 
     }
 
+    /**
+     * Returns the Movie observablelist.
+     *
+     * @return the Movie observablelist
+     */
     public ObservableList<Movie> getMovieList()
     {
         return movies;
     }
 
+    /**
+     * Returns the Category observablelist.
+     *
+     * @return the Category observablelist
+     */
     public ObservableList<Category> getCategoryList()
     {
         return categories;
     }
 
+    /**
+     * Saves the category to the database. If the category's name is empty or a category
+     * with the same name already exists, the user is warned and the save method is
+     * cancelled.
+     *
+     * @param category the category to be saved
+     * @return true if saved, otherwise false
+     */
     public boolean saveCategory(Category category)
     {
         boolean canCreateCategory = true;
@@ -104,13 +128,19 @@ public class AppModel
                     categoryManager.saveCategory(category);
                     fetchCategories();
                 }
-
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Deletes the selected categories in the category list. A confirmation box is shown,
+     * asking if the user really wants to delete the selected categories. If yes, removes
+     * the categories from the database, otherwise cancels the action.
+     * @param categories the list of categories to be deleted
+     * @return true if saved, otherwise false
+     */
     public boolean deleteCategory(List<Category> categories)
     {
         String categoriesForDeletion = "";
@@ -161,10 +191,12 @@ public class AppModel
     }
 
     /**
-     * Deletes the movie from the database.
+     * Deletes the movie from the database. A confirmation alert is shown to the user, 
+     * asking if they really want to delete the specified movies. If the user agrees and
+     * the movie is deleted, the original movie file also gets deleted.
      *
-     * @param movie the movie to be removed
-     * @return true if removed, otherwise false
+     * @param movie the movie to be deleted
+     * @return true if deleted, otherwise false
      */
     public boolean DeleteMovie(Movie movie)
     {
@@ -188,9 +220,12 @@ public class AppModel
             alert.close();
             return false;
         }
-
     }
 
+    /**
+     * Opens a error box to be displayed.
+     * @param contentText the message that the error box should display.
+     */
     public void openErrorBox(String contentText)
     {
         Alert errAlert = new Alert(Alert.AlertType.ERROR);
@@ -200,6 +235,11 @@ public class AppModel
         errAlert.showAndWait();
     }
 
+    /**
+     * Searches for movies with the same title or release year in the observableList.
+     * @param input the title or release year of the movie being searched for.
+     * @return a list containing all movies that mathces the input string.
+     */
     public ObservableList<Movie> searchMovies(String input)
     {
         ObservableList<Movie> searchedMovieList = FXCollections.observableArrayList();
@@ -211,32 +251,39 @@ public class AppModel
             {
                 searchedMovieList.add(movie);
             }
-
         }
-
         return searchedMovieList;
     }
-    
+
+    /**
+     * Searches the database for movies with the same title og filePath. If such a movie is
+     * found, an error box is displayed informing the user, that the following movie already
+     * exists in the database.
+     * @param movie the movie to search for
+     * @return true if the movie already exists in the database, otherwise false
+     */
     public boolean searchForExistingMovie(Movie movie)
     {
         if (movieManager.searchForExistingMovie(movie))
         {
             openErrorBox("Following movie already exists");
             return true;
-        }
-        else
+        } else
         {
             return false;
         }
     }
-    
+
+    /**
+     * Searches the database for movies that contains the selected categories and meets the
+     * minimum user and IMDb rating set in the textareas. The observable list containing
+     * all the movies is then set to all the resulting movies.
+     * @param categoryList the categories that are being searched for
+     * @param isAllSelected boolean value signaling wether the "All" category is selected
+     * @param rating the minimum rating that the movies must contain
+     */
     public void sortByCategories(List<Category> categoryList, boolean isAllSelected, Rating rating)
     {
         movies.setAll(movieManager.sortByCategories(categoryList, isAllSelected, rating));
     }
-
 }
-
-//Hvis man tilføjer en fil - søge efter navn og eller filePath - skal have 0 results
-//Hvis man redigerer en fil - søge efter navn og eller filePath - skal have 1 results
-//open error baseret på dette

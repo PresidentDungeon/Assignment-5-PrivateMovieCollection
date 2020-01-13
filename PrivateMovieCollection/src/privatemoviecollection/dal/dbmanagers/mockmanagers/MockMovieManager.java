@@ -31,13 +31,12 @@ public class MockMovieManager implements MovieDalFacade
         batmanCategory.add(action);
         batmanCategory.add(drama);
 
-        Movie m1 = new Movie("Batman the dark knight",200, 2008, "test");
+        Movie m1 = new Movie("Batman the dark knight", 200, 2008, "test");
         m1.setId(4);
         m1.getCategories().add(drama);
         m1.getCategories().add(action);
 
         movies.add(m1);
-
     }
 
     /**
@@ -58,8 +57,9 @@ public class MockMovieManager implements MovieDalFacade
     }
 
     /**
-     * returns the movies list
+     * Returns the movies arraylist containing all the movie mockdata objects.
      *
+     * @return a list containing all the movie mockdata.
      */
     @Override
     public List<Movie> readAllMovies()
@@ -89,7 +89,7 @@ public class MockMovieManager implements MovieDalFacade
                 m.setImageLink(movie.getImageLink());
                 m.setIMDbLink(movie.getIMDbLink());
                 m.setSummaryText(movie.getSummaryText());
-                        
+
                 return true;
             }
 
@@ -108,19 +108,32 @@ public class MockMovieManager implements MovieDalFacade
         return movies.remove(movie);
     }
 
-
+    /**
+     * Searches the mockdata to see if a movie with the same title or filepath already
+     * exists.
+     *
+     * @param movie the movie that is being searched for
+     * @return true if movie exists, otherwise false
+     */
     @Override
     public boolean searchForExistingMovie(Movie movie)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * Searches the mockdata for movies that contains the selected categories and meets
+     * the minimum user and IMDb rating set in the textareas. The observable list
+     * containing all the movies is then set to all the resulting movies.
+     *
+     * @param allSelectedCategory All the category ID's that are being searched for
+     * @param isAllSelected boolean value signaling wether the "All" category is selected
+     * @param rating the minimum rating that the movies must contain
+     */
     @Override
     public List<Movie> getCategoryFilterResult(String allSelectedCategory, boolean isAllSelected, int listSize, Rating rating)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
-
 
 }

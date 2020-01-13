@@ -71,9 +71,10 @@ public class Movie
     }
 
     /**
-     * Transforms the seconds int variable into a String. Example: 130 becomes "02:10"
+     * Transforms the seconds int variable into a String to better reflect the duration of
+     * the movie.
      *
-     * @return String with minutes/seconds in format ##.##
+     * @return String containing the formatted duration
      */
     public String formatSeconds()
     {

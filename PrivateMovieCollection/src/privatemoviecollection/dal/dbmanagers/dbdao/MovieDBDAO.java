@@ -39,7 +39,6 @@ public class MovieDBDAO implements MovieDalFacade
             dbs = new DBSettings();
         } catch (IOException e)
         {
-
         }
     }
 
@@ -95,7 +94,7 @@ public class MovieDBDAO implements MovieDalFacade
     /**
      * Retrieves all movies from the database and puts them in a list.
      *
-     * @return List of all movies
+     * @return List of all the movies
      */
     @Override
     public List<Movie> readAllMovies()
@@ -124,8 +123,8 @@ public class MovieDBDAO implements MovieDalFacade
     /**
      * Updates a movie with matching id in the database.
      *
-     * @param movie
-     * @return True if update performed, else false
+     * @param movie the movie with the updated data
+     * @return True if the update was performed, otherwise false
      */
     @Override
     public boolean updateMovie(Movie movie)
@@ -166,8 +165,8 @@ public class MovieDBDAO implements MovieDalFacade
     /**
      * Deletes a movie with matching id from the database.
      *
-     * @param movie
-     * @return True if deletion performed, else false
+     * @param movie the movie to delete
+     * @return True if the movie got deleted, otherwise false
      */
     @Override
     public boolean deleteMovie(Movie movie)
@@ -192,17 +191,15 @@ public class MovieDBDAO implements MovieDalFacade
     }
 
     /**
-     * Adds the movie categories to the database
+     * Adds the categories to the specified movie.
      *
-     * @param movie the movie the category should be added to
-     * @return true if category was added, else false
+     * @param movie the movie containing the categories to be added
+     * @return true if category was added, otherwise false
      */
     public boolean addCategoriesToMovie(Movie movie)
     {
-
         try ( Connection con = dbs.getConnection())
         {
-
             for (Category category : movie.getCategories())
             {
                 String sql = "INSERT INTO CatMovies (MovieID, CategoryID) VALUES (?,?);";
@@ -211,9 +208,8 @@ public class MovieDBDAO implements MovieDalFacade
                 stmt.setInt(2, category.getId());
                 stmt.executeUpdate();
             }
-
             return true;
-
+            
         } catch (SQLServerException ex)
         {
             Logger.getLogger(MovieDBDAO.class.getName()).log(Level.SEVERE, null, ex);
@@ -228,11 +224,10 @@ public class MovieDBDAO implements MovieDalFacade
      * Removes all categories from the movie.
      *
      * @param movie the movie that the categories should be removed from
-     * @return true if song was removed, else false
+     * @return true if categories was removed, otherwise false
      */
     public boolean removeCategoriesFromMovie(Movie movie)
     {
-
         try ( Connection con = dbs.getConnection())
         {
             String sql = "DELETE FROM CatMovies WHERE MovieID = ?;";
@@ -295,12 +290,17 @@ public class MovieDBDAO implements MovieDalFacade
         return null;
     }
 
+    /**
+     * Searches the database for movies with the same title og filePath.
+     *
+     * @param movie the movie to search for
+     * @return true if the movie already exists in the database, otherwise false
+     */
     @Override
     public boolean searchForExistingMovie(Movie movie)
     {
         try ( Connection con = dbs.getConnection())
         {
-
             if (movie.getId() == 0)
             {
                 String sql = "SELECT * FROM Movies WHERE Title = ? OR FilePath = ?;";
@@ -342,8 +342,18 @@ public class MovieDBDAO implements MovieDalFacade
         return true;
     }
 
+    /**
+     * Searches for movies that contains the selected categories and meets the minimum
+     * user and IMDb rating.
+     *
+     * @param allSelectedCategory the categories that are being searched for
+     * @param isAllSelected boolean value signaling wether the "All" category is selected
+     * @param listSize the amount of categories in the category list
+     * @param rating the minimum rating that the movies must contain
+     * @return a list of all the matching movies
+     */
     @Override
-    public List<Movie> getCategoryFilterResult(String allSelectedCategoryId,
+    public List<Movie> getCategoryFilterResult(String allSelectedCategory,
             boolean isAllSelected, int listSize, Rating rating)
     {
         try ( Connection con = dbs.getConnection())
@@ -365,10 +375,10 @@ public class MovieDBDAO implements MovieDalFacade
             } else
             {
                 String sql = "WITH x AS (SELECT MovieID FROM CatMovies WHERE CategoryID "
-                        + "IN ("+ allSelectedCategoryId +") GROUP BY MovieID HAVING COUNT "
-                        + "(DISTINCT CategoryID) = "+ listSize +") SELECT * from Movies "
-                        + "y JOIN x ON x.MovieID = y.Id WHERE y.IMDBRating >= "+ rating.getIMDBRating()+""
-                        + "AND y.PersonalRating >= "+ rating.getUserRating() +";";
+                        + "IN (" + allSelectedCategory + ") GROUP BY MovieID HAVING COUNT "
+                        + "(DISTINCT CategoryID) = " + listSize + ") SELECT * from Movies "
+                        + "y JOIN x ON x.MovieID = y.Id WHERE y.IMDBRating >= " + rating.getIMDBRating() + ""
+                        + "AND y.PersonalRating >= " + rating.getUserRating() + ";";
                 Statement stmt = con.createStatement();
                 ResultSet rs = stmt.executeQuery(sql);
                 while (rs.next())
@@ -376,7 +386,6 @@ public class MovieDBDAO implements MovieDalFacade
                     sortedList.add(readMovieFromResultset(rs));
                 }
                 return sortedList;
-
             }
         } catch (SQLServerException ex)
         {
@@ -388,6 +397,13 @@ public class MovieDBDAO implements MovieDalFacade
         return null;
     }
 
+    /**
+     * Reads the value of each column in a row of the resultset and creates a movie object
+     * out of this data.
+     *
+     * @param rs the resultset the method should read from
+     * @return the movie object contained in the resultset
+     */
     public Movie readMovieFromResultset(ResultSet rs)
     {
         try
@@ -423,14 +439,4 @@ public class MovieDBDAO implements MovieDalFacade
         }
         return null;
     }
-    
 }
-
-
-
-//WITH x AS (
-//SELECT MovieID FROM CatMovies WHERE CONVERT(varchar(MAX),CategoryID) IN (1,4) 
-//GROUP BY MovieID HAVING COUNT (DISTINCT CategoryID) = 2
-//)
-//SELECT * from Movies y JOIN x ON x.MovieID = y.Id
-//WHERE y.IMDBRating >= 4

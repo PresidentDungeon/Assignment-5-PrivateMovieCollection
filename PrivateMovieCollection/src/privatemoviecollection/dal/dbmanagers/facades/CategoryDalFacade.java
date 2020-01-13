@@ -14,7 +14,7 @@ import privatemoviecollection.be.Category;
  */
 public interface CategoryDalFacade
 {
-
+    
     /**
      * creates a new category and adds it to the database
      *
@@ -26,12 +26,12 @@ public interface CategoryDalFacade
     /**
      * Reads all categories from the database
      *
-     * @return a List of categories
+     * @return a List of all categories
      */
     public List<Category> readAllCategories();
 
     /**
-     * updates a category variable
+     * updates a category object in the database
      *
      * @param category the category to be updated
      * @return true if the category was updated

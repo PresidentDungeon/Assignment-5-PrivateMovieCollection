@@ -55,8 +55,9 @@ public class MockCategoryManager implements CategoryDalFacade
     }
 
     /**
-     * returns the categories list
+     * Returns the categories arraylist containing all the category mockdata objects.
      *
+     * @return a list containing all the movie mockdata.
      */
     @Override
     public List<Category> readAllCategories()

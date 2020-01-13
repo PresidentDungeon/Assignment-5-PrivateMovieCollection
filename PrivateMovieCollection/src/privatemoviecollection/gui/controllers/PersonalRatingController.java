@@ -25,6 +25,7 @@ import privatemoviecollection.gui.AppModel;
  */
 public class PersonalRatingController implements Initializable
 {
+
     private AppModel appModel = new AppModel();
     private MovieCollectionController controller;
     @FXML
@@ -47,7 +48,7 @@ public class PersonalRatingController implements Initializable
     private ImageView nineStar;
     @FXML
     private ImageView tenStar;
-    
+
     private Movie movie;
     private Rating rating;
     @FXML
@@ -61,9 +62,15 @@ public class PersonalRatingController implements Initializable
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        
-    }    
 
+    }
+
+    /**
+     * Event handler for the oneStarRating button. Gives the selected movie a personal
+     * rating of one, updates the movie and closes the window.
+     *
+     * @param event
+     */
     @FXML
     private void oneStarRating(MouseEvent event)
     {
@@ -73,6 +80,12 @@ public class PersonalRatingController implements Initializable
         close();
     }
 
+    /**
+     * Event handler for the twoStarRating button. Gives the selected movie a personal
+     * rating of two, updates the movie and closes the window.
+     *
+     * @param event
+     */
     @FXML
     private void twoStarRating(MouseEvent event)
     {
@@ -82,6 +95,12 @@ public class PersonalRatingController implements Initializable
         close();
     }
 
+    /**
+     * Event handler for the threeStarRating button. Gives the selected movie a personal
+     * rating of three, updates the movie and closes the window.
+     *
+     * @param event
+     */
     @FXML
     private void threeStarRating(MouseEvent event)
     {
@@ -91,6 +110,12 @@ public class PersonalRatingController implements Initializable
         close();
     }
 
+    /**
+     * Event handler for the fourStarRating button. Gives the selected movie a personal
+     * rating of four, updates the movie and closes the window.
+     *
+     * @param event
+     */
     @FXML
     private void fourStarRating(MouseEvent event)
     {
@@ -99,7 +124,13 @@ public class PersonalRatingController implements Initializable
         controller.updateRating(movie);
         close();
     }
-    
+
+    /**
+     * Event handler for the fiveStarRating button. Gives the selected movie a personal
+     * rating of five, updates the movie and closes the window.
+     *
+     * @param event
+     */
     @FXML
     private void fiveStarRating(MouseEvent event)
     {
@@ -108,7 +139,13 @@ public class PersonalRatingController implements Initializable
         controller.updateRating(movie);
         close();
     }
-    
+
+    /**
+     * Event handler for the sixStarRating button. Gives the selected movie a personal
+     * rating of six, updates the movie and closes the window.
+     *
+     * @param event
+     */
     @FXML
     private void sixStarRating(MouseEvent event)
     {
@@ -118,6 +155,12 @@ public class PersonalRatingController implements Initializable
         close();
     }
 
+    /**
+     * Event handler for the sevenStarRating button. Gives the selected movie a personal
+     * rating of seven, updates the movie and closes the window.
+     *
+     * @param event
+     */
     @FXML
     private void sevenStarRating(MouseEvent event)
     {
@@ -127,6 +170,12 @@ public class PersonalRatingController implements Initializable
         close();
     }
 
+    /**
+     * Event handler for the eightStarRating button. Gives the selected movie a personal
+     * rating of eight, updates the movie and closes the window.
+     *
+     * @param event
+     */
     @FXML
     private void eightStarRating(MouseEvent event)
     {
@@ -136,6 +185,12 @@ public class PersonalRatingController implements Initializable
         close();
     }
 
+    /**
+     * Event handler for the nineStarRating button. Gives the selected movie a personal
+     * rating of nine, updates the movie and closes the window.
+     *
+     * @param event
+     */
     @FXML
     private void nineStarRating(MouseEvent event)
     {
@@ -145,6 +200,12 @@ public class PersonalRatingController implements Initializable
         close();
     }
 
+    /**
+     * Event handler for the tenStarRating button. Gives the selected movie a personal
+     * rating of ten, updates the movie and closes the window.
+     *
+     * @param event
+     */
     @FXML
     private void tenStarRating(MouseEvent event)
     {
@@ -154,27 +215,41 @@ public class PersonalRatingController implements Initializable
         close();
     }
 
-
-    
+    /**
+     * This methods runs when the PersonalRatingView FXML is opened by either the "give a
+     * personal rating" movie button. This method updates the movie instance variable to
+     * that of the one in the parameter. Also updated the headline text based on the
+     * movies title.
+     *
+     * @param movie
+     */
     public void setText(Movie movie)
     {
         this.movie = movie;
         headlineMovie.setText("What will you rate " + movie.getTitle() + "?");
     }
-    
-       public void setController(MovieCollectionController controller)
+
+    /**
+     * This methods runs when the PersonalRatingView FXML is opened by either the "give a
+     * personal rating" movie button. This method updates the MusicPlayerController
+     * instance variable to that of the one in the parameter.
+     *
+     * @param controller
+     */
+    public void setController(MovieCollectionController controller)
     {
         this.controller = controller;
     }
-    
-    private void close ()
+
+    /**
+     * Event handler for the cancel button. Closes the PersonalRatingView.
+     *
+     * @param event
+     */
+    private void close()
     {
         Stage stage = (Stage) reviewView.getScene().getWindow();
         stage.close();
     }
-    
-    public static void main(String[] args)
-    {
-        
-    }
+
 }

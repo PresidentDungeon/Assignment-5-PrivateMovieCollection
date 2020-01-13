@@ -6,7 +6,6 @@
 package privatemoviecollection.dal.dbmanagers.facades;
 
 import java.util.List;
-import privatemoviecollection.be.Category;
 import privatemoviecollection.be.Movie;
 import privatemoviecollection.be.Rating;
 
@@ -33,7 +32,7 @@ public interface MovieDalFacade
     public List<Movie> readAllMovies();
 
     /**
-     * updates a movie variable
+     * updates a movie object in the database.
      *
      * @param movie the movie to be updated
      * @return true if the movie was updated
@@ -49,14 +48,22 @@ public interface MovieDalFacade
     public boolean deleteMovie(Movie movie);
 
     /**
-     * Returns a list of movies with title or fully or partially matching search term.
-     *
-     * @param allSelectedCategory
-     * @param IsAllSelected
-     * @return list of matching songs
+     *Searches for movies that contains the selected categories and meets the
+     * minimum user and IMDb rating.
+     * @param allSelectedCategory the categories that are being searched for
+     * @param isAllSelected boolean value signaling wether the "All" category is selected
+     * @param listSize the amount of categories in the category list
+     * @param rating the minimum rating that the movies must contain
+     * @return a list of all the matching movies
      */
-    public List<Movie> getCategoryFilterResult(String allSelectedCategory, 
+    public List<Movie> getCategoryFilterResult(String allSelectedCategory,
             boolean isAllSelected, int listSize, Rating rating);
-    
+
+    /**
+     * Searches for movies with the same title or filepath as the specified movie
+     * @param movie the movie to search for
+     * @return true if there are identical movies, otherwise false
+     */
     public boolean searchForExistingMovie(Movie movie);
+
 }

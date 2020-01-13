@@ -77,6 +77,11 @@ public class AddEditMovieController implements Initializable
         categoryList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
     }
 
+    /**
+     * Event handler for the cancel button. Closes the AddEditMovieView.
+     *
+     * @param event
+     */
     @FXML
     private void cancel(ActionEvent event)
     {
@@ -84,12 +89,21 @@ public class AddEditMovieController implements Initializable
         stage.close();
     }
 
+    /**
+     * Event handler for the save movie button. Creates a new movie object from the stored
+     * data in the instance variables and the text in the textfields of the view. The
+     * movie is then saved to the database. If the movie title is empty or a movie with
+     * the same title or filepath already exists, the user is warned and the save method
+     * is cancelled.
+     *
+     * @param event
+     * @throws NumberFormatException
+     */
     @FXML
     private void saveMovie(ActionEvent event) throws NumberFormatException
     {
         try
         {
-
             String title = titleString.getText().trim();
             int seconds = currentTimeInSeconds;
             int releaseYear = Integer.parseInt(releaseInt.getText());
@@ -103,7 +117,6 @@ public class AddEditMovieController implements Initializable
             {
                 appModel.openErrorBox(String.format("%s%n%s", "The movie failed to save or update.",
                         "Please check that all information is entered correctly."));
-
             } else
             {
                 Movie movie = new Movie(title, seconds, releaseYear, filePath);
@@ -115,10 +128,9 @@ public class AddEditMovieController implements Initializable
                 movie.setSummaryText(currentSummaryText);
                 movie.setLastView(currentDate);
                 movie.setCategories(categories);
-                
+
                 //This is currently disabled, as it checks for already existing movies before
-                //adding them. This is a problem during testing. REMOVE WHEN PROJECT IS DONE.
-                
+                //adding them. This is a problem during testing.
 //                if (!appModel.searchForExistingMovie(movie))
 //                {
 //                controller.getAppModel().saveMovie(movie);
@@ -126,7 +138,6 @@ public class AddEditMovieController implements Initializable
 //                controller.sortCategories();
 //                cancel(event);
 //                }
-
                 controller.getAppModel().saveMovie(movie);
                 controller.clearMovie();
                 controller.sortCategories();
@@ -137,9 +148,17 @@ public class AddEditMovieController implements Initializable
             appModel.openErrorBox(String.format("%s%n%s", "The movie failed to save or update.",
                     "Please check that all information is entered correctly."));
         }
-
     }
 
+    /**
+     * Event handler for the choose button. Creates a JFileChooser that only accepts .mp4
+     * and .mpeg4 extensions. If such an extension is selected, saves the absolute or
+     * relative filepath depending on the location the fileString textfield. Also
+     * retrieves metadata from the chosen file and adds the information to the appropriate
+     * textfields.
+     *
+     * @param event
+     */
     @FXML
     private void chooseFile(ActionEvent event)
     {
@@ -173,7 +192,7 @@ public class AddEditMovieController implements Initializable
 
             mediaplayer.setOnReady(() ->
             {
-               int time = (int) mediaplayer.getTotalDuration().toSeconds();
+                int time = (int) mediaplayer.getTotalDuration().toSeconds();
 
                 currentTimeInSeconds = time;
                 timeInt.setText(formatSeconds(time));
@@ -183,6 +202,13 @@ public class AddEditMovieController implements Initializable
         }
     }
 
+    /**
+     * Saves the category to the database. If the category's name is empty or a category
+     * with the same name already exists, the user is warned and the save method is
+     * cancelled.
+     *
+     * @param event
+     */
     @FXML
     private void addCategory(ActionEvent event)
     {
@@ -190,6 +216,13 @@ public class AddEditMovieController implements Initializable
         categoryList.setItems(controller.getAppModel().getCategoryList());
     }
 
+    /**
+     * Updates the selected category from the listview. If a category with the same name
+     * already exists or multiple categories are selected, the user is warned and the
+     * action is cancelled. Otherwise updates the category in the database.
+     *
+     * @param event
+     */
     @FXML
     private void updateCategory(ActionEvent event)
     {
@@ -201,15 +234,21 @@ public class AddEditMovieController implements Initializable
             controller.getAppModel().saveCategory(categoryList.getSelectionModel().getSelectedItem());
             categoryList.setItems(controller.getAppModel().getCategoryList());
         }
-
     }
 
+    /**
+     * Event handler for the delete category button. A warned is opened when the user is
+     * trying to delete the selected categories. If the user agrees, the categories are
+     * removed from the database. All movies containing that category is updated to fit
+     * the change.
+     *
+     * @param event
+     */
     @FXML
     private void removeCategory(ActionEvent event)
     {
-       controller.getAppModel().deleteCategory(categoryList.getSelectionModel().getSelectedItems());
-       categoryList.setItems(controller.getAppModel().getCategoryList());
-
+        controller.getAppModel().deleteCategory(categoryList.getSelectionModel().getSelectedItems());
+        categoryList.setItems(controller.getAppModel().getCategoryList());
     }
 
     /**
@@ -283,19 +322,26 @@ public class AddEditMovieController implements Initializable
             {
             }
         }
-
     }
-    
+
+    /**
+     * This methods runs when the AddEditMovieView FXML is opened by either the "new"
+     * movie button or the "edit" movie button. This method updates the
+     * MusicPlayerController instance variable to that of the one in the parameter.
+     *
+     * @param controller
+     */
     public void setController(MovieCollectionController controller)
     {
         this.controller = controller;
     }
 
     /**
-     * Transforms the seconds int variable into a String.Example: 130 becomes "02:10"
+     * Transforms the seconds int variable into a String to better reflect the duration of
+     * the movie.
      *
      * @param seconds the amount of seconds to be formated.
-     * @return String with minutes/seconds in format ##.##
+     * @return String containing the formatted duration
      */
     public String formatSeconds(int seconds)
     {
@@ -306,7 +352,5 @@ public class AddEditMovieController implements Initializable
                 (int) duration.toSeconds() % 60);
         return durationString;
     }
-    
-
 
 }
