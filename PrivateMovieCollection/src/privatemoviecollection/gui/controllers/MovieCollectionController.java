@@ -268,9 +268,9 @@ public class MovieCollectionController implements Initializable {
         movieTitle.setText("Title");
         personalRating.clear();
         imdbRating.clear();
-        movieTime.setText("time");
-        movieCategories.setText("category");
-        movieRelease.setText("release");
+        movieTime.setText("Time");
+        movieCategories.setText("Category");
+        movieRelease.setText("Release");
         posterImage.setImage(null);
         movieDescription.clear();
     }
