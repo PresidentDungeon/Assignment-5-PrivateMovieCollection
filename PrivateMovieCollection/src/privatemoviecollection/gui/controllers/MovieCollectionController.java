@@ -321,7 +321,7 @@ public class MovieCollectionController implements Initializable {
             alert.setTitle("Old (low rated) movies");
             alert.setHeaderText(null);
             alert.setContentText("You haven't watched these movies in a while: \n"
-                    + allOldMovies + "Do you want to delete?");
+                    + allOldMovies + "\nDo you want to delete?");
             Optional<ButtonType> result = alert.showAndWait();
             if (result.get() == ButtonType.OK) {
                 for (Movie m : oldMovies) {

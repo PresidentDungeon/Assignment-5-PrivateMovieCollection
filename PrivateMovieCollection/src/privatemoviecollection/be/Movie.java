@@ -193,7 +193,7 @@ public class Movie
     @Override
     public String toString()
     {
-        return title + " Personal rating: " + getRating().getUserRating();
+        return "\n" + title + " (" + year + ")\nPersonal rating: " + getRating().getUserRating();
     }
 
     public Long compareLastView()

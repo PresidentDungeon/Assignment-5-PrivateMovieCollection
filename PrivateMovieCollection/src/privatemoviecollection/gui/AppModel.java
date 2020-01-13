@@ -172,8 +172,8 @@ public class AppModel
         alert.initStyle(StageStyle.UTILITY);
         alert.setTitle("Confirm delete");
         alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to delete movie "
-                + movie.getTitle() + "?");
+        alert.setContentText("Are you sure you want to delete "
+                + movie.getTitle() + " (" + movie.getYear() + ")?");
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK)
         {
