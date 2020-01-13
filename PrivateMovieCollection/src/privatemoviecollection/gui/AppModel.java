@@ -5,6 +5,8 @@
  */
 package privatemoviecollection.gui;
 
+import java.awt.Desktop;
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import javafx.collections.FXCollections;
@@ -175,6 +177,9 @@ public class AppModel
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK)
         {
+            //Following is uncommented, as it deletes the movie file
+//            File file = new File(movie.getFilePath());
+//            Desktop.getDesktop().moveToTrash(file);
             movieManager.deleteMovie(movie);
             fetchMovies();
             return true;
