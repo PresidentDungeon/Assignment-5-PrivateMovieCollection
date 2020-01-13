@@ -106,7 +106,7 @@ public class MovieManager
         {
             allCategories = "";
         }
-        return movieManager.getCategoryFilterResult(allCategories, isAllSelected, categoryList.size(), rating);
+        return movieManager.searchCategoryFilterResult(allCategories, isAllSelected, categoryList.size(), rating);
     }
     
 }

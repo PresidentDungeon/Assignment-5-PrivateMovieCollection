@@ -353,7 +353,7 @@ public class MovieDBDAO implements MovieDalFacade
      * @return a list of all the matching movies
      */
     @Override
-    public List<Movie> getCategoryFilterResult(String allSelectedCategory,
+    public List<Movie> searchCategoryFilterResult(String allSelectedCategory,
             boolean isAllSelected, int listSize, Rating rating)
     {
         try ( Connection con = dbs.getConnection())

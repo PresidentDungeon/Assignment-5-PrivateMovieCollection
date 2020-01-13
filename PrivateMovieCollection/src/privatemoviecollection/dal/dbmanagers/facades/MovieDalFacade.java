@@ -56,7 +56,7 @@ public interface MovieDalFacade
      * @param rating the minimum rating that the movies must contain
      * @return a list of all the matching movies
      */
-    public List<Movie> getCategoryFilterResult(String allSelectedCategory,
+    public List<Movie> searchCategoryFilterResult(String allSelectedCategory,
             boolean isAllSelected, int listSize, Rating rating);
 
     /**

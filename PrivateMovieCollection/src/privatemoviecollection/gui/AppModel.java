@@ -48,7 +48,6 @@ public class AppModel
     {
         movies.clear();
         movies.addAll(movieManager.getAllMovies());
-
     }
 
     /**
@@ -58,7 +57,6 @@ public class AppModel
     {
         categories.clear();
         categories.addAll(categoryManager.getAllCategories());
-
     }
 
     /**
@@ -79,6 +77,51 @@ public class AppModel
     public ObservableList<Category> getCategoryList()
     {
         return categories;
+    }
+
+    /**
+     * Saves the movie to the database.
+     *
+     * @param movie the movie to be saved
+     * @return true if saved, otherwise false
+     */
+    public boolean saveMovie(Movie movie)
+    {
+        movieManager.saveMovie(movie);
+        fetchMovies();
+        return true;
+    }
+
+    /**
+     * Deletes the movie from the database. A confirmation alert is shown to the user, 
+     * asking if they really want to delete the specified movies. If the user agrees and
+     * the movie is deleted, the original movie file also gets deleted.
+     *
+     * @param movie the movie to be deleted
+     * @return true if deleted, otherwise false
+     */
+    public boolean DeleteMovie(Movie movie)
+    {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.initStyle(StageStyle.UTILITY);
+        alert.setTitle("Confirm delete");
+        alert.setHeaderText(null);
+        alert.setContentText("Are you sure you want to delete "
+                + movie.getTitle() + " (" + movie.getYear() + ")?");
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK)
+        {
+            //Following is uncommented, as it deletes the movie file
+//            File file = new File(movie.getFilePath());
+//            Desktop.getDesktop().moveToTrash(file);
+            movieManager.deleteMovie(movie);
+            fetchMovies();
+            return true;
+        } else
+        {
+            alert.close();
+            return false;
+        }
     }
 
     /**
@@ -178,64 +221,6 @@ public class AppModel
     }
 
     /**
-     * Saves the movie to the database.
-     *
-     * @param movie the movie to be saved
-     * @return true if saved, otherwise false
-     */
-    public boolean saveMovie(Movie movie)
-    {
-        movieManager.saveMovie(movie);
-        fetchMovies();
-        return true;
-    }
-
-    /**
-     * Deletes the movie from the database. A confirmation alert is shown to the user, 
-     * asking if they really want to delete the specified movies. If the user agrees and
-     * the movie is deleted, the original movie file also gets deleted.
-     *
-     * @param movie the movie to be deleted
-     * @return true if deleted, otherwise false
-     */
-    public boolean DeleteMovie(Movie movie)
-    {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.initStyle(StageStyle.UTILITY);
-        alert.setTitle("Confirm delete");
-        alert.setHeaderText(null);
-        alert.setContentText("Are you sure you want to delete "
-                + movie.getTitle() + " (" + movie.getYear() + ")?");
-        Optional<ButtonType> result = alert.showAndWait();
-        if (result.get() == ButtonType.OK)
-        {
-            //Following is uncommented, as it deletes the movie file
-//            File file = new File(movie.getFilePath());
-//            Desktop.getDesktop().moveToTrash(file);
-            movieManager.deleteMovie(movie);
-            fetchMovies();
-            return true;
-        } else
-        {
-            alert.close();
-            return false;
-        }
-    }
-
-    /**
-     * Opens a error box to be displayed.
-     * @param contentText the message that the error box should display.
-     */
-    public void openErrorBox(String contentText)
-    {
-        Alert errAlert = new Alert(Alert.AlertType.ERROR);
-        errAlert.setTitle("Error Dialog");
-        errAlert.setHeaderText("ERROR");
-        errAlert.setContentText(contentText);
-        errAlert.showAndWait();
-    }
-
-    /**
      * Searches for movies with the same title or release year in the observableList.
      * @param input the title or release year of the movie being searched for.
      * @return a list containing all movies that mathces the input string.
@@ -286,4 +271,18 @@ public class AppModel
     {
         movies.setAll(movieManager.sortByCategories(categoryList, isAllSelected, rating));
     }
+    
+    /**
+     * Opens a error box to be displayed.
+     * @param contentText the message that the error box should display.
+     */
+    public void openErrorBox(String contentText)
+    {
+        Alert errAlert = new Alert(Alert.AlertType.ERROR);
+        errAlert.setTitle("Error Dialog");
+        errAlert.setHeaderText("ERROR");
+        errAlert.setContentText(contentText);
+        errAlert.showAndWait();
+    }
+
 }

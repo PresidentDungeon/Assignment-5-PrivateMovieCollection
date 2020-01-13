@@ -43,7 +43,6 @@ import privatemoviecollection.gui.AppModel;
  */
 public class AddEditMovieController implements Initializable
 {
-
     private final AppModel appModel = new AppModel();
     private MovieCollectionController controller;
     private MediaPlayer mediaplayer;
@@ -75,18 +74,6 @@ public class AddEditMovieController implements Initializable
     {
         categoryList.setItems(appModel.getCategoryList());
         categoryList.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-    }
-
-    /**
-     * Event handler for the cancel button. Closes the AddEditMovieView.
-     *
-     * @param event
-     */
-    @FXML
-    private void cancel(ActionEvent event)
-    {
-        Stage stage = (Stage) cancelButton.getScene().getWindow();
-        stage.close();
     }
 
     /**
@@ -150,58 +137,13 @@ public class AddEditMovieController implements Initializable
         }
     }
 
-    /**
-     * Event handler for the choose button. Creates a JFileChooser that only accepts .mp4
-     * and .mpeg4 extensions. If such an extension is selected, saves the absolute or
-     * relative filepath depending on the location the fileString textfield. Also
-     * retrieves metadata from the chosen file and adds the information to the appropriate
-     * textfields.
-     *
-     * @param event
-     */
-    @FXML
-    private void chooseFile(ActionEvent event)
+        @FXML
+    private void cancel(ActionEvent event)
     {
-        JFileChooser jfc = new JFileChooser();
-        FileNameExtensionFilter mpeg4Filter = new FileNameExtensionFilter(".mpeg4 Files", "mpeg4");
-        FileNameExtensionFilter mp4Filter = new FileNameExtensionFilter(".mp4 Files", "mp4");
-        jfc.setFileFilter(mpeg4Filter);
-        jfc.setFileFilter(mp4Filter);
-        jfc.setAcceptAllFileFilterUsed(false);
-        jfc.setCurrentDirectory(new File("."));
-
-        int returnValue = jfc.showOpenDialog(null);
-        if (returnValue == JFileChooser.APPROVE_OPTION)
-        {
-            File selectedFile = jfc.getSelectedFile();
-
-            if (selectedFile.getAbsolutePath().contains("PrivateMovieCollection\\Movie"))
-            {
-                Path absolutePath = Paths.get(selectedFile.getAbsolutePath());
-                Path pathToProject = Paths.get(System.getProperty("user.dir"));
-                Path relativePath = pathToProject.relativize(absolutePath);
-                fileString.setText(relativePath.toString());
-            } else
-            {
-                fileString.setText(selectedFile.getAbsolutePath());
-            }
-
-            Media media = new Media(selectedFile.toURI().toString());
-
-            mediaplayer = new MediaPlayer(media);
-
-            mediaplayer.setOnReady(() ->
-            {
-                int time = (int) mediaplayer.getTotalDuration().toSeconds();
-
-                currentTimeInSeconds = time;
-                timeInt.setText(formatSeconds(time));
-                currentDate = LocalDate.now();
-            });
-
-        }
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
     }
-
+    
     /**
      * Saves the category to the database. If the category's name is empty or a category
      * with the same name already exists, the user is warned and the save method is
@@ -249,6 +191,53 @@ public class AddEditMovieController implements Initializable
     {
         controller.getAppModel().deleteCategory(categoryList.getSelectionModel().getSelectedItems());
         categoryList.setItems(controller.getAppModel().getCategoryList());
+    }
+    
+    /**
+     * Event handler for the choose button. Creates a JFileChooser that only accepts .mp4
+     * and .mpeg4 extensions. If such an extension is selected, saves the absolute or
+     * relative filepath depending on the location the fileString textfield. Also
+     * retrieves metadata from the chosen file and adds the information to the appropriate
+     * textfields.
+     *
+     * @param event
+     */
+    @FXML
+    private void chooseFile(ActionEvent event)
+    {
+        JFileChooser jfc = new JFileChooser();
+        FileNameExtensionFilter mpeg4Filter = new FileNameExtensionFilter(".mpeg4 Files", "mpeg4");
+        FileNameExtensionFilter mp4Filter = new FileNameExtensionFilter(".mp4 Files", "mp4");
+        jfc.setFileFilter(mpeg4Filter);
+        jfc.setFileFilter(mp4Filter);
+        jfc.setAcceptAllFileFilterUsed(false);
+        jfc.setCurrentDirectory(new File("."));
+
+        int returnValue = jfc.showOpenDialog(null);
+        if (returnValue == JFileChooser.APPROVE_OPTION)
+        {
+            File selectedFile = jfc.getSelectedFile();
+
+            if (selectedFile.getAbsolutePath().contains("PrivateMovieCollection\\Movie"))
+            {
+                Path absolutePath = Paths.get(selectedFile.getAbsolutePath());
+                Path pathToProject = Paths.get(System.getProperty("user.dir"));
+                Path relativePath = pathToProject.relativize(absolutePath);
+                fileString.setText(relativePath.toString());
+            } else
+            {
+                fileString.setText(selectedFile.getAbsolutePath());
+            }
+            Media media = new Media(selectedFile.toURI().toString());
+            mediaplayer = new MediaPlayer(media);
+            mediaplayer.setOnReady(() ->
+            {
+                int time = (int) mediaplayer.getTotalDuration().toSeconds();
+                currentTimeInSeconds = time;
+                timeInt.setText(formatSeconds(time));
+                currentDate = LocalDate.now();
+            });
+        }
     }
 
     /**
@@ -335,6 +324,12 @@ public class AddEditMovieController implements Initializable
     {
         this.controller = controller;
     }
+    
+    /**
+     * Event handler for the cancel button. Closes the AddEditMovieView.
+     *
+     * @param event
+     */
 
     /**
      * Transforms the seconds int variable into a String to better reflect the duration of

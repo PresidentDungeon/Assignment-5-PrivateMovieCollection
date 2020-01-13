@@ -145,7 +145,6 @@ public class MovieCollectionController implements Initializable {
     @FXML
     private void addMovie(ActionEvent event) {
         openAddEditMovieController(null);
-
     }
 
     /**
@@ -158,7 +157,6 @@ public class MovieCollectionController implements Initializable {
         if (selectedMovie != null) {
             openAddEditMovieController(selectedMovie);
         }
-
     }
 
     /**
@@ -175,7 +173,7 @@ public class MovieCollectionController implements Initializable {
             clearMovie();
         }
     }
-
+    
     /**
      * Loads the OpenAddEditMovie view as a window from a primary stage. If the "add" movie 
      * button is pressed, a popup will ask the user if they want to enter the movies IMDB link 
@@ -225,25 +223,7 @@ public class MovieCollectionController implements Initializable {
         }
     }
 
-    /**
-     * Event handler for the play movie button. Opens the selected movie in the
-     * systems default movieplayer and plays the movie. Also updates the value
-     * of when the movie was last seen.
-     * @param event
-     * @throws IOException 
-     */
-    @FXML
-    private void playMovie(MouseEvent event) throws IOException {
-        if (selectedMovie != null) {
-            selectedMovie.setLastView(LocalDate.now());
-            appModel.saveMovie(selectedMovie);
-            File file = new File(selectedMovie.getFilePath());
-            Desktop.getDesktop().open(file);
-        }
-    }
-
-    
-    /**
+     /**
      * Loads the PersonalRating view as a window from a primary stage. The selected movie
      * in the table column will be selected, and a user rating for this movie can be given
      * in the newly opened window.
@@ -267,9 +247,38 @@ public class MovieCollectionController implements Initializable {
             stage.initOwner(tableMovies.getScene().getWindow());
             stage.show();
         }
-
     }
     
+    /**
+     * Updates the rating for a specific movie.
+     * @param movie the movie to be updated.
+     */
+    public void updateRating(Movie movie)
+    {
+        appModel.saveMovie(movie);
+        sortCategories();
+        tableMovies.getSelectionModel().select(movie);
+        selectedMovie = movie;
+        personalRating.setText(movie.getRating().getUserRating() + "");
+    }
+    
+    /**
+     * Event handler for the play movie button. Opens the selected movie in the
+     * systems default movieplayer and plays the movie. Also updates the value
+     * of when the movie was last seen.
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    private void playMovie(MouseEvent event) throws IOException {
+        if (selectedMovie != null) {
+            selectedMovie.setLastView(LocalDate.now());
+            appModel.saveMovie(selectedMovie);
+            File file = new File(selectedMovie.getFilePath());
+            Desktop.getDesktop().open(file);
+        }
+    }
+
     /**
      * Displays the information stored about the selected movie in the tableview, when a
      * movie is selected.
@@ -336,17 +345,27 @@ public class MovieCollectionController implements Initializable {
             tableMovies.setItems(appModel.searchMovies(searchString));
         }
     }
-
-    /**
-     * Event handler for the search movie textfield. Selects the text inserted in the
-     * textfield and searches for that movie.
-     * @param event 
+    
+        /**
+     * Searches the database for movies that contains the selected categories and meets the
+     * minimum user and IMDb rating set in the textareas. The observable list containing
+     * all the movies is then set to all the resulting movies.
      */
-    @FXML
-    private void handleSearchMovie(KeyEvent event) {
-        searchMovie(txt_search.getText().trim().toLowerCase());
-
+    public void sortCategories() {
+            Rating rating = new Rating();
+            rating.setIMDBRating(selectedIMDBRating);
+            rating.setUserRating(selectedUserRating);
+            
+        if (catListView.getSelectionModel().isEmpty() || catListView.getSelectionModel().isSelected(0)) {
+            List<Category> emptyList = new ArrayList();
+            appModel.sortByCategories(emptyList, true, rating);
+            searchMovie(txt_search.getText());
+        } else {
+            appModel.sortByCategories(catListView.getSelectionModel().getSelectedItems(), false, rating);
+            searchMovie(txt_search.getText());
+        }
     }
+
     /**
      * Checks every movie for whether the movie has a user rating
      * under six and have not been watched for two years or above. If such a movie
@@ -385,43 +404,18 @@ public class MovieCollectionController implements Initializable {
                 alert.close();
             }
         }
-
     }
 
     /**
-     * Searches the database for movies that contains the selected categories and meets the
-     * minimum user and IMDb rating set in the textareas. The observable list containing
-     * all the movies is then set to all the resulting movies.
+     * Event handler for the search movie textfield. Selects the text inserted in the
+     * textfield and searches for that movie.
+     * @param event 
      */
-    public void sortCategories() {
-            Rating rating = new Rating();
-            rating.setIMDBRating(selectedIMDBRating);
-            rating.setUserRating(selectedUserRating);
-            
-        if (catListView.getSelectionModel().isEmpty() || catListView.getSelectionModel().isSelected(0)) {
-            List<Category> emptyList = new ArrayList();
-            appModel.sortByCategories(emptyList, true, rating);
-            searchMovie(txt_search.getText());
-        } else {
-            appModel.sortByCategories(catListView.getSelectionModel().getSelectedItems(), false, rating);
-            searchMovie(txt_search.getText());
-        }
+    @FXML
+    private void handleSearchMovie(KeyEvent event) {
+        searchMovie(txt_search.getText().trim().toLowerCase());
 
     }
-    
-    /**
-     * Updates the rating for a specific movie.
-     * @param movie the movie to be updated.
-     */
-    public void updateRating(Movie movie)
-    {
-        appModel.saveMovie(movie);
-        sortCategories();
-        tableMovies.getSelectionModel().select(movie);
-        selectedMovie = movie;
-        personalRating.setText(movie.getRating().getUserRating() + "");
-    }
-
     /**
      * Event handler for the listview containing all categories. When a cagegory is
      * selected, the sortCategories method is run, sorting the movies after selected
@@ -444,7 +438,6 @@ public class MovieCollectionController implements Initializable {
      */
     @FXML
     private void handleIMDBScoreUpdate(KeyEvent event) {
-        
         String rating = minIMDBRating.getText();
         
         if (rating.isEmpty() || rating.equalsIgnoreCase(""))
@@ -485,7 +478,6 @@ public class MovieCollectionController implements Initializable {
      */
     @FXML
     private void handleUserScoreUpdate(KeyEvent event) {
-        
         String rating = minUserRating.getText();
         
         if (rating.isEmpty() || rating.equalsIgnoreCase(""))
@@ -523,6 +515,5 @@ public class MovieCollectionController implements Initializable {
     {
         return appModel;
     }
- 
-        
+
 }

@@ -89,10 +89,8 @@ public class MockMovieManager implements MovieDalFacade
                 m.setImageLink(movie.getImageLink());
                 m.setIMDbLink(movie.getIMDbLink());
                 m.setSummaryText(movie.getSummaryText());
-
                 return true;
             }
-
         }
         return false;
     }
@@ -109,19 +107,6 @@ public class MockMovieManager implements MovieDalFacade
     }
 
     /**
-     * Searches the mockdata to see if a movie with the same title or filepath already
-     * exists.
-     *
-     * @param movie the movie that is being searched for
-     * @return true if movie exists, otherwise false
-     */
-    @Override
-    public boolean searchForExistingMovie(Movie movie)
-    {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    /**
      * Searches the mockdata for movies that contains the selected categories and meets
      * the minimum user and IMDb rating set in the textareas. The observable list
      * containing all the movies is then set to all the resulting movies.
@@ -131,7 +116,20 @@ public class MockMovieManager implements MovieDalFacade
      * @param rating the minimum rating that the movies must contain
      */
     @Override
-    public List<Movie> getCategoryFilterResult(String allSelectedCategory, boolean isAllSelected, int listSize, Rating rating)
+    public List<Movie> searchCategoryFilterResult(String allSelectedCategory, boolean isAllSelected, int listSize, Rating rating)
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+    
+    /**
+     * Searches the mockdata to see if a movie with the same title or filepath already
+     * exists.
+     *
+     * @param movie the movie that is being searched for
+     * @return true if movie exists, otherwise false
+     */
+    @Override
+    public boolean searchForExistingMovie(Movie movie)
     {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

@@ -82,7 +82,6 @@ public class MockCategoryManager implements CategoryDalFacade
                 c.setName(category.getName());
                 return true;
             }
-
         }
         return false;
     }
