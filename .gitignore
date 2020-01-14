@@ -40,5 +40,3 @@ nbdist/
 MyTunes/src/mytunes/dal/dbaccess/DBSettings.txt.txt
 MyTunes/src/mytunes/dal/dbaccess/DBSettings.txt
 PrivateMovieCollection/DBSettings.txt
-*.xml
-PrivateMovieCollection/nbproject/genfiles.properties
