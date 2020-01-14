@@ -246,6 +246,7 @@ public class MovieCollectionController implements Initializable {
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(tableMovies.getScene().getWindow());
             stage.show();
+            stage.getIcons().add(new Image(PrivateMovieCollection.class.getResourceAsStream("views/image/multimedia.png")));
         }
     }
     

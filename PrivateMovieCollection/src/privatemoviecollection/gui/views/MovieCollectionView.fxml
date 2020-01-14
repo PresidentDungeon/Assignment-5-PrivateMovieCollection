@@ -27,15 +27,15 @@
             <TableColumn fx:id="ColumnIMDBRating" prefWidth="71.33331298828125" text="IMDb(R)" />
         </columns>
       </TableView>
-      <Button layoutX="73.0" layoutY="609.0" mnemonicParsing="false" onAction="#addMovie" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Add" textFill="WHITE">
+      <Button layoutX="65.0" layoutY="609.0" mnemonicParsing="false" onAction="#addMovie" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Add" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button layoutX="245.0" layoutY="609.0" mnemonicParsing="false" onAction="#editMovie" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Edit" textFill="WHITE">
+      <Button layoutX="237.0" layoutY="609.0" mnemonicParsing="false" onAction="#editMovie" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Edit" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
-      <Button layoutX="417.0" layoutY="609.0" mnemonicParsing="false" onAction="#deleteMovie" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Delete" textFill="WHITE">
+      <Button layoutX="410.0" layoutY="609.0" mnemonicParsing="false" onAction="#deleteMovie" prefHeight="25.0" prefWidth="59.0" stylesheets="@style/buttonCss.css" text="Delete" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></Button>
@@ -43,7 +43,7 @@
       <ImageView fx:id="posterImage" fitHeight="233.0" fitWidth="200.0" layoutX="717.0" layoutY="155.0" pickOnBounds="true" preserveRatio="true" />
       <Text layoutX="524.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Personal Rating:" wrappingWidth="106.494140625" />
       <Text layoutX="524.0" layoutY="262.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IMDb rating:" wrappingWidth="106.494140625" />
-      <TextArea fx:id="movieDescription" editable="false" layoutX="511.0" layoutY="443.0" prefHeight="145.0" prefWidth="354.0" stylesheets="@style/textarea.css" wrapText="true">
+      <TextArea fx:id="movieDescription" editable="false" layoutX="511.0" layoutY="443.0" prefHeight="145.0" prefWidth="376.0" stylesheets="@style/textarea.css" wrapText="true">
          <font>
             <Font size="13.0" />
          </font></TextArea>
@@ -117,9 +117,9 @@
             <Cursor fx:constant="HAND" />
          </cursor>
       </Button>
-      <TextArea fx:id="minIMDBRating" layoutX="433.0" layoutY="140.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#handleIMDBScoreUpdate" prefHeight="29.0" prefWidth="37.0" text="0" />
-      <TextArea fx:id="minUserRating" layoutX="433.0" layoutY="94.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#handleUserScoreUpdate" prefHeight="29.0" prefWidth="37.0" text="0" />
-      <Label layoutX="304.0" layoutY="100.0" prefHeight="17.0" prefWidth="106.0" text="Personal Rating" />
-      <Label layoutX="304.0" layoutY="146.0" prefHeight="17.0" prefWidth="106.0" text="IMDb Rating" />
+      <TextArea fx:id="minIMDBRating" layoutX="433.0" layoutY="142.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#handleIMDBScoreUpdate" prefHeight="27.0" prefWidth="37.0" stylesheets="@style/textarea.css" text="0" />
+      <TextArea fx:id="minUserRating" layoutX="433.0" layoutY="104.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#handleUserScoreUpdate" prefHeight="25.0" prefWidth="37.0" stylesheets="@style/textarea.css" text="0" />
+      <Label layoutX="304.0" layoutY="108.0" prefHeight="17.0" prefWidth="127.0" text="Lowest Personal Rating:" />
+      <Label layoutX="304.0" layoutY="147.0" prefHeight="17.0" prefWidth="127.0" text="LowestI IMDb Rating:" />
    </children>
 </AnchorPane>
