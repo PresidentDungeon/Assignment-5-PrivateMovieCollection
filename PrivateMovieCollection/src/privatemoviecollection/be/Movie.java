@@ -196,7 +196,12 @@ public class Movie
     {
         return "\n" + title + " (" + year + ")\nPersonal rating: " + getRating().getUserRating();
     }
-
+    
+    /**
+     * Checks when a movie was last viewed, or when it was added to the database and never viewed
+     * 
+     * @return long with the amount of days between the two dates that are being compared
+     */
     public Long compareLastView()
     {
         LocalDate p = LocalDate.now();

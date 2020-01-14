@@ -6,7 +6,8 @@
 package privatemoviecollection.be;
 
 /**
- *
+ * Getters and Setters for the Category class
+ * 
  * @author Bruger
  */
 public class Category
