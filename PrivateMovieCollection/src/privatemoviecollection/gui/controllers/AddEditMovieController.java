@@ -96,9 +96,8 @@ public class AddEditMovieController implements Initializable
             int releaseYear = Integer.parseInt(releaseInt.getText());
             String filePath = fileString.getText();
 
-            ObservableList<Category> selectedCategories = categoryList.getSelectionModel().getSelectedItems();
             ArrayList<Category> categories = new ArrayList<>();
-            categories.addAll(selectedCategories);
+            categories.addAll(categoryList.getSelectionModel().getSelectedItems());
 
             if (title.equals("") || filePath.equals(""))
             {
