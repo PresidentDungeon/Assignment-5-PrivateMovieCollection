@@ -120,6 +120,6 @@
       <TextArea fx:id="minIMDBRating" layoutX="433.0" layoutY="142.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#handleIMDBScoreUpdate" prefHeight="27.0" prefWidth="37.0" stylesheets="@style/textarea.css" text="0" />
       <TextArea fx:id="minUserRating" layoutX="433.0" layoutY="104.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" onKeyTyped="#handleUserScoreUpdate" prefHeight="25.0" prefWidth="37.0" stylesheets="@style/textarea.css" text="0" />
       <Label layoutX="304.0" layoutY="108.0" prefHeight="17.0" prefWidth="127.0" text="Lowest Personal Rating:" />
-      <Label layoutX="304.0" layoutY="147.0" prefHeight="17.0" prefWidth="127.0" text="LowestI IMDb Rating:" />
+      <Label layoutX="304.0" layoutY="147.0" prefHeight="17.0" prefWidth="127.0" text="Lowest IMDb Rating:" />
    </children>
 </AnchorPane>
