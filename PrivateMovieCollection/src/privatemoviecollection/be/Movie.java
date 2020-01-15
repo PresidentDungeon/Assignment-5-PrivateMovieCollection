@@ -70,6 +70,86 @@ public class Movie
         this.seconds = seconds;
     }
 
+    public int getYear()
+    {
+        return year;
+    }
+
+    public void setYear(int year)
+    {
+        this.year = year;
+    }
+
+    public String getFilePath()
+    {
+        return filePath;
+    }
+
+    public void setFilePath(String filePath)
+    {
+        this.filePath = filePath;
+    }
+
+    public Rating getRating()
+    {
+        return rating;
+    }
+
+    public void setRating(Rating rating)
+    {
+        this.rating = rating;
+    }
+
+    public ArrayList<Category> getCategories()
+    {
+        return categories;
+    }
+
+    public void setCategories(ArrayList<Category> categories)
+    {
+        this.categories = categories;
+    }
+
+        public LocalDate getLastView()
+    {
+        return lastView;
+    }
+
+    public void setLastView(LocalDate lastView)
+    {
+        this.lastView = lastView;
+    }
+
+    public String getIMDbLink()
+    {
+        return IMDbLink;
+    }
+
+    public void setIMDbLink(String IMDbLink)
+    {
+        this.IMDbLink = IMDbLink;
+    }
+
+    public String getSummaryText()
+    {
+        return summaryText;
+    }
+
+    public void setSummaryText(String summaryText)
+    {
+        this.summaryText = summaryText;
+    }
+
+    public String getImageLink()
+    {
+        return imageLink;
+    }
+
+    public void setImageLink(String imageLink)
+    {
+        this.imageLink = imageLink;
+    }
+
     /**
      * Transforms the seconds int variable into a String to better reflect the duration of
      * the movie.
@@ -110,87 +190,7 @@ public class Movie
         }
         return allCategories;
     }
-
-    public int getYear()
-    {
-        return year;
-    }
-
-    public void setYear(int year)
-    {
-        this.year = year;
-    }
-
-    public String getFilePath()
-    {
-        return filePath;
-    }
-
-    public void setFilePath(String filePath)
-    {
-        this.filePath = filePath;
-    }
-
-    public LocalDate getLastView()
-    {
-        return lastView;
-    }
-
-    public void setLastView(LocalDate lastView)
-    {
-        this.lastView = lastView;
-    }
-
-    public Rating getRating()
-    {
-        return rating;
-    }
-
-    public void setRating(Rating rating)
-    {
-        this.rating = rating;
-    }
-
-    public ArrayList<Category> getCategories()
-    {
-        return categories;
-    }
-
-    public void setCategories(ArrayList<Category> categories)
-    {
-        this.categories = categories;
-    }
-
-    public String getIMDbLink()
-    {
-        return IMDbLink;
-    }
-
-    public void setIMDbLink(String IMDbLink)
-    {
-        this.IMDbLink = IMDbLink;
-    }
-
-    public String getSummaryText()
-    {
-        return summaryText;
-    }
-
-    public void setSummaryText(String summaryText)
-    {
-        this.summaryText = summaryText;
-    }
-
-    public String getImageLink()
-    {
-        return imageLink;
-    }
-
-    public void setImageLink(String imageLink)
-    {
-        this.imageLink = imageLink;
-    }
-
+    
     @Override
     public String toString()
     {
