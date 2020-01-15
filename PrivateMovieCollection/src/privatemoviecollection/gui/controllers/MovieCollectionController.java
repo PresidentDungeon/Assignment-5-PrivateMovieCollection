@@ -325,7 +325,7 @@ public class MovieCollectionController implements Initializable {
     @FXML
     private void openBrowser(ActionEvent event) {
         try {
-            if (selectedMovie != null || !selectedMovie.getIMDbLink().equalsIgnoreCase("")) {
+            if (selectedMovie != null) {
                 Desktop.getDesktop().browse(new URI(tableMovies.getSelectionModel().getSelectedItem().getIMDbLink()));
             }
         } catch (URISyntaxException | IOException ex) {
