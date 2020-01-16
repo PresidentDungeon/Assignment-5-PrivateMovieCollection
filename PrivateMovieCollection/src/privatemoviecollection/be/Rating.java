@@ -6,7 +6,8 @@
 package privatemoviecollection.be;
 
 /**
- *
+ *Getters and Setters for the Rating class
+ * 
  * @author Bruger
  */
 public class Rating
