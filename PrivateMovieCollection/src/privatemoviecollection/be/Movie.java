@@ -12,7 +12,8 @@ import java.util.ArrayList;
 import javafx.util.Duration;
 
 /**
- *
+ *Getters and Setters for the Movie class
+ * 
  * @author Bruger
  */
 public class Movie
@@ -166,6 +167,10 @@ public class Movie
         return durationString;
     }
     
+    /**
+     * Formats the categories associated to the movie to a string split by a comma.
+     * @return the string of all categories split by comma
+     */
     public String formatCategories()
     {
         ArrayList<Category> movieCategories = getCategories();
