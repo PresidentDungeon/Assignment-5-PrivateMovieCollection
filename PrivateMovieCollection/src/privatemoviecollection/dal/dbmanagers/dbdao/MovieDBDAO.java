@@ -303,18 +303,20 @@ public class MovieDBDAO implements MovieDalFacade
         {
             if (movie.getId() == 0)
             {
-                String sql = "SELECT * FROM Movies WHERE Title = ? OR FilePath = ?;";
+//                String sql = "SELECT * FROM Movies WHERE Title = ? OR FilePath = ?;";
+                String sql = "SELECT * FROM Movies WHERE Title = ?;";
                 PreparedStatement stmt = con.prepareStatement(sql);
                 stmt.setString(1, movie.getTitle());
-                stmt.setString(2, movie.getFilePath());
+//                stmt.setString(2, movie.getFilePath());
                 ResultSet rs = stmt.executeQuery();
                 return rs.next();
             } else
             {
-                String sql = "SELECT * FROM Movies WHERE Title = ? OR FilePath = ?;";
+//                String sql = "SELECT * FROM Movies WHERE Title = ? OR FilePath = ?;";
+                String sql = "SELECT * FROM Movies WHERE Title = ?;";
                 PreparedStatement stmt = con.prepareStatement(sql);
                 stmt.setString(1, movie.getTitle());
-                stmt.setString(2, movie.getFilePath());
+//                stmt.setString(2, movie.getFilePath());
                 ResultSet rs = stmt.executeQuery();
 
                 if (rs.next())

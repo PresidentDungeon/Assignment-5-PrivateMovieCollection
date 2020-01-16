@@ -300,6 +300,10 @@ public class MovieCollectionController implements Initializable {
                 Image poster = new Image(selectedMovie.getImageLink());
                 posterImage.setImage(poster);
             }
+            else
+            {
+                posterImage.setImage(null);
+            }
         }
     }
 

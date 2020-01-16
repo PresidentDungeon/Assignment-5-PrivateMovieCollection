@@ -114,20 +114,15 @@ public class AddEditMovieController implements Initializable
                 movie.setSummaryText(currentSummaryText);
                 movie.setLastView(currentDate);
                 movie.setCategories(categories);
-
-                //This is currently disabled, as it checks for already existing movies before
-                //adding them. This is a problem during testing.
-//                if (!appModel.searchForExistingMovie(movie))
-//                {
-//                controller.getAppModel().saveMovie(movie);
-//                controller.clearMovie();
-//                controller.sortCategories();
-//                cancel(event);
-//                }
+                
+                if (!appModel.searchForExistingMovie(movie))
+                {
                 controller.getAppModel().saveMovie(movie);
                 controller.clearMovie();
                 controller.sortCategories();
                 cancel(event);
+                }
+
             }
         } catch (NumberFormatException ex)
         {
