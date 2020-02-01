@@ -169,7 +169,7 @@ public class MovieCollectionController implements Initializable {
     private void deleteMovie(ActionEvent event) {
         if (selectedMovie != null) {
             appModel.DeleteMovie(selectedMovie);
-//            searchMovie(txt_search.getText());
+            searchMovie(txt_search.getText());
             clearMovie();
         }
     }
